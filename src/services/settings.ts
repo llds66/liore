@@ -1,7 +1,25 @@
 const sidebarKey = "vetra.sidebar.collapsed";
 const themeKey = "vetra.theme.preference";
+const languageKey = "vetra.language.preference";
 
 export type ThemePreference = "light" | "dark" | "system";
+export type Language = "en" | "zh-CN";
+
+export function readLanguagePreference(): Language {
+  try {
+    return localStorage.getItem(languageKey) === "zh-CN" ? "zh-CN" : "en";
+  } catch {
+    return "en";
+  }
+}
+
+export function writeLanguagePreference(language: Language): void {
+  try {
+    localStorage.setItem(languageKey, language);
+  } catch {
+    // Keep the current session usable if storage is unavailable.
+  }
+}
 
 export function readThemePreference(): ThemePreference {
   try {

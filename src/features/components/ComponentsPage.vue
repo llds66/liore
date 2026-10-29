@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { ChevronDown, Copy, Pencil } from "@lucide/vue";
 import { VisuallyHidden } from "reka-ui";
 import VButton from "../../components/ui/VButton.vue";
@@ -13,247 +14,285 @@ import {
 } from "../../components/ui/dropdown-menu";
 import VTooltip from "../../components/ui/tooltip/VTooltip.vue";
 
+const { t } = useI18n();
 const inputValue = ref("");
 const buttonClicks = ref(0);
 const loading = ref(false);
 const dialogOpen = ref(false);
 const customDialogOpen = ref(false);
-const menuAction = ref("No action selected");
+const menuAction = ref<"noAction" | "previewSelected" | "editSelected" | "duplicateSelected">(
+  "noAction",
+);
+const menuActionKeys = {
+  noAction: "components.noAction",
+  previewSelected: "components.previewSelected",
+  editSelected: "components.editSelected",
+  duplicateSelected: "components.duplicateSelected",
+} as const;
+const menuFeedback = computed(() => t(menuActionKeys[menuAction.value]));
 const tooltipClicks = ref(0);
 const tooltipSides = ["top", "right", "bottom", "left"] as const;
+const sideKeys = {
+  top: "components.side.top",
+  right: "components.side.right",
+  bottom: "components.side.bottom",
+  left: "components.side.left",
+} as const;
 </script>
 
 <template>
-  <div class="components-page mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
-    <h1 class="text-3xl font-semibold tracking-tight">Components</h1>
+  <div class="components-page page-sections mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
+    <h1 class="sr-only">{{ t("nav.components") }}</h1>
 
-    <section class="showcase-section" aria-labelledby="button-heading">
-      <div class="section-heading">
-        <h2 id="button-heading">Button</h2>
-      </div>
+    <section class="page-section" aria-labelledby="button-heading">
+      <h2 id="button-heading">{{ t("components.button") }}</h2>
       <div class="showcase-card">
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Variants</h3>
-            <p>Choose the emphasis that fits the action.</p>
+            <h3>{{ t("components.variants") }}</h3>
+            <p>{{ t("components.variantsHint") }}</p>
           </div>
           <div class="examples">
-            <VButton @click="buttonClicks++">Primary</VButton
-            ><VButton variant="secondary" @click="buttonClicks++">Secondary</VButton
-            ><VButton variant="outline" @click="buttonClicks++">Outline</VButton
-            ><VButton variant="ghost" @click="buttonClicks++">Ghost</VButton
-            ><VButton variant="danger" @click="buttonClicks++">Danger</VButton>
-          </div>
-        </div>
-        <div class="showcase-row">
-          <div class="row-heading">
-            <h3>Sizes</h3>
-            <p>Three sizes for different contexts.</p>
-          </div>
-          <div class="examples">
-            <VButton size="sm">Small</VButton><VButton size="md">Medium</VButton
-            ><VButton size="lg">Large</VButton>
-          </div>
-        </div>
-        <div class="showcase-row">
-          <div class="row-heading">
-            <h3>States</h3>
-            <p>Hover or use Tab to see feedback.</p>
-          </div>
-          <div class="examples">
-            <VButton disabled>Disabled</VButton><VButton :loading="loading">Saving</VButton
-            ><VButton variant="outline" @click="loading = !loading">{{
-              loading ? "Stop loading" : "Show loading"
+            <VButton @click="buttonClicks++">{{ t("components.primary") }}</VButton
+            ><VButton variant="secondary" @click="buttonClicks++">{{
+              t("components.secondary")
+            }}</VButton
+            ><VButton variant="outline" @click="buttonClicks++">{{
+              t("components.outline")
+            }}</VButton
+            ><VButton variant="ghost" @click="buttonClicks++">{{ t("components.ghost") }}</VButton
+            ><VButton variant="danger" @click="buttonClicks++">{{
+              t("components.danger")
             }}</VButton>
           </div>
         </div>
-        <p class="showcase-note" aria-live="polite">Variant button clicks: {{ buttonClicks }}</p>
+        <div class="showcase-row">
+          <div class="row-heading">
+            <h3>{{ t("components.sizes") }}</h3>
+            <p>{{ t("components.buttonSizesHint") }}</p>
+          </div>
+          <div class="examples">
+            <VButton size="sm">{{ t("components.small") }}</VButton
+            ><VButton size="md">{{ t("components.medium") }}</VButton
+            ><VButton size="lg">{{ t("components.large") }}</VButton>
+          </div>
+        </div>
+        <div class="showcase-row">
+          <div class="row-heading">
+            <h3>{{ t("components.states") }}</h3>
+            <p>{{ t("components.buttonStatesHint") }}</p>
+          </div>
+          <div class="examples">
+            <VButton disabled>{{ t("components.disabled") }}</VButton
+            ><VButton :loading="loading">{{ t("components.saving") }}</VButton
+            ><VButton variant="outline" @click="loading = !loading">{{
+              t(loading ? "components.stopLoading" : "components.showLoading")
+            }}</VButton>
+          </div>
+        </div>
+        <p class="showcase-note" aria-live="polite">
+          {{ t("components.buttonClicks", { count: buttonClicks }) }}
+        </p>
       </div>
     </section>
 
-    <section class="showcase-section" aria-labelledby="input-heading">
-      <div class="section-heading">
-        <h2 id="input-heading">Input</h2>
-      </div>
+    <section class="page-section" aria-labelledby="input-heading">
+      <h2 id="input-heading">{{ t("components.input") }}</h2>
       <div class="showcase-card">
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Text input</h3>
-            <p>Type, select and copy text.</p>
+            <h3>{{ t("components.textInput") }}</h3>
+            <p>{{ t("components.textInputHint") }}</p>
           </div>
           <div class="input-example">
-            <label for="component-input">Your name</label
+            <label for="component-input">{{ t("components.yourName") }}</label
             ><VInput
               id="component-input"
               v-model="inputValue"
-              placeholder="Enter your name"
+              :placeholder="t('components.enterYourName')"
               autocomplete="off"
             />
-            <p class="input-hint" aria-live="polite">Value: {{ inputValue || "—" }}</p>
+            <p class="input-hint" aria-live="polite">
+              {{ t("components.value", { value: inputValue || "—" }) }}
+            </p>
           </div>
         </div>
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Sizes</h3>
-            <p>Consistent at every scale.</p>
+            <h3>{{ t("components.sizes") }}</h3>
+            <p>{{ t("components.inputSizesHint") }}</p>
           </div>
           <div class="input-stack">
-            <VInput size="sm" aria-label="Small input" placeholder="Small" /><VInput
+            <VInput
+              size="sm"
+              :aria-label="t('components.smallInput')"
+              :placeholder="t('components.small')"
+            /><VInput
               size="md"
-              aria-label="Medium input"
-              placeholder="Medium"
-            /><VInput size="lg" aria-label="Large input" placeholder="Large" />
+              :aria-label="t('components.mediumInput')"
+              :placeholder="t('components.medium')"
+            /><VInput
+              size="lg"
+              :aria-label="t('components.largeInput')"
+              :placeholder="t('components.large')"
+            />
           </div>
         </div>
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>States</h3>
-            <p>Disabled and invalid inputs.</p>
+            <h3>{{ t("components.states") }}</h3>
+            <p>{{ t("components.inputStatesHint") }}</p>
           </div>
           <div class="input-stack">
             <div>
-              <label for="disabled-input">Disabled</label
-              ><VInput id="disabled-input" disabled placeholder="Unavailable" />
+              <label for="disabled-input">{{ t("components.disabled") }}</label
+              ><VInput id="disabled-input" disabled :placeholder="t('components.unavailable')" />
             </div>
             <div>
-              <label for="invalid-input">Email</label
+              <label for="invalid-input">{{ t("components.email") }}</label
               ><VInput
                 id="invalid-input"
                 invalid
                 aria-describedby="input-error"
                 placeholder="name@example.com"
               />
-              <p id="input-error" class="input-error">Enter a valid email address.</p>
+              <p id="input-error" class="input-error">{{ t("components.invalidEmail") }}</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="showcase-section" aria-labelledby="dialog-heading">
-      <div class="section-heading">
-        <h2 id="dialog-heading">Dialog</h2>
-      </div>
+    <section class="page-section" aria-labelledby="dialog-heading">
+      <h2 id="dialog-heading">{{ t("components.dialog") }}</h2>
       <div class="showcase-card">
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Modal dialog</h3>
-            <p>Open, then try Tab, Shift+Tab or Escape. Close returns focus to the trigger.</p>
+            <h3>{{ t("components.modalDialog") }}</h3>
+            <p>{{ t("components.modalHint") }}</p>
           </div>
           <div class="examples">
             <VDialog
               v-model:open="dialogOpen"
-              title="A little room to focus"
-              description="Dialogs keep a short task in context without leaving the page."
+              :title="t('components.dialogTitle')"
+              :description="t('components.dialogDescription')"
             >
-              <template #trigger><VButton>Open dialog</VButton></template>
-              <p>
-                This is the dialog body. You can select and copy this text. Click the overlay, press
-                Escape or use either close button when you are done.
-              </p>
+              <template #trigger
+                ><VButton>{{ t("components.openDialog") }}</VButton></template
+              >
+              <p>{{ t("components.dialogBody") }}</p>
               <template #footer="{ close }"
-                ><VButton variant="outline" @click="close">Close</VButton></template
+                ><VButton variant="outline" @click="close">{{
+                  t("components.close")
+                }}</VButton></template
               >
             </VDialog>
             <VDialog v-model:open="customDialogOpen" :show-close="false">
-              <template #trigger><VButton variant="outline">Custom content</VButton></template>
-              <template #title><VisuallyHidden>Custom content preview</VisuallyHidden></template>
-              <p>
-                A custom body with a visually hidden accessible title and no description. The
-                optional corner close button is hidden here.
-              </p>
-              <template #footer="{ close }"><VButton @click="close">Done</VButton></template>
+              <template #trigger
+                ><VButton variant="outline">{{ t("components.customContent") }}</VButton></template
+              >
+              <template #title
+                ><VisuallyHidden>{{ t("components.customPreview") }}</VisuallyHidden></template
+              >
+              <p>{{ t("components.customBody") }}</p>
+              <template #footer="{ close }"
+                ><VButton @click="close">{{ t("components.done") }}</VButton></template
+              >
             </VDialog>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="showcase-section" aria-labelledby="dropdown-heading">
-      <div class="section-heading">
-        <h2 id="dropdown-heading">Dropdown menu</h2>
-      </div>
+    <section class="page-section" aria-labelledby="dropdown-heading">
+      <h2 id="dropdown-heading">{{ t("components.dropdown") }}</h2>
       <div class="showcase-card">
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Actions menu</h3>
-            <p>Hover an item, or open with Enter and navigate with the arrow keys.</p>
+            <h3>{{ t("components.actionsMenu") }}</h3>
+            <p>{{ t("components.actionsHint") }}</p>
           </div>
           <div class="examples">
             <VDropdownMenu>
               <VDropdownMenuTrigger as-child
                 ><VButton variant="outline"
                   ><span class="button-content"
-                    >Open menu <ChevronDown :size="14" aria-hidden="true" /></span></VButton
+                    >{{ t("components.openMenu") }}
+                    <ChevronDown :size="14" aria-hidden="true" /></span></VButton
               ></VDropdownMenuTrigger>
               <VDropdownMenuContent>
-                <VDropdownMenuItem @select="menuAction = 'Preview selected'"
-                  >Preview</VDropdownMenuItem
+                <VDropdownMenuItem @select="menuAction = 'previewSelected'">{{
+                  t("components.preview")
+                }}</VDropdownMenuItem>
+                <VDropdownMenuItem @select="menuAction = 'editSelected'"
+                  ><Pencil :size="15" aria-hidden="true" />
+                  {{ t("components.edit") }}</VDropdownMenuItem
                 >
-                <VDropdownMenuItem @select="menuAction = 'Edit selected'"
-                  ><Pencil :size="15" aria-hidden="true" /> Edit</VDropdownMenuItem
+                <VDropdownMenuItem @select="menuAction = 'duplicateSelected'"
+                  ><Copy :size="15" aria-hidden="true" />
+                  {{ t("components.duplicate") }}</VDropdownMenuItem
                 >
-                <VDropdownMenuItem @select="menuAction = 'Duplicate selected'"
-                  ><Copy :size="15" aria-hidden="true" /> Duplicate</VDropdownMenuItem
-                >
-                <VDropdownMenuItem disabled @select="menuAction = 'Unavailable action selected'"
-                  >Archive <span class="menu-hint">Unavailable</span></VDropdownMenuItem
+                <VDropdownMenuItem disabled
+                  >{{ t("components.archive") }}
+                  <span class="menu-hint">{{
+                    t("components.unavailable")
+                  }}</span></VDropdownMenuItem
                 >
               </VDropdownMenuContent>
             </VDropdownMenu>
           </div>
         </div>
-        <p class="showcase-note" aria-live="polite">{{ menuAction }}</p>
+        <p class="showcase-note" aria-live="polite">{{ menuFeedback }}</p>
       </div>
     </section>
 
-    <section class="showcase-section" aria-labelledby="tooltip-heading">
-      <div class="section-heading">
-        <h2 id="tooltip-heading">Tooltip</h2>
-      </div>
+    <section class="page-section" aria-labelledby="tooltip-heading">
+      <h2 id="tooltip-heading">{{ t("components.tooltip") }}</h2>
       <div class="showcase-card">
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Hover &amp; focus</h3>
-            <p>Hover for a hint, or use Tab to focus the button. Escape dismisses the hint.</p>
+            <h3>{{ t("components.hoverFocus") }}</h3>
+            <p>{{ t("components.hoverHint") }}</p>
           </div>
           <div class="examples">
-            <VTooltip content="The button still works as usual."
-              ><VButton variant="outline" @click="tooltipClicks++"
-                >Helpful action</VButton
-              ></VTooltip
-            >
-          </div>
-        </div>
-        <div class="showcase-row">
-          <div class="row-heading">
-            <h3>Placement</h3>
-            <p>Four preferred sides. Hints adapt to the available space.</p>
-          </div>
-          <div class="examples">
-            <VTooltip
-              v-for="side in tooltipSides"
-              :key="side"
-              :side="side"
-              :content="`A hint on the ${side}.`"
-              ><VButton variant="outline">{{
-                side[0].toUpperCase() + side.slice(1)
+            <VTooltip :content="t('components.helpfulTooltip')"
+              ><VButton variant="outline" @click="tooltipClicks++">{{
+                t("components.helpfulAction")
               }}</VButton></VTooltip
             >
           </div>
         </div>
         <div class="showcase-row">
           <div class="row-heading">
-            <h3>Disabled tooltip</h3>
-            <p>The hint is disabled; the trigger remains a regular button.</p>
+            <h3>{{ t("components.placement") }}</h3>
+            <p>{{ t("components.placementHint") }}</p>
           </div>
           <div class="examples">
-            <VTooltip content="This hint is disabled." disabled
-              ><VButton variant="outline" @click="tooltipClicks++">No tooltip</VButton></VTooltip
+            <VTooltip
+              v-for="side in tooltipSides"
+              :key="side"
+              :side="side"
+              :content="t('components.sideHint', { side: t(sideKeys[side]) })"
+              ><VButton variant="outline">{{ t(sideKeys[side]) }}</VButton></VTooltip
             >
           </div>
         </div>
-        <p class="showcase-note" aria-live="polite">Tooltip button clicks: {{ tooltipClicks }}</p>
+        <div class="showcase-row">
+          <div class="row-heading">
+            <h3>{{ t("components.disabledTooltip") }}</h3>
+            <p>{{ t("components.disabledTooltipHint") }}</p>
+          </div>
+          <div class="examples">
+            <VTooltip :content="t('components.disabledTooltipContent')" disabled
+              ><VButton variant="outline" @click="tooltipClicks++">{{
+                t("components.noTooltip")
+              }}</VButton></VTooltip
+            >
+          </div>
+        </div>
+        <p class="showcase-note" aria-live="polite">
+          {{ t("components.tooltipClicks", { count: tooltipClicks }) }}
+        </p>
       </div>
     </section>
   </div>
@@ -262,16 +301,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 <style scoped>
 .components-page {
   padding-bottom: 64px;
-}
-.showcase-section {
-  margin-top: 40px;
-}
-.section-heading {
-  margin-bottom: 16px;
-}
-.section-heading h2 {
-  font-size: 20px;
-  font-weight: 600;
 }
 .row-heading p,
 .input-hint,

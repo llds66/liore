@@ -7,13 +7,18 @@ export const router = createRouter({
   // Hash history works in both browser preview and the Tauri file protocol.
   history: createWebHashHistory(),
   routes: [
-    { path: "/", name: "overview", component: OverviewPage, meta: { title: "Overview" } },
+    { path: "/", name: "overview", component: OverviewPage, meta: { titleKey: "nav.overview" } },
     {
       path: "/components",
       name: "components",
       component: ComponentsPage,
-      meta: { title: "Components" },
+      meta: { titleKey: "nav.components" },
     },
-    { path: "/settings", name: "settings", component: SettingsPage, meta: { title: "Settings" } },
+    {
+      path: "/settings",
+      name: "settings",
+      component: SettingsPage,
+      meta: { titleKey: "nav.settings" },
+    },
   ],
 });

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import { ChevronDown, Settings } from "@lucide/vue";
 import {
   DropdownMenuContent,
@@ -12,13 +13,14 @@ import {
 
 defineProps<{ collapsed: boolean }>();
 const router = useRouter();
+const { t } = useI18n();
 const avatarFailed = ref(false);
 </script>
 
 <template>
   <DropdownMenuRoot>
     <DropdownMenuTrigger as-child>
-      <button type="button" class="profile-trigger" aria-label="Profile menu">
+      <button type="button" class="profile-trigger" :aria-label="t('shell.profileMenu')">
         <img
           v-if="!avatarFailed"
           class="profile-avatar profile-avatar-image"
@@ -41,7 +43,7 @@ const avatarFailed = ref(false);
         :collision-padding="8"
       >
         <DropdownMenuItem class="profile-menu-item" @select="router.push('/settings')">
-          <Settings :size="16" aria-hidden="true" /> Settings
+          <Settings :size="16" aria-hidden="true" /> {{ t("nav.settings") }}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenuPortal>

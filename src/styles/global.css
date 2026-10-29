@@ -24,6 +24,22 @@ body,
   outline-offset: 2px;
 }
 
+.page-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.page-section {
+  display: grid;
+  gap: var(--vn-space-4);
+}
+
+.page-section > h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 /* Limit native scrollbar styling to the shell's two scroll containers. */
 @media (forced-colors: none) {
   .app-shell > div > main,

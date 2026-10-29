@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import { Minus, Square, Copy, X } from "@lucide/vue";
+import { useI18n } from "vue-i18n";
 import { desktopWindow } from "../../services/desktop";
 
+const { t } = useI18n();
 const maximized = ref<boolean | null>(null);
 let disposed = false;
 let unlisten: (() => void) | undefined;
@@ -61,11 +63,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="window-controls" role="group" aria-label="Window controls">
+  <div class="window-controls" role="group" :aria-label="t('shell.windowControls')">
     <button
       type="button"
       class="window-control"
-      aria-label="Minimize"
+      :aria-label="t('shell.minimize')"
       :disabled="!desktopWindow.available"
       @click="minimize"
     >
@@ -74,7 +76,7 @@ onUnmounted(() => {
     <button
       type="button"
       class="window-control"
-      :aria-label="maximized ? 'Restore' : 'Maximize'"
+      :aria-label="t(maximized ? 'shell.restore' : 'shell.maximize')"
       :disabled="!desktopWindow.available"
       @click="toggleMaximize"
     >
@@ -84,7 +86,7 @@ onUnmounted(() => {
     <button
       type="button"
       class="window-control window-control-close"
-      aria-label="Close"
+      :aria-label="t('shell.close')"
       :disabled="!desktopWindow.available"
       @click="close"
     >

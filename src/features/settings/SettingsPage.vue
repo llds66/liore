@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { Check, Monitor, Moon, Sun } from "@lucide/vue";
-import { onMounted, ref } from "vue";
+import { Check, Languages, Monitor, Moon, Sun } from "@lucide/vue";
+import { computed, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import VSelect from "../../components/ui/VSelect.vue";
+import { selectLanguage, type Language } from "../../i18n";
 import { getApplicationVersion } from "../../services/desktop/appInfo";
 import {
   isThemeTransitioning,
@@ -10,11 +13,32 @@ import {
 } from "../../services/theme";
 
 const options = [
-  { value: "light", title: "Light", description: "Always use light appearance.", icon: Sun },
-  { value: "dark", title: "Dark", description: "Always use dark appearance.", icon: Moon },
-  { value: "system", title: "System", description: "Follow system appearance.", icon: Monitor },
+  {
+    value: "light",
+    titleKey: "settings.theme.light",
+    icon: Sun,
+  },
+  {
+    value: "dark",
+    titleKey: "settings.theme.dark",
+    icon: Moon,
+  },
+  {
+    value: "system",
+    titleKey: "settings.theme.system",
+    icon: Monitor,
+  },
 ] as const;
 
+const { t, locale } = useI18n({ useScope: "global" });
+const languageOptions = [
+  { value: "en", label: "English", icon: Languages },
+  { value: "zh-CN", label: "中文", icon: Languages },
+] as const;
+const language = computed<Language>({
+  get: () => locale.value as Language,
+  set: selectLanguage,
+});
 const group = ref<HTMLElement | null>(null);
 const applicationVersion = ref("—");
 
@@ -41,10 +65,10 @@ function onChange(event: Event, value: ThemePreference): void {
 </script>
 
 <template>
-  <div class="settings-page mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
-    <h1 class="text-3xl font-semibold tracking-tight">Settings</h1>
-    <section class="appearance" aria-labelledby="appearance-heading">
-      <h2 id="appearance-heading">Appearance</h2>
+  <div class="settings-page page-sections mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
+    <h1 class="sr-only">{{ t("nav.settings") }}</h1>
+    <section class="page-section appearance" aria-labelledby="appearance-heading">
+      <h2 id="appearance-heading">{{ t("settings.appearance") }}</h2>
       <div ref="group" class="theme-options" role="radiogroup" aria-labelledby="appearance-heading">
         <label
           v-for="option in options"
@@ -61,10 +85,7 @@ function onChange(event: Event, value: ThemePreference): void {
           />
           <component :is="option.icon" :size="20" aria-hidden="true" class="theme-icon" />
           <span class="theme-copy">
-            <span class="theme-title">{{ option.title }}</span>
-            <span class="theme-description" :title="option.description">{{
-              option.description
-            }}</span>
+            <span class="theme-title">{{ t(option.titleKey) }}</span>
           </span>
           <span
             class="theme-check"
@@ -76,15 +97,21 @@ function onChange(event: Event, value: ThemePreference): void {
         </label>
       </div>
     </section>
-    <section class="about" aria-labelledby="about-heading">
-      <h2 id="about-heading">About</h2>
+    <section class="page-section language" aria-labelledby="language-heading">
+      <h2 id="language-heading">{{ t("settings.language") }}</h2>
+      <div class="language-control">
+        <VSelect v-model="language" :options="languageOptions" aria-labelledby="language-heading" />
+      </div>
+    </section>
+    <section class="page-section about" aria-labelledby="about-heading">
+      <h2 id="about-heading">{{ t("settings.about") }}</h2>
       <dl class="about-list">
         <div class="about-row">
-          <dt>Application</dt>
+          <dt>{{ t("settings.application") }}</dt>
           <dd>Vetra Next</dd>
         </div>
         <div class="about-row">
-          <dt>Version</dt>
+          <dt>{{ t("settings.version") }}</dt>
           <dd>{{ applicationVersion }}</dd>
         </div>
       </dl>
@@ -93,17 +120,7 @@ function onChange(event: Event, value: ThemePreference): void {
 </template>
 
 <style scoped>
-.appearance,
-.about {
-  margin-top: 40px;
-}
-.appearance h2,
-.about h2 {
-  font-size: 16px;
-  font-weight: 600;
-}
 .about-list {
-  margin-top: 16px;
   border-top: 1px solid var(--vn-border);
 }
 .about-row {
@@ -126,7 +143,6 @@ function onChange(event: Event, value: ThemePreference): void {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 16px;
 }
 .theme-card {
   position: relative;
@@ -134,8 +150,8 @@ function onChange(event: Event, value: ThemePreference): void {
   align-items: center;
   gap: 10px;
   min-width: 0;
-  min-height: 76px;
-  padding: 12px;
+  min-height: 52px;
+  padding: 10px 12px;
   border: 1px solid var(--vn-border);
   border-radius: 10px;
   background: var(--vn-surface);
@@ -175,16 +191,6 @@ function onChange(event: Event, value: ThemePreference): void {
   display: block;
   font-size: 14px;
   font-weight: 600;
-}
-.theme-description {
-  display: block;
-  overflow: hidden;
-  margin-top: 2px;
-  color: var(--vn-muted-foreground);
-  font-size: 12px;
-  line-height: 1.4;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .theme-check {
   display: grid;

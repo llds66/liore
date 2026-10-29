@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { X } from "@lucide/vue";
+import { useI18n } from "vue-i18n";
 import {
   DialogClose,
   DialogContent,
@@ -15,6 +16,7 @@ import {
 } from "reka-ui";
 
 defineOptions({ inheritAttrs: false });
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -59,7 +61,7 @@ const descriptionAttrs = computed(() =>
         <footer v-if="slots.footer" class="v-dialog__footer">
           <slot name="footer" :close="close" />
         </footer>
-        <DialogClose v-if="showClose" class="v-dialog__close" aria-label="Close dialog">
+        <DialogClose v-if="showClose" class="v-dialog__close" :aria-label="t('common.closeDialog')">
           <X :size="16" aria-hidden="true" />
         </DialogClose>
       </DialogContent>

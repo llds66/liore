@@ -1,27 +1,30 @@
 <script setup lang="ts">
 import { ArrowUpRight, Settings, Shapes } from "@lucide/vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="overview mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
     <header>
-      <h1 class="text-3xl font-semibold tracking-tight">Good to see you.</h1>
+      <h1 class="text-3xl font-semibold tracking-tight">{{ t("overview.greeting") }}</h1>
     </header>
 
     <section class="overview-section" aria-labelledby="explore-heading">
-      <h2 id="explore-heading" class="overview-heading">Explore</h2>
+      <h2 id="explore-heading" class="overview-heading">{{ t("overview.explore") }}</h2>
       <div class="explore-grid">
         <RouterLink to="/components" class="explore-link">
           <Shapes :size="20" aria-hidden="true" class="explore-icon" />
           <div class="explore-copy">
-            <h3>UI Components</h3>
+            <h3>{{ t("overview.uiComponents") }}</h3>
           </div>
           <ArrowUpRight :size="16" aria-hidden="true" class="explore-arrow" />
         </RouterLink>
         <RouterLink to="/settings" class="explore-link">
           <Settings :size="20" aria-hidden="true" class="explore-icon" />
           <div class="explore-copy">
-            <h3>Settings</h3>
+            <h3>{{ t("nav.settings") }}</h3>
           </div>
           <ArrowUpRight :size="16" aria-hidden="true" class="explore-arrow" />
         </RouterLink>
@@ -29,16 +32,16 @@ import { ArrowUpRight, Settings, Shapes } from "@lucide/vue";
     </section>
 
     <section class="overview-section" aria-labelledby="principles-heading">
-      <h2 id="principles-heading" class="overview-heading">Design Principles</h2>
+      <h2 id="principles-heading" class="overview-heading">{{ t("overview.designPrinciples") }}</h2>
       <ul class="principles">
         <li>
-          <h3>Quiet by design</h3>
+          <h3>{{ t("overview.quiet") }}</h3>
         </li>
         <li>
-          <h3>Fast by nature</h3>
+          <h3>{{ t("overview.fast") }}</h3>
         </li>
         <li>
-          <h3>Desktop at heart</h3>
+          <h3>{{ t("overview.desktop") }}</h3>
         </li>
       </ul>
     </section>
