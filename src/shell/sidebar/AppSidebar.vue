@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { LayoutDashboard, Shapes, PanelLeftClose, PanelLeftOpen } from "@lucide/vue";
+import { LayoutDashboard, Shapes, PanelLeft, PanelRight } from "@lucide/vue";
 import {
   TooltipContent,
   TooltipPortal,
@@ -72,8 +72,8 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
               aria-controls="sidebar-navigation"
               @click="toggleSidebar"
             >
-              <PanelLeftOpen v-if="collapsed" :size="18" aria-hidden="true" />
-              <PanelLeftClose v-else :size="18" aria-hidden="true" />
+              <PanelRight v-if="collapsed" :size="18" aria-hidden="true" />
+              <PanelLeft v-else :size="18" aria-hidden="true" />
             </button>
           </TooltipTrigger>
           <TooltipPortal>

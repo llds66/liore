@@ -26,16 +26,10 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 <template>
   <div class="components-page mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
     <h1 class="text-3xl font-semibold tracking-tight">Components</h1>
-    <p class="mt-4 max-w-prose text-sm leading-relaxed text-secondary-foreground">
-      A small collection of interactive building blocks for your application.
-    </p>
 
     <section class="showcase-section" aria-labelledby="button-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="button-heading">Button</h2>
-        </div>
-        <p>Actions with clear intent.</p>
+        <h2 id="button-heading">Button</h2>
       </div>
       <div class="showcase-card">
         <div class="showcase-row">
@@ -79,10 +73,7 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 
     <section class="showcase-section" aria-labelledby="input-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="input-heading">Input</h2>
-        </div>
-        <p>Simple, accessible text entry.</p>
+        <h2 id="input-heading">Input</h2>
       </div>
       <div class="showcase-card">
         <div class="showcase-row">
@@ -141,10 +132,7 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 
     <section class="showcase-section" aria-labelledby="dialog-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="dialog-heading">Dialog</h2>
-        </div>
-        <p>A focused space for a small task.</p>
+        <h2 id="dialog-heading">Dialog</h2>
       </div>
       <div class="showcase-card">
         <div class="showcase-row">
@@ -183,10 +171,7 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 
     <section class="showcase-section" aria-labelledby="dropdown-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="dropdown-heading">Dropdown menu</h2>
-        </div>
-        <p>Small, contextual actions.</p>
+        <h2 id="dropdown-heading">Dropdown menu</h2>
       </div>
       <div class="showcase-card">
         <div class="showcase-row">
@@ -224,10 +209,7 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 
     <section class="showcase-section" aria-labelledby="tooltip-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="tooltip-heading">Tooltip</h2>
-        </div>
-        <p>A little context, when needed.</p>
+        <h2 id="tooltip-heading">Tooltip</h2>
       </div>
       <div class="showcase-card">
         <div class="showcase-row">
@@ -282,20 +264,15 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
   padding-bottom: 64px;
 }
 .showcase-section {
-  margin-top: 48px;
+  margin-top: 40px;
 }
 .section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 16px;
   margin-bottom: 16px;
 }
 .section-heading h2 {
   font-size: 20px;
   font-weight: 600;
 }
-.section-heading > p,
 .row-heading p,
 .input-hint,
 .showcase-note {
@@ -368,18 +345,13 @@ label {
   overflow-wrap: anywhere;
 }
 .input-error {
-  color: var(--vn-danger-foreground);
+  color: var(--vn-error-foreground);
   font-size: 12px;
 }
 @media (max-width: 700px) {
   .showcase-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
-  }
-  .section-heading {
-    align-items: start;
-    flex-direction: column;
-    gap: 4px;
   }
 }
 </style>

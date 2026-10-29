@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vetra</title>
+    <script>
+      // Set the saved appearance before the deferred Vue bundle and first visible paint.
+      try {
+        const preference = localStorage.getItem("vetra.theme.preference");
+        const theme =
+          preference === "light" || preference === "dark"
+            ? preference
+            : preference === "system" && matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+        document.documentElement.dataset.theme = theme;
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
   </head>
 
   <body>

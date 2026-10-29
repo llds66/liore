@@ -1,4 +1,28 @@
 :root {
+  --vn-motion-sidebar: 210ms;
+  --vn-motion-menu: 160ms;
+  --vn-motion-dialog: 180ms;
+  --vn-motion-hover: 120ms;
+  --vn-radius-control: 6px;
+  --vn-radius-popover: 10px;
+  --vn-radius-dialog: 12px;
+  --vn-space-1: 4px;
+  --vn-space-2: 8px;
+  --vn-space-3: 12px;
+  --vn-space-4: 16px;
+  --vn-space-6: 24px;
+  --vn-font-size-caption: 12px;
+  --vn-font-size-control: 13px;
+  --vn-font-size-dialog: 18px;
+  --vn-layer-modal: 40;
+  --vn-layer-popover: 50;
+  --vn-overlay: color-mix(in srgb, var(--vn-background) 70%, transparent);
+  --vn-focus-ring: var(--vn-primary);
+  --vn-shadow-popover: 0 8px 24px color-mix(in srgb, var(--vn-background) 70%, transparent);
+  --vn-shadow-dialog: 0 16px 48px color-mix(in srgb, var(--vn-background) 80%, transparent);
+}
+
+:root[data-theme="dark"] {
   color-scheme: dark;
   --vn-background: #101011;
   --vn-sidebar: #19191b;
@@ -16,27 +40,28 @@
   --vn-primary: #ececee;
   --vn-danger: #c42b1c;
   --vn-danger-foreground: #ffffff;
-  --vn-motion-sidebar: 210ms;
-  --vn-motion-menu: 160ms;
-  --vn-motion-dialog: 180ms;
-  --vn-motion-hover: 120ms;
-  --vn-overlay: color-mix(in srgb, var(--vn-background) 70%, transparent);
-  --vn-focus-ring: var(--vn-primary);
-  --vn-radius-control: 6px;
-  --vn-radius-popover: 10px;
-  --vn-radius-dialog: 12px;
-  --vn-space-1: 4px;
-  --vn-space-2: 8px;
-  --vn-space-3: 12px;
-  --vn-space-4: 16px;
-  --vn-space-6: 24px;
-  --vn-font-size-caption: 12px;
-  --vn-font-size-control: 13px;
-  --vn-font-size-dialog: 18px;
-  --vn-layer-modal: 40;
-  --vn-layer-popover: 50;
-  --vn-shadow-popover: 0 8px 24px color-mix(in srgb, var(--vn-background) 70%, transparent);
-  --vn-shadow-dialog: 0 16px 48px color-mix(in srgb, var(--vn-background) 80%, transparent);
+  --vn-error-foreground: #ffffff;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --vn-background: #f7f7f8;
+  --vn-sidebar: #ededf0;
+  --vn-surface: #ffffff;
+  --vn-surface-hover: #e8e8ec;
+  --vn-surface-active: #dedee3;
+  --vn-border: #d6d6dc;
+  --vn-scrollbar-thumb-idle: #d0d0d6;
+  --vn-scrollbar-thumb: #aaaab3;
+  --vn-scrollbar-thumb-hover: #85858e;
+  --vn-foreground: #202024;
+  --vn-secondary-foreground: #45454d;
+  --vn-muted-foreground: #62626c;
+  --vn-inverse: #ffffff;
+  --vn-primary: #252529;
+  --vn-danger: #b42318;
+  --vn-danger-foreground: #ffffff;
+  --vn-error-foreground: #a4281b;
 }
 
 @theme inline {

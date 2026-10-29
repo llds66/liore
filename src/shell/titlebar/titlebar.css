@@ -32,12 +32,14 @@
   display: flex;
   align-self: center;
   height: 40px;
+  padding-right: var(--vn-space-2);
 }
 .window-control {
   display: grid;
   width: 46px;
   place-items: center;
   border: 0;
+  border-radius: 8px;
   background: transparent;
   color: var(--vn-secondary-foreground);
 }

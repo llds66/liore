@@ -53,6 +53,9 @@
   background: var(--vn-surface-hover);
 }
 .sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -97,7 +100,7 @@
   align-items: center;
   flex: none;
   width: calc(100% - 24px);
-  height: 48px;
+  height: 40px;
   margin: 12px;
   border-radius: 6px;
   overflow: hidden;
@@ -108,16 +111,21 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: 32px;
-  height: 32px;
-  margin: 0 4px;
+  width: 25px;
+  height: 25px;
+  margin-left: 4px;
   border-radius: 50%;
   background: var(--vn-surface-active);
   color: var(--vn-foreground);
   font-weight: 600;
 }
+.profile-avatar-image {
+  display: block;
+  object-fit: cover;
+}
 .profile-name {
-  margin-left: 8px;
+  margin-left: 10px;
+  font-size: 14px;
   font-weight: 500;
 }
 .profile-chevron {
@@ -135,8 +143,6 @@
   border-radius: 8px;
 }
 .sidebar.is-collapsed .profile-avatar {
-  width: 28px;
-  height: 28px;
   margin: 0;
 }
 .sidebar.is-collapsed .profile-name,
@@ -144,8 +150,7 @@
   display: none;
 }
 .shell-tooltip,
-.profile-menu,
-.about-dialog {
+.profile-menu {
   background: var(--vn-surface);
   color: var(--vn-foreground);
   border: 1px solid var(--vn-border);
@@ -175,44 +180,6 @@
 .profile-menu-item[data-highlighted] {
   background: var(--vn-surface-hover);
 }
-.about-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: color-mix(in srgb, var(--vn-background) 70%, transparent);
-  animation: shell-in var(--vn-motion-dialog) ease-out;
-}
-.about-dialog {
-  position: fixed;
-  z-index: 41;
-  left: 50%;
-  top: 50%;
-  width: min(400px, calc(100vw - 32px));
-  max-height: calc(100vh - 32px);
-  overflow: auto;
-  transform: translate(-50%, -50%);
-  border-radius: 12px;
-  padding: 24px;
-  animation: shell-in var(--vn-motion-dialog) ease-out;
-}
-.about-title {
-  font-size: 18px;
-  font-weight: 600;
-}
-.about-description {
-  margin-top: 12px;
-  color: var(--vn-secondary-foreground);
-}
-.about-close {
-  display: block;
-  margin: 24px 0 0 auto;
-  padding: 7px 14px;
-  border-radius: 6px;
-  background: var(--vn-surface-active);
-}
-.about-close:hover {
-  background: var(--vn-surface-hover);
-}
 @keyframes shell-in {
   from {
     opacity: 0;
@@ -229,9 +196,7 @@
   .profile-trigger {
     transition: none;
   }
-  .profile-menu,
-  .about-overlay,
-  .about-dialog {
+  .profile-menu {
     animation: none;
   }
 }
