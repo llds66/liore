@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Local environment, build caches and temporary captures
+.env
+.env.*
+!.env.example
+!.env.*.example
+.cache/
+.vite/
+*.tsbuildinfo
+screenshots/
+captures/
+*.screenshot.png
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local development documentation
+/docs/
+/AGENTS.md

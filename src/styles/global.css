@@ -1,0 +1,65 @@
+:root {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--vn-foreground);
+  background: var(--vn-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--vn-primary);
+  outline-offset: 2px;
+}
+
+/* Limit native scrollbar styling to the shell's two scroll containers. */
+@media (forced-colors: none) {
+  .app-shell > div > main,
+  .sidebar-nav {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+    --vn-scrollbar-current: var(--vn-scrollbar-thumb-idle);
+  }
+  .app-shell > div > main:hover,
+  .app-shell > div > main:focus-within,
+  .sidebar-nav:hover,
+  .sidebar-nav:focus-within {
+    --vn-scrollbar-current: var(--vn-scrollbar-thumb);
+  }
+  .app-shell > div > main::-webkit-scrollbar,
+  .sidebar-nav::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .app-shell > div > main::-webkit-scrollbar-track,
+  .sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .app-shell > div > main::-webkit-scrollbar-thumb,
+  .sidebar-nav::-webkit-scrollbar-thumb {
+    background: var(--vn-scrollbar-current);
+    border-radius: 999px;
+  }
+  .app-shell > div > main::-webkit-scrollbar-thumb:hover,
+  .app-shell > div > main::-webkit-scrollbar-thumb:active,
+  .sidebar-nav::-webkit-scrollbar-thumb:hover,
+  .sidebar-nav::-webkit-scrollbar-thumb:active {
+    background: var(--vn-scrollbar-thumb-hover);
+  }
+  .app-shell > div > main::-webkit-scrollbar-button,
+  .sidebar-nav::-webkit-scrollbar-button {
+    display: none;
+  }
+}

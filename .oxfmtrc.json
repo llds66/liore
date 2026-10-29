@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": false,
+  "semi": true,
+  "sortImports": false,
+  "sortTailwindcss": false,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "dist-ssr/**",
+    "src-tauri/target/**",
+    "src-tauri/gen/**",
+    "**/*.rs",
+    "pnpm-lock.yaml",
+    "src-tauri/Cargo.lock"
+  ]
+}

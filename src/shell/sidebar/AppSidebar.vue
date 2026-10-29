@@ -1,0 +1,129 @@
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from "vue";
+import { LayoutDashboard, Shapes, PanelLeftClose, PanelLeftOpen } from "@lucide/vue";
+import {
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipRoot,
+  TooltipTrigger,
+} from "reka-ui";
+import { readSidebarCollapsed, writeSidebarCollapsed } from "../../services/settings";
+import { onWindowDragMouseDown } from "../windowDrag";
+import ProfileMenu from "./ProfileMenu.vue";
+
+const collapsed = ref(readSidebarCollapsed());
+
+function toggleSidebar() {
+  collapsed.value = !collapsed.value;
+  writeSidebarCollapsed(collapsed.value);
+}
+
+function onHeaderMouseDown(event: MouseEvent) {
+  const target = event.target;
+  if (
+    target === event.currentTarget ||
+    (target instanceof Element && target.classList.contains("sidebar-brand"))
+  ) {
+    onWindowDragMouseDown(event);
+  }
+}
+
+function onShortcut(event: KeyboardEvent) {
+  const target = event.target;
+  if (
+    event.defaultPrevented ||
+    event.repeat ||
+    !event.ctrlKey ||
+    event.altKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.key.toLowerCase() !== "b"
+  )
+    return;
+  if (
+    target instanceof HTMLElement &&
+    (target.isContentEditable ||
+      target.closest(
+        "input, textarea, select, [contenteditable='true'], [role='dialog'], [role='menu']",
+      ))
+  )
+    return;
+  event.preventDefault();
+  toggleSidebar();
+}
+
+onMounted(() => window.addEventListener("keydown", onShortcut));
+onUnmounted(() => window.removeEventListener("keydown", onShortcut));
+</script>
+
+<template>
+  <aside class="sidebar" :class="{ 'is-collapsed': collapsed }">
+    <TooltipProvider :delay-duration="300">
+      <div class="sidebar-header" @mousedown="onHeaderMouseDown">
+        <span class="sidebar-brand" :aria-hidden="collapsed">Vetra</span>
+        <TooltipRoot>
+          <TooltipTrigger as-child>
+            <button
+              class="sidebar-toggle"
+              type="button"
+              :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+              :aria-expanded="!collapsed"
+              aria-controls="sidebar-navigation"
+              @click="toggleSidebar"
+            >
+              <PanelLeftOpen v-if="collapsed" :size="18" aria-hidden="true" />
+              <PanelLeftClose v-else :size="18" aria-hidden="true" />
+            </button>
+          </TooltipTrigger>
+          <TooltipPortal>
+            <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
+              collapsed ? "Expand sidebar" : "Collapse sidebar"
+            }}</TooltipContent>
+          </TooltipPortal>
+        </TooltipRoot>
+      </div>
+      <nav id="sidebar-navigation" aria-label="Main navigation" class="sidebar-nav">
+        <TooltipRoot :delay-duration="300" :disable-hoverable-content="true">
+          <TooltipTrigger as-child>
+            <RouterLink
+              to="/"
+              class="sidebar-link"
+              exact-active-class="is-active"
+              aria-label="Overview"
+            >
+              <LayoutDashboard :size="18" aria-hidden="true" class="sidebar-icon" />
+              <span class="sidebar-label" :aria-hidden="collapsed">Overview</span>
+            </RouterLink>
+          </TooltipTrigger>
+          <TooltipPortal v-if="collapsed">
+            <TooltipContent side="right" :side-offset="8" class="shell-tooltip"
+              >Overview</TooltipContent
+            >
+          </TooltipPortal>
+        </TooltipRoot>
+        <TooltipRoot :delay-duration="300" :disable-hoverable-content="true">
+          <TooltipTrigger as-child>
+            <RouterLink
+              to="/components"
+              class="sidebar-link"
+              exact-active-class="is-active"
+              aria-label="Components"
+            >
+              <Shapes :size="18" aria-hidden="true" class="sidebar-icon" />
+              <span class="sidebar-label" :aria-hidden="collapsed">Components</span>
+            </RouterLink>
+          </TooltipTrigger>
+          <TooltipPortal v-if="collapsed">
+            <TooltipContent side="right" :side-offset="8" class="shell-tooltip"
+              >Components</TooltipContent
+            >
+          </TooltipPortal>
+        </TooltipRoot>
+      </nav>
+      <ProfileMenu :collapsed="collapsed" />
+    </TooltipProvider>
+  </aside>
+</template>
+
+<style src="./sidebar.css"></style>

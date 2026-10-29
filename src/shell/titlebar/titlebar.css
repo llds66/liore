@@ -1,0 +1,61 @@
+﻿.app-titlebar {
+  display: flex;
+  flex: 0 0 var(--shell-header-height);
+  align-items: center;
+  min-width: 0;
+  height: var(--shell-header-height);
+  background: var(--vn-background);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-titlebar-drag-region {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.app-titlebar-title {
+  min-width: 0;
+  overflow: hidden;
+  padding-inline: 16px;
+  color: var(--vn-secondary-foreground);
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.window-controls {
+  display: flex;
+  align-self: center;
+  height: 40px;
+}
+.window-control {
+  display: grid;
+  width: 46px;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--vn-secondary-foreground);
+}
+.window-control:not(:disabled):hover {
+  background: var(--vn-surface-hover);
+}
+.window-control:not(:disabled):active {
+  background: var(--vn-surface-active);
+}
+.window-control-close:not(:disabled):hover,
+.window-control-close:not(:disabled):active {
+  background: var(--vn-danger);
+  color: var(--vn-danger-foreground);
+}
+.window-control:disabled {
+  color: var(--vn-muted-foreground);
+  cursor: not-allowed;
+}
+.window-control:focus-visible {
+  outline-offset: -3px;
+}
