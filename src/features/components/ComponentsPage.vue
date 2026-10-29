@@ -25,8 +25,7 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 
 <template>
   <div class="components-page mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
-    <p class="text-sm font-medium text-secondary-foreground">Vetra</p>
-    <h1 class="mt-3 text-3xl font-semibold tracking-tight">Components</h1>
+    <h1 class="text-3xl font-semibold tracking-tight">Components</h1>
     <p class="mt-4 max-w-prose text-sm leading-relaxed text-secondary-foreground">
       A small collection of interactive building blocks for your application.
     </p>
@@ -34,7 +33,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
     <section class="showcase-section" aria-labelledby="button-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">01 / ACTIONS</p>
           <h2 id="button-heading">Button</h2>
         </div>
         <p>Actions with clear intent.</p>
@@ -82,7 +80,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
     <section class="showcase-section" aria-labelledby="input-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">02 / INPUTS</p>
           <h2 id="input-heading">Input</h2>
         </div>
         <p>Simple, accessible text entry.</p>
@@ -145,7 +142,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
     <section class="showcase-section" aria-labelledby="dialog-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">03 / OVERLAYS</p>
           <h2 id="dialog-heading">Dialog</h2>
         </div>
         <p>A focused space for a small task.</p>
@@ -188,7 +184,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
     <section class="showcase-section" aria-labelledby="dropdown-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">04 / MENUS</p>
           <h2 id="dropdown-heading">Dropdown menu</h2>
         </div>
         <p>Small, contextual actions.</p>
@@ -230,7 +225,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
     <section class="showcase-section" aria-labelledby="tooltip-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">05 / HINTS</p>
           <h2 id="tooltip-heading">Tooltip</h2>
         </div>
         <p>A little context, when needed.</p>
@@ -298,7 +292,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
   margin-bottom: 16px;
 }
 .section-heading h2 {
-  margin-top: 4px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -308,12 +301,6 @@ const tooltipSides = ["top", "right", "bottom", "left"] as const;
 .showcase-note {
   color: var(--vn-muted-foreground);
   font-size: 12px;
-}
-.eyebrow {
-  color: var(--vn-muted-foreground);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
 }
 .showcase-card {
   border: 1px solid var(--vn-border);
