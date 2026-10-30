@@ -121,15 +121,20 @@ function onChange(event: Event, value: ThemePreference): void {
 
 <style scoped>
 .about-list {
-  border-top: 1px solid var(--liore-border);
+  overflow: hidden;
+  border: 1px solid var(--liore-border);
+  border-radius: var(--liore-radius-popover);
+  background: var(--liore-surface);
 }
 .about-row {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--liore-border);
+  padding: 14px 16px;
   font-size: 13px;
+}
+.about-row + .about-row {
+  border-top: 1px solid var(--liore-border);
 }
 .about-row dt {
   color: var(--liore-secondary-foreground);
@@ -160,12 +165,16 @@ function onChange(event: Event, value: ThemePreference): void {
     background var(--liore-motion-hover) ease,
     border-color var(--liore-motion-hover) ease;
 }
-.theme-card:hover {
+.theme-card:not(.is-selected):hover {
+  border-color: color-mix(in srgb, var(--liore-border) 70%, var(--liore-muted-foreground));
   background: var(--liore-surface-hover);
 }
 .theme-card.is-selected {
-  border-color: var(--liore-primary);
+  border-color: color-mix(in srgb, var(--liore-border) 55%, var(--liore-muted-foreground));
   background: var(--liore-surface-active);
+}
+.theme-card.is-selected:hover {
+  border-color: color-mix(in srgb, var(--liore-border) 40%, var(--liore-muted-foreground));
 }
 .theme-card:has(input:focus-visible) {
   outline: 2px solid var(--liore-focus-ring);

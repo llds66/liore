@@ -57,8 +57,6 @@ const { t } = useI18n();
 }
 .overview-heading {
   margin-bottom: 16px;
-  font-size: 16px;
-  font-weight: 600;
 }
 .explore-grid {
   display: grid;
@@ -79,7 +77,7 @@ const { t } = useI18n();
     border-color var(--liore-motion-hover) ease;
 }
 .explore-link:hover {
-  border-color: var(--liore-muted-foreground);
+  border-color: color-mix(in srgb, var(--liore-border) 70%, var(--liore-muted-foreground));
   background: var(--liore-surface-hover);
 }
 .explore-icon,

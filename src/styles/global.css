@@ -35,9 +35,12 @@ body,
   gap: var(--liore-space-4);
 }
 
-.page-section > h2 {
-  font-size: 20px;
+.page-section > h2,
+.overview-heading {
+  font-size: 16px;
   font-weight: 600;
+  line-height: 1.4;
+  color: var(--liore-foreground);
 }
 
 /* Limit native scrollbar styling to the shell's two scroll containers. */
