@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "reka-ui";
 import { readSidebarCollapsed, writeSidebarCollapsed } from "../../services/settings";
+import { resolvedTheme } from "../../services/theme";
 import { sidebarItems } from "../../app/navigation";
 import { onWindowDragMouseDown } from "../windowDrag";
 import ProfileMenu from "./ProfileMenu.vue";
@@ -26,7 +27,7 @@ function onHeaderMouseDown(event: MouseEvent) {
   const target = event.target;
   if (
     target === event.currentTarget ||
-    (target instanceof Element && target.classList.contains("sidebar-brand"))
+    (target instanceof Element && target.closest(".sidebar-brand"))
   ) {
     onWindowDragMouseDown(event);
   }
@@ -64,7 +65,17 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
   <aside class="sidebar" :class="{ 'is-collapsed': collapsed }">
     <TooltipProvider :delay-duration="300">
       <div class="sidebar-header" @mousedown="onHeaderMouseDown">
-        <span class="sidebar-brand" :aria-hidden="collapsed">Liore</span>
+        <span class="sidebar-brand" :aria-hidden="collapsed">
+          <img
+            class="sidebar-brand-logo"
+            :src="resolvedTheme === 'dark' ? '/liore-symbol-dark.svg' : '/liore-symbol-light.svg'"
+            width="24"
+            height="24"
+            alt=""
+            draggable="false"
+          />
+          <span>Liore</span>
+        </span>
         <TooltipRoot>
           <TooltipTrigger as-child>
             <button

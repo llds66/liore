@@ -31,12 +31,20 @@
   padding: 0 12px;
 }
 .sidebar-brand {
+  display: flex;
+  align-items: center;
   flex: 1;
+  gap: 8px;
   min-width: 0;
   margin-left: 12px;
   font-size: 16px;
   font-weight: 600;
   white-space: nowrap;
+}
+.sidebar-brand-logo {
+  flex: none;
+  width: 24px;
+  height: 24px;
 }
 .sidebar-toggle {
   display: grid;
