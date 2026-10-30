@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { LayoutDashboard, Shapes, PanelLeft, PanelRight } from "@lucide/vue";
+import { PanelLeft, PanelRight } from "@lucide/vue";
 import {
   TooltipContent,
   TooltipPortal,
@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "reka-ui";
 import { readSidebarCollapsed, writeSidebarCollapsed } from "../../services/settings";
+import { sidebarItems } from "../../app/navigation";
 import { onWindowDragMouseDown } from "../windowDrag";
 import ProfileMenu from "./ProfileMenu.vue";
 
@@ -86,39 +87,26 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
         </TooltipRoot>
       </div>
       <nav id="sidebar-navigation" :aria-label="t('shell.mainNavigation')" class="sidebar-nav">
-        <TooltipRoot :delay-duration="300" :disable-hoverable-content="true">
+        <TooltipRoot
+          v-for="item in sidebarItems"
+          :key="item.path"
+          :delay-duration="300"
+          :disable-hoverable-content="true"
+        >
           <TooltipTrigger as-child>
             <RouterLink
-              to="/"
+              :to="item.path"
               class="sidebar-link"
               exact-active-class="is-active"
-              :aria-label="t('nav.overview')"
+              :aria-label="t(item.title)"
             >
-              <LayoutDashboard :size="18" aria-hidden="true" class="sidebar-icon" />
-              <span class="sidebar-label" :aria-hidden="collapsed">{{ t("nav.overview") }}</span>
+              <component :is="item.icon" :size="18" aria-hidden="true" class="sidebar-icon" />
+              <span class="sidebar-label" :aria-hidden="collapsed">{{ t(item.title) }}</span>
             </RouterLink>
           </TooltipTrigger>
           <TooltipPortal v-if="collapsed">
             <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
-              t("nav.overview")
-            }}</TooltipContent>
-          </TooltipPortal>
-        </TooltipRoot>
-        <TooltipRoot :delay-duration="300" :disable-hoverable-content="true">
-          <TooltipTrigger as-child>
-            <RouterLink
-              to="/components"
-              class="sidebar-link"
-              exact-active-class="is-active"
-              :aria-label="t('nav.components')"
-            >
-              <Shapes :size="18" aria-hidden="true" class="sidebar-icon" />
-              <span class="sidebar-label" :aria-hidden="collapsed">{{ t("nav.components") }}</span>
-            </RouterLink>
-          </TooltipTrigger>
-          <TooltipPortal v-if="collapsed">
-            <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
-              t("nav.components")
+              t(item.title)
             }}</TooltipContent>
           </TooltipPortal>
         </TooltipRoot>
