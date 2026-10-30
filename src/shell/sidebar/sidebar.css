@@ -125,11 +125,6 @@
   border-radius: 50%;
   background: var(--liore-surface-active);
   color: var(--liore-foreground);
-  font-weight: 600;
-}
-.profile-avatar-image {
-  display: block;
-  object-fit: cover;
 }
 .profile-name {
   margin-left: 10px;

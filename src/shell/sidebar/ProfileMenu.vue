@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { ChevronDown, Settings } from "@lucide/vue";
+import { ChevronDown, Settings, UserRound } from "@lucide/vue";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -14,23 +13,14 @@ import {
 defineProps<{ collapsed: boolean }>();
 const router = useRouter();
 const { t } = useI18n();
-const avatarFailed = ref(false);
 </script>
 
 <template>
   <DropdownMenuRoot>
     <DropdownMenuTrigger as-child>
       <button type="button" class="profile-trigger" :aria-label="t('shell.profileMenu')">
-        <img
-          v-if="!avatarFailed"
-          class="profile-avatar profile-avatar-image"
-          src="https://lldsss.com/lsang.webp"
-          alt=""
-          aria-hidden="true"
-          @error="avatarFailed = true"
-        />
-        <span v-else class="profile-avatar" aria-hidden="true">V</span>
-        <span class="profile-name" :aria-hidden="collapsed">lsang</span>
+        <span class="profile-avatar" aria-hidden="true"><UserRound :size="18" /></span>
+        <span class="profile-name" :aria-hidden="collapsed">username</span>
         <ChevronDown :size="16" class="profile-chevron" aria-hidden="true" />
       </button>
     </DropdownMenuTrigger>

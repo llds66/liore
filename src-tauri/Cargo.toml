@@ -1,8 +1,8 @@
 [package]
 name = "liore"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "A Windows 11 desktop application template built with Vue 3 and Tauri 2"
+authors = ["llds"]
 edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
