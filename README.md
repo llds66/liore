@@ -12,14 +12,10 @@ Liore 是 Windows 11 优先的桌面应用模板，采用 Vue 3、TypeScript、V
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm dev
-pnpm tauri
 ```
 
-`pnpm dev` 用于浏览器预览；`pnpm tauri` 启动 Windows 桌面窗口。工程检查：`pnpm lint`、`pnpm format:check`、`pnpm typecheck`、`pnpm build`。构建与原生窗口的手动验收状态见 [路线图](docs/roadmap.md)。
+浏览器预览运行 `pnpm dev`；Windows 桌面窗口运行 `pnpm windows:dev`。两种开发模式按需选择其一。工程检查：`pnpm lint`、`pnpm format:check`、`pnpm typecheck`、`pnpm build`。原生窗口交互需在 Windows 11 实机手动验收。
 
 ## 品牌迁移与设置
 
 本地 npm 包与 Rust crate 名称为 `liore`，应用显示名称为 Liore，Tauri identifier 为 `com.lldsss.liore`。侧栏、主题和语言偏好使用 `liore.*` 设置键。开发阶段的旧品牌数据不迁移。
-
-项目文档见 [架构](docs/architecture.md)、[Graphite Design System](docs/design-system.md)、[桌面窗口规范](docs/desktop-shell.md) 和 [主题规范](docs/theme.md)。

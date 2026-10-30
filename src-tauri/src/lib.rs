@@ -1,4 +1,3 @@
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 mod tray;
 
 use tauri::{Manager, WindowEvent, webview::PageLoadEvent};
@@ -8,18 +7,12 @@ const WINDOW_STATE_FLAGS: StateFlags = StateFlags::SIZE
     .union(StateFlags::POSITION)
     .union(StateFlags::MAXIMIZED);
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             tray::restore_main_window(app);
         }))
-        .plugin(tauri_plugin_opener::init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_state_flags(WINDOW_STATE_FLAGS)
@@ -47,7 +40,7 @@ pub fn run() {
                 api.prevent_close();
             }
         })
-        .invoke_handler(tauri::generate_handler![greet, tray::set_tray_language])
+        .invoke_handler(tauri::generate_handler![tray::set_tray_language])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
