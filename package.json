@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "windows:dev": "tauri dev",
     "build": "pnpm typecheck && vite build",
+    "build:windows": "tauri build --no-bundle",
+    "build:windows:installer": "tauri build --bundles nsis",
     "lint": "oxlint --vue-plugin .",
     "lint:fix": "oxlint --vue-plugin . --fix",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",
-    "typecheck": "vue-tsc --noEmit && vue-tsc -p tsconfig.node.json --noEmit",
-    "preview": "vite preview",
-    "tauri": "tauri dev"
+    "typecheck": "vue-tsc --noEmit && vue-tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "@lucide/vue": "^1.62.0",
