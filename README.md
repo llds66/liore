@@ -19,3 +19,7 @@ pnpm install --frozen-lockfile
 ## 品牌迁移与设置
 
 本地 npm 包与 Rust crate 名称为 `liore`，应用显示名称为 Liore，Tauri identifier 为 `com.lldsss.liore`。侧栏、主题和语言偏好使用 `liore.*` 设置键。开发阶段的旧品牌数据不迁移。
+
+## 自定义模板
+
+基于 Liore 开发自己的应用时，请参阅[模板定制指南](docs/customization.md)。

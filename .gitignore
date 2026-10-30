@@ -35,8 +35,10 @@ captures/
 *.sln
 *.sw?
 
-# Local development documentation
-/docs/
+# Keep local notes and agent instructions out of the template
+/docs/*
+!/docs/customization.md
+!/docs/development.md
 /AGENTS.md
 
 app-icon.png
