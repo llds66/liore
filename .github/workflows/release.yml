@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Verify tag and project versions
+        shell: pwsh
+        run: |
+          $packageVersion = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $tauriVersion = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          $cargoVersion = [regex]::Match(
+            (Get-Content src-tauri/Cargo.toml -Raw),
+            '(?m)^version\s*=\s*"([^"]+)"'
+          ).Groups[1].Value
+          if (-not $cargoVersion -or
+              $env:GITHUB_REF_NAME -cne "v$packageVersion" -or
+              $packageVersion -cne $tauriVersion -or
+              $packageVersion -cne $cargoVersion) {
+            throw "Tag $env:GITHUB_REF_NAME does not match package ($packageVersion), Tauri ($tauriVersion), and Cargo ($cargoVersion) versions."
+          }
+
+      - name: Protect published release
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = [uri]::EscapeDataString($env:GITHUB_REF_NAME)
+          $url = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/tags/$tag"
+          $headers = @{
+            Authorization = "Bearer $env:GITHUB_TOKEN"
+            Accept = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          try {
+            $release = Invoke-RestMethod -Method Get -Uri $url -Headers $headers
+          } catch {
+            $status = $_.Exception.Response.StatusCode
+            if ($null -eq $status -or [int]$status -ne 404) { throw }
+          }
+          if ($release -and -not $release.draft) {
+            throw "A published release already exists for $env:GITHUB_REF_NAME."
+          }
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12.15.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+      - run: pnpm install --frozen-lockfile
+
+      - uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: Liore ${{ github.ref_name }}
+          releaseDraft: true
+          generateReleaseNotes: true
+          uploadUpdaterJson: false
+          uploadUpdaterSignatures: false
+          args: --bundles nsis --target x86_64-pc-windows-msvc
