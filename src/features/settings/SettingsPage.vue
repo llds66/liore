@@ -108,7 +108,7 @@ function onChange(event: Event, value: ThemePreference): void {
       <dl class="about-list">
         <div class="about-row">
           <dt>{{ t("settings.application") }}</dt>
-          <dd>Vetra Next</dd>
+          <dd>Liore</dd>
         </div>
         <div class="about-row">
           <dt>{{ t("settings.version") }}</dt>
@@ -121,18 +121,18 @@ function onChange(event: Event, value: ThemePreference): void {
 
 <style scoped>
 .about-list {
-  border-top: 1px solid var(--vn-border);
+  border-top: 1px solid var(--liore-border);
 }
 .about-row {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   padding: 14px 0;
-  border-bottom: 1px solid var(--vn-border);
+  border-bottom: 1px solid var(--liore-border);
   font-size: 13px;
 }
 .about-row dt {
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
 }
 .about-row dd {
   min-width: 0;
@@ -152,23 +152,23 @@ function onChange(event: Event, value: ThemePreference): void {
   min-width: 0;
   min-height: 52px;
   padding: 10px 12px;
-  border: 1px solid var(--vn-border);
+  border: 1px solid var(--liore-border);
   border-radius: 10px;
-  background: var(--vn-surface);
+  background: var(--liore-surface);
   cursor: pointer;
   transition:
-    background var(--vn-motion-hover) ease,
-    border-color var(--vn-motion-hover) ease;
+    background var(--liore-motion-hover) ease,
+    border-color var(--liore-motion-hover) ease;
 }
 .theme-card:hover {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 .theme-card.is-selected {
-  border-color: var(--vn-primary);
-  background: var(--vn-surface-active);
+  border-color: var(--liore-primary);
+  background: var(--liore-surface-active);
 }
 .theme-card:has(input:focus-visible) {
-  outline: 2px solid var(--vn-focus-ring);
+  outline: 2px solid var(--liore-focus-ring);
   outline-offset: 2px;
 }
 .theme-card input {
@@ -181,7 +181,7 @@ function onChange(event: Event, value: ThemePreference): void {
 }
 .theme-icon {
   flex: none;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
 }
 .theme-copy {
   flex: 1;
@@ -198,10 +198,10 @@ function onChange(event: Event, value: ThemePreference): void {
   place-items: center;
   width: 26px;
   height: 26px;
-  border: 1px solid var(--vn-border);
+  border: 1px solid var(--liore-border);
   border-radius: 50%;
-  background: var(--vn-surface);
-  color: var(--vn-primary);
+  background: var(--liore-surface);
+  color: var(--liore-primary);
   visibility: hidden;
 }
 .theme-check.is-visible {

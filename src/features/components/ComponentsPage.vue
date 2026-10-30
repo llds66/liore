@@ -305,13 +305,13 @@ const sideKeys = {
 .row-heading p,
 .input-hint,
 .showcase-note {
-  color: var(--vn-muted-foreground);
+  color: var(--liore-muted-foreground);
   font-size: 12px;
 }
 .showcase-card {
-  border: 1px solid var(--vn-border);
+  border: 1px solid var(--liore-border);
   border-radius: 12px;
-  background: var(--vn-surface);
+  background: var(--liore-surface);
 }
 .showcase-row {
   display: grid;
@@ -320,7 +320,7 @@ const sideKeys = {
   padding: 24px;
 }
 .showcase-row + .showcase-row {
-  border-top: 1px solid var(--vn-border);
+  border-top: 1px solid var(--liore-border);
 }
 .row-heading h3 {
   font-size: 13px;
@@ -340,15 +340,15 @@ const sideKeys = {
 .button-content {
   display: inline-flex;
   align-items: center;
-  gap: var(--vn-space-2);
+  gap: var(--liore-space-2);
 }
 .menu-hint {
   margin-left: auto;
-  color: var(--vn-muted-foreground);
-  font-size: var(--vn-font-size-caption);
+  color: var(--liore-muted-foreground);
+  font-size: var(--liore-font-size-caption);
 }
 .showcase-note {
-  border-top: 1px solid var(--vn-border);
+  border-top: 1px solid var(--liore-border);
   padding: 12px 24px;
 }
 .input-example,
@@ -364,7 +364,7 @@ const sideKeys = {
 label {
   display: block;
   margin-bottom: 7px;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
   font-size: 12px;
   font-weight: 500;
 }
@@ -374,7 +374,7 @@ label {
   overflow-wrap: anywhere;
 }
 .input-error {
-  color: var(--vn-error-foreground);
+  color: var(--liore-error-foreground);
   font-size: 12px;
 }
 @media (max-width: 700px) {

@@ -38,8 +38,8 @@ withDefaults(
   user-select: none;
   cursor: pointer;
   transition:
-    background var(--vn-motion-hover) ease,
-    border-color var(--vn-motion-hover) ease;
+    background var(--liore-motion-hover) ease,
+    border-color var(--liore-motion-hover) ease;
 }
 .v-button--sm {
   min-height: 28px;
@@ -57,51 +57,51 @@ withDefaults(
   font-size: 14px;
 }
 .v-button--primary {
-  background: var(--vn-primary);
-  color: var(--vn-inverse);
+  background: var(--liore-primary);
+  color: var(--liore-inverse);
 }
 .v-button--primary:hover:not(:disabled) {
-  background: var(--vn-secondary-foreground);
+  background: var(--liore-secondary-foreground);
 }
 .v-button--primary:active:not(:disabled) {
-  background: var(--vn-muted-foreground);
+  background: var(--liore-muted-foreground);
 }
 .v-button--secondary {
-  background: var(--vn-surface-active);
-  color: var(--vn-foreground);
+  background: var(--liore-surface-active);
+  color: var(--liore-foreground);
 }
 .v-button--secondary:hover:not(:disabled) {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 .v-button--secondary:active:not(:disabled) {
-  background: var(--vn-surface);
+  background: var(--liore-surface);
 }
 .v-button--outline {
-  border-color: var(--vn-border);
-  color: var(--vn-foreground);
+  border-color: var(--liore-border);
+  color: var(--liore-foreground);
   background: transparent;
 }
 .v-button--ghost {
-  color: var(--vn-foreground);
+  color: var(--liore-foreground);
   background: transparent;
 }
 .v-button--outline:hover:not(:disabled),
 .v-button--ghost:hover:not(:disabled) {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 .v-button--outline:active:not(:disabled),
 .v-button--ghost:active:not(:disabled) {
-  background: var(--vn-surface-active);
+  background: var(--liore-surface-active);
 }
 .v-button--danger {
-  background: var(--vn-danger);
-  color: var(--vn-danger-foreground);
+  background: var(--liore-danger);
+  color: var(--liore-danger-foreground);
 }
 .v-button--danger:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--vn-danger) 80%, var(--vn-foreground));
+  background: color-mix(in srgb, var(--liore-danger) 80%, var(--liore-foreground));
 }
 .v-button--danger:active:not(:disabled) {
-  background: color-mix(in srgb, var(--vn-danger) 80%, var(--vn-background));
+  background: color-mix(in srgb, var(--liore-danger) 80%, var(--liore-background));
 }
 .v-button:disabled {
   cursor: not-allowed;

@@ -4,11 +4,11 @@
   flex: 0 0 248px;
   min-height: 0;
   width: 248px;
-  border-right: 1px solid var(--vn-border);
-  background: var(--vn-sidebar);
+  border-right: 1px solid var(--liore-border);
+  background: var(--liore-sidebar);
   transition:
-    width var(--vn-motion-sidebar) ease,
-    flex-basis var(--vn-motion-sidebar) ease;
+    width var(--liore-motion-sidebar) ease,
+    flex-basis var(--liore-motion-sidebar) ease;
 }
 .sidebar.is-collapsed {
   width: 64px;
@@ -45,12 +45,12 @@
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
 }
 .sidebar-toggle:hover,
 .profile-trigger:hover,
 .sidebar-link:hover {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 .sidebar-nav {
   display: flex;
@@ -67,14 +67,14 @@
   width: 100%;
   height: 40px;
   border-radius: 6px;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
   overflow: hidden;
   white-space: nowrap;
-  transition: background var(--vn-motion-hover) ease;
+  transition: background var(--liore-motion-hover) ease;
 }
 .sidebar-link.is-active {
-  background: var(--vn-surface-active);
-  color: var(--vn-foreground);
+  background: var(--liore-surface-active);
+  color: var(--liore-foreground);
 }
 .sidebar-icon {
   flex: none;
@@ -83,7 +83,7 @@
 .sidebar-label,
 .profile-name {
   opacity: 1;
-  transition: opacity var(--vn-motion-hover) ease;
+  transition: opacity var(--liore-motion-hover) ease;
   white-space: nowrap;
 }
 .sidebar.is-collapsed .sidebar-brand {
@@ -105,7 +105,7 @@
   border-radius: 6px;
   overflow: hidden;
   text-align: left;
-  transition: background var(--vn-motion-hover) ease;
+  transition: background var(--liore-motion-hover) ease;
 }
 .profile-avatar {
   display: grid;
@@ -115,8 +115,8 @@
   height: 25px;
   margin-left: 4px;
   border-radius: 50%;
-  background: var(--vn-surface-active);
-  color: var(--vn-foreground);
+  background: var(--liore-surface-active);
+  color: var(--liore-foreground);
   font-weight: 600;
 }
 .profile-avatar-image {
@@ -132,7 +132,7 @@
   flex: none;
   margin-left: auto;
   margin-right: 10px;
-  color: var(--vn-muted-foreground);
+  color: var(--liore-muted-foreground);
 }
 .sidebar.is-collapsed .profile-trigger {
   display: grid;
@@ -151,9 +151,9 @@
 }
 .shell-tooltip,
 .profile-menu {
-  background: var(--vn-surface);
-  color: var(--vn-foreground);
-  border: 1px solid var(--vn-border);
+  background: var(--liore-surface);
+  color: var(--liore-foreground);
+  border: 1px solid var(--liore-border);
 }
 .shell-tooltip {
   z-index: 30;
@@ -166,7 +166,7 @@
   min-width: 190px;
   padding: 4px;
   border-radius: 10px;
-  animation: shell-in var(--vn-motion-menu) ease-out;
+  animation: shell-in var(--liore-motion-menu) ease-out;
 }
 .profile-menu-item {
   display: flex;
@@ -178,7 +178,7 @@
   cursor: default;
 }
 .profile-menu-item[data-highlighted] {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 @keyframes shell-in {
   from {

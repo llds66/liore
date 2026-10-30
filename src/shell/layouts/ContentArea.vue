@@ -6,6 +6,6 @@
 
 <style scoped>
 .content-area {
-  margin-inline: var(--vn-space-2);
+  margin-inline: var(--liore-space-2);
 }
 </style>

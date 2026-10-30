@@ -1,10 +1,10 @@
-﻿.app-titlebar {
+.app-titlebar {
   display: flex;
   flex: 0 0 var(--shell-header-height);
   align-items: center;
   min-width: 0;
   height: var(--shell-header-height);
-  background: var(--vn-background);
+  background: var(--liore-background);
   -webkit-user-select: none;
   user-select: none;
 }
@@ -21,7 +21,7 @@
   min-width: 0;
   overflow: hidden;
   padding-inline: 16px;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
   font-size: 12px;
   font-weight: 600;
   text-overflow: ellipsis;
@@ -32,7 +32,7 @@
   display: flex;
   align-self: center;
   height: 40px;
-  padding-right: var(--vn-space-2);
+  padding-right: var(--liore-space-2);
 }
 .window-control {
   display: grid;
@@ -41,21 +41,21 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: var(--vn-secondary-foreground);
+  color: var(--liore-secondary-foreground);
 }
 .window-control:not(:disabled):hover {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 .window-control:not(:disabled):active {
-  background: var(--vn-surface-active);
+  background: var(--liore-surface-active);
 }
 .window-control-close:not(:disabled):hover,
 .window-control-close:not(:disabled):active {
-  background: var(--vn-danger);
-  color: var(--vn-danger-foreground);
+  background: var(--liore-danger);
+  color: var(--liore-danger-foreground);
 }
 .window-control:disabled {
-  color: var(--vn-muted-foreground);
+  color: var(--liore-muted-foreground);
   cursor: not-allowed;
 }
 .window-control:focus-visible {

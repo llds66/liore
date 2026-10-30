@@ -37,28 +37,28 @@ defineSlots<{ default?: () => unknown }>();
 <!-- Portal content has no DOM root to inherit an SFC scope attribute. Keep every selector component-specific. -->
 <style>
 .v-dropdown-menu-content {
-  z-index: var(--vn-layer-popover);
+  z-index: var(--liore-layer-popover);
   box-sizing: border-box;
   min-width: min(180px, var(--reka-dropdown-menu-content-available-width));
   max-width: var(--reka-dropdown-menu-content-available-width);
   max-height: var(--reka-dropdown-menu-content-available-height);
   overflow: auto;
-  padding: var(--vn-space-1);
-  border: 1px solid var(--vn-border);
-  border-radius: var(--vn-radius-popover);
-  background: var(--vn-surface);
-  color: var(--vn-foreground);
-  box-shadow: var(--vn-shadow-popover);
-  font-size: var(--vn-font-size-control);
+  padding: var(--liore-space-1);
+  border: 1px solid var(--liore-border);
+  border-radius: var(--liore-radius-popover);
+  background: var(--liore-surface);
+  color: var(--liore-foreground);
+  box-shadow: var(--liore-shadow-popover);
+  font-size: var(--liore-font-size-control);
   transform-origin: var(--reka-dropdown-menu-content-transform-origin);
 }
 
 .v-dropdown-menu-content[data-state="open"] {
-  animation: v-dropdown-menu-in var(--vn-motion-menu) ease-out;
+  animation: v-dropdown-menu-in var(--liore-motion-menu) ease-out;
 }
 
 .v-dropdown-menu-content[data-state="closed"] {
-  animation: v-dropdown-menu-out var(--vn-motion-menu) ease-in;
+  animation: v-dropdown-menu-out var(--liore-motion-menu) ease-in;
 }
 
 @keyframes v-dropdown-menu-in {

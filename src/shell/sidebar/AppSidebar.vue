@@ -63,7 +63,7 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
   <aside class="sidebar" :class="{ 'is-collapsed': collapsed }">
     <TooltipProvider :delay-duration="300">
       <div class="sidebar-header" @mousedown="onHeaderMouseDown">
-        <span class="sidebar-brand" :aria-hidden="collapsed">Vetra</span>
+        <span class="sidebar-brand" :aria-hidden="collapsed">Liore</span>
         <TooltipRoot>
           <TooltipTrigger as-child>
             <button

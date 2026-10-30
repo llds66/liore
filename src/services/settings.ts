@@ -1,6 +1,6 @@
-const sidebarKey = "vetra.sidebar.collapsed";
-const themeKey = "vetra.theme.preference";
-const languageKey = "vetra.language.preference";
+const sidebarKey = "liore.sidebar.collapsed";
+const themeKey = "liore.theme.preference";
+const languageKey = "liore.language.preference";
 
 export type ThemePreference = "light" | "dark" | "system";
 export type Language = "en" | "zh-CN";

@@ -73,84 +73,84 @@ const descriptionAttrs = computed(() =>
 .v-dialog-overlay {
   position: fixed;
   inset: 0;
-  z-index: var(--vn-layer-modal);
-  background: var(--vn-overlay);
+  z-index: var(--liore-layer-modal);
+  background: var(--liore-overlay);
 }
 .v-dialog {
   position: fixed;
-  z-index: calc(var(--vn-layer-modal) + 1);
+  z-index: calc(var(--liore-layer-modal) + 1);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(480px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
   overflow-y: auto;
-  padding: var(--vn-space-6);
-  border: 1px solid var(--vn-border);
-  border-radius: var(--vn-radius-dialog);
-  background: var(--vn-surface);
-  color: var(--vn-foreground);
-  box-shadow: var(--vn-shadow-dialog);
-  font-size: var(--vn-font-size-control);
+  padding: var(--liore-space-6);
+  border: 1px solid var(--liore-border);
+  border-radius: var(--liore-radius-dialog);
+  background: var(--liore-surface);
+  color: var(--liore-foreground);
+  box-shadow: var(--liore-shadow-dialog);
+  font-size: var(--liore-font-size-control);
   overflow-wrap: anywhere;
 }
 .v-dialog__header--with-close {
-  padding-right: var(--vn-space-6);
+  padding-right: var(--liore-space-6);
 }
 .v-dialog__title {
-  font-size: var(--vn-font-size-dialog);
+  font-size: var(--liore-font-size-dialog);
   font-weight: 600;
   line-height: 1.4;
 }
 .v-dialog__description {
-  margin-top: var(--vn-space-2);
-  color: var(--vn-secondary-foreground);
+  margin-top: var(--liore-space-2);
+  color: var(--liore-secondary-foreground);
   line-height: 1.6;
 }
 .v-dialog__body {
-  margin-top: var(--vn-space-6);
+  margin-top: var(--liore-space-6);
   line-height: 1.6;
 }
 .v-dialog__footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: var(--vn-space-2);
-  margin-top: var(--vn-space-6);
+  gap: var(--liore-space-2);
+  margin-top: var(--liore-space-6);
 }
 .v-dialog__close {
   position: absolute;
-  top: var(--vn-space-4);
-  right: var(--vn-space-4);
+  top: var(--liore-space-4);
+  right: var(--liore-space-4);
   display: grid;
   place-items: center;
   width: 28px;
   height: 28px;
-  border-radius: var(--vn-radius-control);
-  color: var(--vn-secondary-foreground);
+  border-radius: var(--liore-radius-control);
+  color: var(--liore-secondary-foreground);
   cursor: pointer;
-  transition: background var(--vn-motion-hover) ease;
+  transition: background var(--liore-motion-hover) ease;
 }
 .v-dialog__close:hover {
-  background: var(--vn-surface-hover);
-  color: var(--vn-foreground);
+  background: var(--liore-surface-hover);
+  color: var(--liore-foreground);
 }
 .v-dialog:focus-visible,
 .v-dialog__close:focus-visible {
-  outline: 2px solid var(--vn-focus-ring);
+  outline: 2px solid var(--liore-focus-ring);
   outline-offset: 2px;
 }
 .v-dialog-overlay[data-state="open"] {
-  animation: v-dialog-overlay-in var(--vn-motion-dialog) ease-out;
+  animation: v-dialog-overlay-in var(--liore-motion-dialog) ease-out;
 }
 .v-dialog-overlay[data-state="closed"] {
-  animation: v-dialog-overlay-out var(--vn-motion-dialog) ease-in;
+  animation: v-dialog-overlay-out var(--liore-motion-dialog) ease-in;
 }
 .v-dialog[data-state="open"] {
-  animation: v-dialog-in var(--vn-motion-dialog) ease-out;
+  animation: v-dialog-in var(--liore-motion-dialog) ease-out;
 }
 .v-dialog[data-state="closed"] {
-  animation: v-dialog-out var(--vn-motion-dialog) ease-in;
+  animation: v-dialog-out var(--liore-motion-dialog) ease-in;
 }
 @keyframes v-dialog-overlay-in {
   from {

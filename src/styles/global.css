@@ -2,8 +2,8 @@
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
-  color: var(--vn-foreground);
-  background: var(--vn-background);
+  color: var(--liore-foreground);
+  background: var(--liore-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -20,7 +20,7 @@ body,
 }
 
 :focus-visible {
-  outline: 2px solid var(--vn-primary);
+  outline: 2px solid var(--liore-primary);
   outline-offset: 2px;
 }
 
@@ -32,7 +32,7 @@ body,
 
 .page-section {
   display: grid;
-  gap: var(--vn-space-4);
+  gap: var(--liore-space-4);
 }
 
 .page-section > h2 {
@@ -46,13 +46,13 @@ body,
   .sidebar-nav {
     scrollbar-width: auto;
     scrollbar-color: auto;
-    --vn-scrollbar-current: var(--vn-scrollbar-thumb-idle);
+    --liore-scrollbar-current: var(--liore-scrollbar-thumb-idle);
   }
   .app-shell > div > main:hover,
   .app-shell > div > main:focus-within,
   .sidebar-nav:hover,
   .sidebar-nav:focus-within {
-    --vn-scrollbar-current: var(--vn-scrollbar-thumb);
+    --liore-scrollbar-current: var(--liore-scrollbar-thumb);
   }
   .app-shell > div > main::-webkit-scrollbar,
   .sidebar-nav::-webkit-scrollbar {
@@ -65,14 +65,14 @@ body,
   }
   .app-shell > div > main::-webkit-scrollbar-thumb,
   .sidebar-nav::-webkit-scrollbar-thumb {
-    background: var(--vn-scrollbar-current);
+    background: var(--liore-scrollbar-current);
     border-radius: 999px;
   }
   .app-shell > div > main::-webkit-scrollbar-thumb:hover,
   .app-shell > div > main::-webkit-scrollbar-thumb:active,
   .sidebar-nav::-webkit-scrollbar-thumb:hover,
   .sidebar-nav::-webkit-scrollbar-thumb:active {
-    background: var(--vn-scrollbar-thumb-hover);
+    background: var(--liore-scrollbar-thumb-hover);
   }
   .app-shell > div > main::-webkit-scrollbar-button,
   .sidebar-nav::-webkit-scrollbar-button {

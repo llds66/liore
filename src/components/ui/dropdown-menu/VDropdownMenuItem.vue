@@ -25,30 +25,30 @@ defineSlots<{ default?: () => unknown }>();
 .v-dropdown-menu-item {
   display: flex;
   align-items: center;
-  gap: var(--vn-space-2);
+  gap: var(--liore-space-2);
   min-height: 36px;
-  padding: var(--vn-space-2) var(--vn-space-3);
-  border-radius: var(--vn-radius-control);
-  color: var(--vn-foreground);
-  font-size: var(--vn-font-size-control);
+  padding: var(--liore-space-2) var(--liore-space-3);
+  border-radius: var(--liore-radius-control);
+  color: var(--liore-foreground);
+  font-size: var(--liore-font-size-control);
   line-height: 1.5;
   overflow-wrap: anywhere;
   cursor: default;
   user-select: none;
-  transition: background var(--vn-motion-hover) ease-out;
+  transition: background var(--liore-motion-hover) ease-out;
 }
 
 .v-dropdown-menu-item[data-highlighted]:not([data-disabled]) {
-  background: var(--vn-surface-hover);
+  background: var(--liore-surface-hover);
 }
 
 .v-dropdown-menu-item:focus-visible {
-  outline: 2px solid var(--vn-focus-ring);
+  outline: 2px solid var(--liore-focus-ring);
   outline-offset: -2px;
 }
 
 .v-dropdown-menu-item[data-disabled] {
-  color: var(--vn-muted-foreground);
+  color: var(--liore-muted-foreground);
   opacity: 0.55;
   cursor: not-allowed;
 }

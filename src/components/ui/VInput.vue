@@ -32,11 +32,11 @@ const value = computed({
   display: block;
   width: 100%;
   min-width: 0;
-  border: 1px solid var(--vn-border);
+  border: 1px solid var(--liore-border);
   border-radius: 6px;
-  background: var(--vn-surface);
-  color: var(--vn-foreground);
-  transition: border-color var(--vn-motion-hover) ease;
+  background: var(--liore-surface);
+  color: var(--liore-foreground);
+  transition: border-color var(--liore-motion-hover) ease;
 }
 .v-input--sm {
   height: 28px;
@@ -54,13 +54,13 @@ const value = computed({
   font-size: 14px;
 }
 .v-input::placeholder {
-  color: var(--vn-muted-foreground);
+  color: var(--liore-muted-foreground);
 }
 .v-input:hover:not(:disabled) {
-  border-color: var(--vn-muted-foreground);
+  border-color: var(--liore-muted-foreground);
 }
 .v-input[aria-invalid="true"] {
-  border-color: var(--vn-danger);
+  border-color: var(--liore-danger);
 }
 .v-input:disabled {
   opacity: 0.55;
