@@ -14,7 +14,7 @@ Liore 仓库启用 GitHub Template 后，在仓库页面选择 **Use this templa
 | `src-tauri/tauri.conf.json` | 修改 `productName`、`identifier`、`app.windows[0].title`；发布版本还需同步 `version`。当前标识符为 `com.lldsss.liore`，新应用须使用自己拥有的唯一标识符。 |
 | `index.html`                | 修改浏览器标签中的 `<title>Liore</title>`。                                                                                                               |
 
-Rust package 改名后检查 `src-tauri/Cargo.lock` 的本项目条目；更新锁文件时保留其他依赖版本。三个版本字段目前都是 `0.2.0`，以后发布时保持一致。
+Rust package 改名后检查 `src-tauri/Cargo.lock` 的本项目条目；更新锁文件时保留其他依赖版本。三个版本字段目前都是 `0.2.1`，以后发布时保持一致。
 
 ## 修改界面与托盘品牌
 
