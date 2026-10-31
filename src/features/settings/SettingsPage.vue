@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Check, Languages, Monitor, Moon, Sun } from "@lucide/vue";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import VButton from "../../components/ui/VButton.vue";
 import VSelect from "../../components/ui/VSelect.vue";
-import VDialog from "../../components/ui/dialog/VDialog.vue";
+import UpdateDialog, { type UpdateDialogState } from "./UpdateDialog.vue";
 import { selectLanguage, type Language } from "../../i18n";
 import {
   desktopUpdate,
@@ -38,6 +38,9 @@ const options = [
 ] as const;
 
 const { t, locale } = useI18n({ useScope: "global" });
+const UpdateDialogPreview = import.meta.env.DEV
+  ? defineAsyncComponent(() => import("./UpdateDialogPreview.vue"))
+  : null;
 const languageOptions = [
   { value: "en", label: "English", icon: Languages },
   { value: "zh-CN", label: "中文", icon: Languages },
@@ -48,19 +51,10 @@ const language = computed<Language>({
 });
 const group = ref<HTMLElement | null>(null);
 const applicationVersion = ref("—");
-type UpdateState =
-  | "idle"
-  | "checking"
-  | "up-to-date"
-  | "available"
-  | "downloading"
-  | "installing"
-  | "error"
-  | "unavailable";
-const updateState = ref<UpdateState>(desktopUpdate.available ? "idle" : "unavailable");
+const updateState = ref<UpdateDialogState>(desktopUpdate.available ? "idle" : "unavailable");
+const updateDialogIsOpen = ref(false);
 const availableVersion = ref("");
 const releaseNotes = ref<string | null>(null);
-const confirmInstallOpen = ref(false);
 const downloadedBytes = ref(0);
 const totalBytes = ref<number | null>(null);
 const errorMessageKey = ref<"settings.update.checkFailed" | "settings.update.installFailed">(
@@ -71,9 +65,24 @@ const downloadPercent = computed(() =>
     ? Math.min(100, Math.floor((downloadedBytes.value / totalBytes.value) * 100))
     : null,
 );
+const updateIsLocked = computed(() => ["downloading", "installing"].includes(updateState.value));
+const dialogOpen = computed({
+  get: () => updateDialogIsOpen.value,
+  set: (open: boolean) => {
+    if (open) {
+      updateDialogIsOpen.value = true;
+    } else if (!updateIsLocked.value) {
+      closeUpdateDialog();
+    }
+  },
+});
 let pendingUpdate: DesktopUpdate | null = null;
+// Wait for a discarded native Update to close before starting another check.
+let releaseTask: Promise<void> = Promise.resolve();
 let isActive = true;
 let isInstalling = false;
+let isChecking = false;
+let checkGeneration = 0;
 
 onMounted(() => {
   void getApplicationVersion().then((version) => {
@@ -86,37 +95,79 @@ onUnmounted(() => {
   if (!isInstalling) void releasePendingUpdate();
 });
 
-async function releasePendingUpdate(): Promise<void> {
-  const update = pendingUpdate;
-  pendingUpdate = null;
-  if (!update) return;
+function reportUpdateError(stage: "check" | "install" | "cleanup", error: unknown): void {
+  if (!import.meta.env.DEV) return;
+  const name = error instanceof Error ? error.name : typeof error;
+  const message = error instanceof Error ? error.message : String(error);
+  const safeMessage = `${name}: ${message}`
+    .replace(/https?:\/\/\S+/gi, "[URL]")
+    .replace(/\bbearer\s+\S+/gi, "Bearer [redacted]")
+    .replace(/\b(token|signature|sig|password|key)\s*[:=]\s*\S+/gi, "$1=[redacted]")
+    .replace(/[A-Za-z0-9+/]{48,}={0,2}/g, "[redacted data]");
+  console.error(`[updater] ${stage} failed: ${safeMessage}`);
+}
+
+async function closeUpdate(update: DesktopUpdate): Promise<void> {
   try {
     await update.close();
-  } catch {
-    // Resource cleanup is best effort after the update is no longer used.
+  } catch (error) {
+    reportUpdateError("cleanup", error);
   }
+}
+
+function releasePendingUpdate(): Promise<void> {
+  const update = pendingUpdate;
+  pendingUpdate = null;
+  if (update) releaseTask = releaseTask.then(() => closeUpdate(update));
+  return releaseTask;
+}
+
+function closeUpdateDialog(): void {
+  // Discard a pending check result even if the dialog is opened again before it settles.
+  if (isChecking) checkGeneration++;
+  updateDialogIsOpen.value = false;
+  updateState.value = desktopUpdate.available ? "idle" : "unavailable";
+  availableVersion.value = "";
+  releaseNotes.value = null;
+  void releasePendingUpdate();
+}
+
+function openUpdateDialog(): void {
+  if (!isActive || updateDialogIsOpen.value || isInstalling) return;
+  updateDialogIsOpen.value = true;
+  if (isChecking) {
+    updateState.value = "checking";
+    return;
+  }
+  if (desktopUpdate.available) void checkForUpdates();
+}
+
+function restoreUpdateFocus(event: Event): void {
+  event.preventDefault();
+  document.querySelector<HTMLButtonElement>("#settings-check-update")?.focus();
 }
 
 async function checkForUpdates(): Promise<void> {
   if (
     !isActive ||
+    !updateDialogIsOpen.value ||
     !desktopUpdate.available ||
+    isChecking ||
+    isInstalling ||
     pendingUpdate ||
-    !["idle", "up-to-date", "error"].includes(updateState.value)
+    !["idle", "error"].includes(updateState.value)
   )
     return;
 
+  isChecking = true;
+  const generation = checkGeneration;
   updateState.value = "checking";
   try {
+    await releaseTask;
+    if (!isActive || !updateDialogIsOpen.value || generation !== checkGeneration) return;
     const update = await desktopUpdate.check();
-    if (!isActive) {
-      if (update) {
-        try {
-          await update.close();
-        } catch {
-          // The page has already been removed; there is no state to update.
-        }
-      }
+    if (!isActive || !updateDialogIsOpen.value || generation !== checkGeneration) {
+      if (update) await closeUpdate(update);
       return;
     }
     if (!update) {
@@ -125,18 +176,26 @@ async function checkForUpdates(): Promise<void> {
     }
     pendingUpdate = update;
     availableVersion.value = update.version;
-    releaseNotes.value = update.notes;
+    releaseNotes.value = update.notes?.trim() || null;
     updateState.value = "available";
-  } catch {
+  } catch (error) {
+    reportUpdateError("check", error);
     await releasePendingUpdate();
-    if (!isActive) return;
+    if (!isActive || !updateDialogIsOpen.value || generation !== checkGeneration) return;
     errorMessageKey.value = "settings.update.checkFailed";
     updateState.value = "error";
+  } finally {
+    isChecking = false;
+    if (isActive && updateDialogIsOpen.value && generation !== checkGeneration) {
+      updateState.value = "idle";
+      void checkForUpdates();
+    }
   }
 }
 
 function onDownloadProgress(progress: DesktopUpdateProgress): void {
-  if (!isActive) return;
+  if (!isActive || !isInstalling || !["downloading", "installing"].includes(updateState.value))
+    return;
   switch (progress.event) {
     case "started":
       totalBytes.value = progress.totalBytes;
@@ -153,7 +212,6 @@ function onDownloadProgress(progress: DesktopUpdateProgress): void {
 
 async function installUpdate(): Promise<void> {
   if (!isActive || isInstalling || updateState.value !== "available" || !pendingUpdate) return;
-  confirmInstallOpen.value = false;
   isInstalling = true;
   downloadedBytes.value = 0;
   totalBytes.value = null;
@@ -162,11 +220,12 @@ async function installUpdate(): Promise<void> {
   try {
     await pendingUpdate.downloadAndInstall(onDownloadProgress);
     if (isActive) updateState.value = "installing";
-  } catch {
+  } catch (error) {
+    reportUpdateError("install", error);
     failed = true;
   } finally {
-    isInstalling = false;
     await releasePendingUpdate();
+    isInstalling = false;
     if (isActive && failed) {
       errorMessageKey.value = "settings.update.installFailed";
       updateState.value = "error";
@@ -241,81 +300,29 @@ function onChange(event: Event, value: ThemePreference): void {
           <dd class="version-controls">
             <span>{{ applicationVersion }}</span>
             <VButton
-              v-if="['idle', 'checking', 'up-to-date'].includes(updateState)"
+              id="settings-check-update"
               size="sm"
               variant="outline"
-              :loading="updateState === 'checking'"
-              @click="checkForUpdates"
+              :disabled="updateIsLocked"
+              @click="openUpdateDialog"
               >{{ t("settings.update.check") }}</VButton
             >
           </dd>
         </div>
-        <div v-if="updateState !== 'idle'" class="about-update">
-          <dt class="sr-only">{{ t("settings.update.status") }}</dt>
-          <dd>
-            <p v-if="updateState === 'unavailable'" role="status" class="update-message">
-              {{ t("settings.update.unavailable") }}
-            </p>
-            <p v-else-if="updateState === 'checking'" role="status" class="update-message">
-              {{ t("settings.update.checking") }}
-            </p>
-            <p v-else-if="updateState === 'up-to-date'" role="status" class="update-message">
-              {{ t("settings.update.upToDate") }}
-            </p>
-            <div v-else-if="updateState === 'available'" class="update-details">
-              <p class="update-version" role="status">
-                {{ t("settings.update.available", { version: availableVersion }) }}
-              </p>
-              <p class="update-notes-label">{{ t("settings.update.notes") }}</p>
-              <p class="update-notes">
-                {{ releaseNotes?.trim() || t("settings.update.noNotes") }}
-              </p>
-              <VDialog
-                v-model:open="confirmInstallOpen"
-                :title="t('settings.update.confirmTitle', { version: availableVersion })"
-                :description="t('settings.update.confirmDescription')"
-              >
-                <template #trigger>
-                  <VButton size="sm">{{ t("settings.update.downloadInstall") }}</VButton>
-                </template>
-                <p>{{ t("settings.update.confirmExit") }}</p>
-                <template #footer="{ close }">
-                  <VButton size="sm" variant="outline" @click="close">
-                    {{ t("settings.update.cancel") }}
-                  </VButton>
-                  <VButton size="sm" @click="installUpdate">
-                    {{ t("settings.update.downloadInstall") }}
-                  </VButton>
-                </template>
-              </VDialog>
-            </div>
-            <div v-else-if="updateState === 'downloading'" class="update-details">
-              <p role="status" class="update-message">
-                {{ t("settings.update.downloading") }}
-                <span v-if="downloadPercent !== null" aria-hidden="true"
-                  >{{ downloadPercent }}%</span
-                >
-              </p>
-              <progress
-                class="update-progress"
-                :value="downloadPercent ?? undefined"
-                max="100"
-                :aria-label="t('settings.update.progressLabel')"
-              ></progress>
-            </div>
-            <p v-else-if="updateState === 'installing'" role="status" class="update-message">
-              {{ t("settings.update.installing") }}
-            </p>
-            <div v-else-if="updateState === 'error'" class="update-details">
-              <p role="alert" class="update-message">{{ t(errorMessageKey) }}</p>
-              <VButton size="sm" variant="outline" @click="checkForUpdates">
-                {{ t("settings.update.retry") }}
-              </VButton>
-            </div>
-          </dd>
-        </div>
+        <UpdateDialogPreview v-if="UpdateDialogPreview" />
       </dl>
     </section>
+    <UpdateDialog
+      v-model:open="dialogOpen"
+      :state="updateState"
+      :version="availableVersion"
+      :notes="releaseNotes"
+      :download-percent="downloadPercent"
+      :error-message-key="errorMessageKey"
+      @close-auto-focus="restoreUpdateFocus"
+      @download-install="installUpdate"
+      @retry="checkForUpdates"
+    />
   </div>
 </template>
 
@@ -346,43 +353,9 @@ function onChange(event: Event, value: ThemePreference): void {
 }
 .version-controls {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: var(--liore-space-2);
-}
-.about-update {
-  min-width: 0;
-  padding: 14px 16px;
-  border-top: 1px solid var(--liore-border);
-  font-size: 13px;
-}
-.update-details {
-  display: grid;
-  justify-items: start;
-  gap: var(--liore-space-2);
-}
-.update-message,
-.update-notes {
-  color: var(--liore-secondary-foreground);
-  line-height: 1.5;
-}
-.update-version {
-  font-weight: 600;
-}
-.update-notes-label {
-  color: var(--liore-foreground);
-  font-weight: 500;
-}
-.update-notes {
-  min-width: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.update-progress {
-  width: 100%;
-  height: 6px;
-  accent-color: var(--liore-primary);
 }
 .theme-options {
   display: grid;
