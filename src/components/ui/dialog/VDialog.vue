@@ -142,8 +142,8 @@ const descriptionAttrs = computed(() =>
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .v-dialog,
-  .v-dialog-overlay {
+  .v-dialog[data-state],
+  .v-dialog-overlay[data-state] {
     animation: none;
   }
 }

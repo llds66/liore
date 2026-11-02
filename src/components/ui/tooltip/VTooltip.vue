@@ -99,7 +99,8 @@ const TooltipDisabledSync = defineComponent({
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-tooltip {
+  .v-tooltip,
+  .v-tooltip[data-state="closed"] {
     animation: none;
   }
 }

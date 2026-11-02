@@ -28,7 +28,7 @@ const value = computed({
 <template>
   <input
     v-model="value"
-    class="block w-full min-w-0 rounded-control border border-border bg-surface text-foreground transition-[border-color] duration-(--liore-motion-hover) ease-[ease] placeholder:text-muted-foreground [&:hover:not(:disabled)]:border-muted-foreground aria-invalid=true:border-danger disabled:cursor-not-allowed disabled:opacity-55 motion-reduce:transition-none"
+    class="block w-full min-w-0 rounded-control border border-border bg-surface text-foreground transition-[border-color] duration-(--liore-motion-hover) ease-[ease] placeholder:text-muted-foreground [&:hover:not(:disabled):not([aria-invalid=true])]:border-muted-foreground aria-invalid:border-danger disabled:cursor-not-allowed disabled:opacity-55 motion-reduce:transition-none"
     :class="sizeClasses[size]"
     :disabled="disabled"
     :aria-invalid="invalid || undefined"
