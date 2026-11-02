@@ -22,62 +22,12 @@
   -webkit-user-select: none;
   user-select: none;
 }
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  height: var(--shell-header-height);
-  flex: none;
-  overflow: hidden;
-  padding: 0 12px;
-}
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  gap: 8px;
-  min-width: 0;
-  margin-left: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.sidebar-brand-logo {
-  flex: none;
-  width: 24px;
-  height: 24px;
-}
-.sidebar-toggle {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  color: var(--liore-secondary-foreground);
-}
 .sidebar-toggle:hover,
 .profile-trigger:hover,
 .sidebar-link:hover {
   background: var(--liore-surface-hover);
 }
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-  padding: 20px 12px 8px;
-}
 .sidebar-link {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  border-radius: 6px;
-  color: var(--liore-secondary-foreground);
-  overflow: hidden;
-  white-space: nowrap;
   transition: background var(--liore-motion-hover) ease;
 }
 .sidebar-link.is-active {
@@ -85,7 +35,6 @@
   color: var(--liore-foreground);
 }
 .sidebar-icon {
-  flex: none;
   margin: 0 11px;
 }
 .sidebar-label,
@@ -106,36 +55,21 @@
 .profile-trigger {
   display: flex;
   align-items: center;
-  flex: none;
   width: calc(100% - 24px);
   height: 40px;
   margin: 12px;
   border-radius: 6px;
-  overflow: hidden;
-  text-align: left;
   transition: background var(--liore-motion-hover) ease;
 }
 .profile-avatar {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 25px;
-  height: 25px;
   margin-left: 4px;
-  border-radius: 50%;
-  background: var(--liore-surface-active);
-  color: var(--liore-foreground);
 }
 .profile-name {
   margin-left: 10px;
-  font-size: 14px;
-  font-weight: 500;
 }
 .profile-chevron {
-  flex: none;
   margin-left: auto;
   margin-right: 10px;
-  color: var(--liore-muted-foreground);
 }
 .sidebar.is-collapsed .profile-trigger {
   display: grid;

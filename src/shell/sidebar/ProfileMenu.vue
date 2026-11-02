@@ -18,10 +18,22 @@ const { t } = useI18n();
 <template>
   <DropdownMenuRoot>
     <DropdownMenuTrigger as-child>
-      <button type="button" class="profile-trigger" :aria-label="t('shell.profileMenu')">
-        <span class="profile-avatar" aria-hidden="true"><UserRound :size="18" /></span>
-        <span class="profile-name" :aria-hidden="collapsed">username</span>
-        <ChevronDown :size="16" class="profile-chevron" aria-hidden="true" />
+      <button
+        type="button"
+        class="profile-trigger flex-none overflow-hidden text-left"
+        :aria-label="t('shell.profileMenu')"
+      >
+        <span
+          class="profile-avatar grid size-[25px] flex-none place-items-center rounded-full bg-surface-active text-foreground"
+          aria-hidden="true"
+          ><UserRound :size="18"
+        /></span>
+        <span class="profile-name text-[14px] font-medium" :aria-hidden="collapsed">username</span>
+        <ChevronDown
+          :size="16"
+          class="profile-chevron flex-none text-muted-foreground"
+          aria-hidden="true"
+        />
       </button>
     </DropdownMenuTrigger>
     <DropdownMenuPortal>
