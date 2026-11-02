@@ -27,39 +27,39 @@ body,
 
 /* Limit native scrollbar styling to the shell's two scroll containers. */
 @media (forced-colors: none) {
-  .app-shell > div > main,
+  .content-area,
   .sidebar-nav {
     scrollbar-width: auto;
     scrollbar-color: auto;
     --liore-scrollbar-current: var(--liore-scrollbar-thumb-idle);
   }
-  .app-shell > div > main:hover,
-  .app-shell > div > main:focus-within,
+  .content-area:hover,
+  .content-area:focus-within,
   .sidebar-nav:hover,
   .sidebar-nav:focus-within {
     --liore-scrollbar-current: var(--liore-scrollbar-thumb);
   }
-  .app-shell > div > main::-webkit-scrollbar,
+  .content-area::-webkit-scrollbar,
   .sidebar-nav::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  .app-shell > div > main::-webkit-scrollbar-track,
+  .content-area::-webkit-scrollbar-track,
   .sidebar-nav::-webkit-scrollbar-track {
     background: transparent;
   }
-  .app-shell > div > main::-webkit-scrollbar-thumb,
+  .content-area::-webkit-scrollbar-thumb,
   .sidebar-nav::-webkit-scrollbar-thumb {
     background: var(--liore-scrollbar-current);
     border-radius: 999px;
   }
-  .app-shell > div > main::-webkit-scrollbar-thumb:hover,
-  .app-shell > div > main::-webkit-scrollbar-thumb:active,
+  .content-area::-webkit-scrollbar-thumb:hover,
+  .content-area::-webkit-scrollbar-thumb:active,
   .sidebar-nav::-webkit-scrollbar-thumb:hover,
   .sidebar-nav::-webkit-scrollbar-thumb:active {
     background: var(--liore-scrollbar-thumb-hover);
   }
-  .app-shell > div > main::-webkit-scrollbar-button,
+  .content-area::-webkit-scrollbar-button,
   .sidebar-nav::-webkit-scrollbar-button {
     display: none;
   }

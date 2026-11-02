@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PageContainer from "../../components/layout/PageContainer.vue";
 import { ArrowUpRight, Settings, Shapes } from "@lucide/vue";
 import { useI18n } from "vue-i18n";
 
@@ -7,7 +6,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <PageContainer>
+  <div>
     <header>
       <h1 class="text-[26.25px] leading-[1.2] font-semibold tracking-tight">
         {{ t("overview.greeting") }}
@@ -61,5 +60,5 @@ const { t } = useI18n();
         </li>
       </ul>
     </section>
-  </PageContainer>
+  </div>
 </template>

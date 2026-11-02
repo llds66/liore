@@ -18,8 +18,8 @@ Rust package 改名后检查 `src-tauri/Cargo.lock` 的本项目条目；更新�
 
 ## 修改界面与托盘品牌
 
-- `src/shell/sidebar/AppSidebar.vue` 中的 `Liore` 是展开态品牌文字；`src/features/settings/SettingsPage.vue` 的 About 卡片另有 `Liore` 应用名。
-- `src-tauri/src/tray.rs` 包含中英文 Show/Quit 菜单文案、托盘 Tooltip、内部托盘 ID 及日志文字；`src-tauri/src/lib.rs` 也有 Liore 日志文字。改名时逐项检查。`src/shell/sidebar/ProfileMenu.vue` 的 `username` 和 `UserRound` 是中性演示资料，可按应用需要替换。
+- `src/layouts/components/Sidebar.vue` 中的 `Liore` 是展开态品牌文字；`src/features/settings/SettingsPage.vue` 的 About 卡片另有 `Liore` 应用名。
+- `src-tauri/src/tray.rs` 包含中英文 Show/Quit 菜单文案、托盘 Tooltip、内部托盘 ID 及日志文字；`src-tauri/src/lib.rs` 也有 Liore 日志文字。改名时逐项检查。`src/layouts/components/ProfileMenu.vue` 的 `username` 和 `UserRound` 是中性演示资料，可按应用需要替换。
 - `README.md` 的项目名称、横幅及说明也应改为新应用的信息。Graphite 的 `--liore-*` CSS 变量是内部设计系统命名空间，无须为了更换显示名称而立即重命名。
 
 ## 替换图标
@@ -32,7 +32,7 @@ pnpm exec tauri icon app-icon.png
 
 命令默认将图标生成到 `src-tauri/icons/`。检查其中的 `icon.ico`、各尺寸 PNG 和 Windows Logo 文件；保留 `src-tauri/tauri.conf.json` 的 `bundle.icon` 引用的资源。托盘在 `src-tauri/src/tray.rs` 使用应用默认窗口图标，无需另配一张图。
 
-Sidebar 品牌图形与安装图标分开：分别替换 `public/liore-symbol-dark.svg` 和 `public/liore-symbol-light.svg`，保持文件名即可沿用 `AppSidebar.vue` 中基于实际 Light / Dark 主题的切换逻辑。
+Sidebar 品牌图形与安装图标分开：分别替换 `public/liore-symbol-dark.svg` 和 `public/liore-symbol-light.svg`，保持文件名即可沿用 `Sidebar.vue` 中基于实际 Light / Dark 主题的切换逻辑。
 
 ## 配置自己的应用更新
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PageContainer from "../../components/layout/PageContainer.vue";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ChevronDown, Copy, Pencil } from "@lucide/vue";
@@ -42,7 +41,7 @@ const sideKeys = {
 </script>
 
 <template>
-  <PageContainer class="flex flex-col gap-10">
+  <div class="flex flex-col gap-10">
     <h1 class="sr-only">{{ t("nav.components") }}</h1>
 
     <section class="grid gap-4" aria-labelledby="button-heading">
@@ -372,5 +371,5 @@ const sideKeys = {
         </p>
       </div>
     </section>
-  </PageContainer>
+  </div>
 </template>

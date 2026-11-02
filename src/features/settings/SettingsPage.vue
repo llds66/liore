@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PageContainer from "../../components/layout/PageContainer.vue";
 import { Check, Languages, Monitor, Moon, Sun } from "@lucide/vue";
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -251,7 +250,7 @@ function onChange(event: Event, value: ThemePreference): void {
 </script>
 
 <template>
-  <PageContainer class="flex flex-col gap-10">
+  <div class="flex flex-col gap-10">
     <h1 class="sr-only">{{ t("nav.settings") }}</h1>
     <section class="grid gap-4" aria-labelledby="appearance-heading">
       <h2 id="appearance-heading" class="text-base leading-[1.4] font-semibold text-foreground">
@@ -343,7 +342,7 @@ function onChange(event: Event, value: ThemePreference): void {
       @download-install="installUpdate"
       @retry="checkForUpdates"
     />
-  </PageContainer>
+  </div>
 </template>
 
 <style scoped>
