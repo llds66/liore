@@ -25,25 +25,6 @@ body,
   outline-offset: 2px;
 }
 
-.page-sections {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.page-section {
-  display: grid;
-  gap: var(--liore-space-4);
-}
-
-.page-section > h2,
-.overview-heading {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--liore-foreground);
-}
-
 /* Limit native scrollbar styling to the shell's two scroll containers. */
 @media (forced-colors: none) {
   .app-shell > div > main,

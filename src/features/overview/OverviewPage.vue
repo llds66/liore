@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PageContainer from "../../components/layout/PageContainer.vue";
 import { ArrowUpRight, Settings, Shapes } from "@lucide/vue";
 import { useI18n } from "vue-i18n";
 
@@ -6,106 +7,59 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="overview mx-auto w-full max-w-210 px-[21px] py-[35px] sm:px-[35px]">
+  <PageContainer>
     <header>
       <h1 class="text-[26.25px] leading-[1.2] font-semibold tracking-tight">
         {{ t("overview.greeting") }}
       </h1>
     </header>
 
-    <section class="overview-section" aria-labelledby="explore-heading">
-      <h2 id="explore-heading" class="overview-heading">{{ t("overview.explore") }}</h2>
-      <div class="explore-grid">
-        <RouterLink to="/components" class="explore-link">
-          <Shapes :size="20" aria-hidden="true" class="explore-icon" />
-          <div class="explore-copy">
-            <h3>{{ t("overview.uiComponents") }}</h3>
+    <section class="mt-10" aria-labelledby="explore-heading">
+      <h2 id="explore-heading" class="mb-4 text-base leading-[1.4] font-semibold text-foreground">
+        {{ t("overview.explore") }}
+      </h2>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-3">
+        <RouterLink
+          to="/components"
+          class="flex min-w-0 items-center gap-4 rounded-popover border border-border bg-surface px-5 py-4 transition-[background,border-color] duration-(--liore-motion-hover) ease-[ease] [&:hover]:border-[color-mix(in_srgb,var(--liore-border)_70%,var(--liore-muted-foreground))] [&:hover]:bg-surface-hover motion-reduce:transition-none"
+        >
+          <Shapes :size="20" aria-hidden="true" class="flex-none text-secondary-foreground" />
+          <div class="min-w-0 flex-1">
+            <h3 class="text-control font-semibold">{{ t("overview.uiComponents") }}</h3>
           </div>
-          <ArrowUpRight :size="16" aria-hidden="true" class="explore-arrow" />
+          <ArrowUpRight :size="16" aria-hidden="true" class="flex-none text-secondary-foreground" />
         </RouterLink>
-        <RouterLink to="/settings" class="explore-link">
-          <Settings :size="20" aria-hidden="true" class="explore-icon" />
-          <div class="explore-copy">
-            <h3>{{ t("nav.settings") }}</h3>
+        <RouterLink
+          to="/settings"
+          class="flex min-w-0 items-center gap-4 rounded-popover border border-border bg-surface px-5 py-4 transition-[background,border-color] duration-(--liore-motion-hover) ease-[ease] [&:hover]:border-[color-mix(in_srgb,var(--liore-border)_70%,var(--liore-muted-foreground))] [&:hover]:bg-surface-hover motion-reduce:transition-none"
+        >
+          <Settings :size="20" aria-hidden="true" class="flex-none text-secondary-foreground" />
+          <div class="min-w-0 flex-1">
+            <h3 class="text-control font-semibold">{{ t("nav.settings") }}</h3>
           </div>
-          <ArrowUpRight :size="16" aria-hidden="true" class="explore-arrow" />
+          <ArrowUpRight :size="16" aria-hidden="true" class="flex-none text-secondary-foreground" />
         </RouterLink>
       </div>
     </section>
 
-    <section class="overview-section" aria-labelledby="principles-heading">
-      <h2 id="principles-heading" class="overview-heading">{{ t("overview.designPrinciples") }}</h2>
-      <ul class="principles">
+    <section class="mt-10" aria-labelledby="principles-heading">
+      <h2
+        id="principles-heading"
+        class="mb-4 text-base leading-[1.4] font-semibold text-foreground"
+      >
+        {{ t("overview.designPrinciples") }}
+      </h2>
+      <ul class="border-t border-border [&>li]:border-b [&>li]:border-border [&>li]:py-3">
         <li>
-          <h3>{{ t("overview.quiet") }}</h3>
+          <h3 class="text-control font-semibold">{{ t("overview.quiet") }}</h3>
         </li>
         <li>
-          <h3>{{ t("overview.fast") }}</h3>
+          <h3 class="text-control font-semibold">{{ t("overview.fast") }}</h3>
         </li>
         <li>
-          <h3>{{ t("overview.desktop") }}</h3>
+          <h3 class="text-control font-semibold">{{ t("overview.desktop") }}</h3>
         </li>
       </ul>
     </section>
-  </div>
+  </PageContainer>
 </template>
-
-<style scoped>
-.overview {
-  padding-bottom: 64px;
-}
-.overview-section {
-  margin-top: 40px;
-}
-.overview-heading {
-  margin-bottom: 16px;
-}
-.explore-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  gap: 12px;
-}
-.explore-link {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-width: 0;
-  padding: 16px 20px;
-  border: 1px solid var(--liore-border);
-  border-radius: 10px;
-  background: var(--liore-surface);
-  transition:
-    background var(--liore-motion-hover) ease,
-    border-color var(--liore-motion-hover) ease;
-}
-.explore-link:hover {
-  border-color: color-mix(in srgb, var(--liore-border) 70%, var(--liore-muted-foreground));
-  background: var(--liore-surface-hover);
-}
-.explore-icon,
-.explore-arrow {
-  flex: none;
-  color: var(--liore-secondary-foreground);
-}
-.explore-copy {
-  flex: 1;
-  min-width: 0;
-}
-.explore-copy h3,
-.principles h3 {
-  font-size: 13px;
-  font-weight: 600;
-}
-.principles {
-  border-top: 1px solid var(--liore-border);
-}
-.principles li {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--liore-border);
-}
-@media (prefers-reduced-motion: reduce) {
-  .explore-link {
-    transition: none;
-  }
-}
-</style>

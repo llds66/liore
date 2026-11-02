@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PageContainer from "../../components/layout/PageContainer.vue";
 import { Check, Languages, Monitor, Moon, Sun } from "@lucide/vue";
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -250,33 +251,44 @@ function onChange(event: Event, value: ThemePreference): void {
 </script>
 
 <template>
-  <div
-    class="settings-page page-sections mx-auto w-full max-w-210 px-[21px] py-[35px] sm:px-[35px]"
-  >
+  <PageContainer class="flex flex-col gap-10">
     <h1 class="sr-only">{{ t("nav.settings") }}</h1>
-    <section class="page-section appearance" aria-labelledby="appearance-heading">
-      <h2 id="appearance-heading">{{ t("settings.appearance") }}</h2>
-      <div ref="group" class="theme-options" role="radiogroup" aria-labelledby="appearance-heading">
+    <section class="grid gap-4" aria-labelledby="appearance-heading">
+      <h2 id="appearance-heading" class="text-base leading-[1.4] font-semibold text-foreground">
+        {{ t("settings.appearance") }}
+      </h2>
+      <div
+        ref="group"
+        class="grid grid-cols-3 gap-2.5"
+        role="radiogroup"
+        aria-labelledby="appearance-heading"
+      >
         <label
           v-for="option in options"
           :key="option.value"
-          class="theme-card"
+          class="theme-card relative flex min-h-13 min-w-0 cursor-pointer items-center gap-2.5 rounded-popover border border-border bg-surface px-3 py-2.5 transition-[background,border-color] duration-(--liore-motion-hover) ease-[ease] motion-reduce:transition-none"
           :class="{ 'is-selected': themePreference === option.value }"
         >
           <input
+            class="absolute inset-0 h-full w-full cursor-[inherit] opacity-0"
             type="radio"
             name="theme"
             :value="option.value"
             :checked="themePreference === option.value"
             @change="onChange($event, option.value)"
           />
-          <component :is="option.icon" :size="20" aria-hidden="true" class="theme-icon" />
-          <span class="theme-copy">
-            <span class="theme-title">{{ t(option.titleKey) }}</span>
+          <component
+            :is="option.icon"
+            :size="20"
+            aria-hidden="true"
+            class="flex-none text-secondary-foreground"
+          />
+          <span class="min-w-0 flex-1">
+            <span class="block text-[14px] font-semibold">{{ t(option.titleKey) }}</span>
           </span>
           <span
-            class="theme-check"
-            :class="{ 'is-visible': themePreference === option.value }"
+            class="grid size-6.5 flex-none place-items-center rounded-full border border-border bg-surface text-primary"
+            :class="themePreference === option.value ? 'visible' : 'invisible'"
             aria-hidden="true"
           >
             <Check :size="15" />
@@ -284,22 +296,28 @@ function onChange(event: Event, value: ThemePreference): void {
         </label>
       </div>
     </section>
-    <section class="page-section language" aria-labelledby="language-heading">
-      <h2 id="language-heading">{{ t("settings.language") }}</h2>
+    <section class="grid gap-4" aria-labelledby="language-heading">
+      <h2 id="language-heading" class="text-base leading-[1.4] font-semibold text-foreground">
+        {{ t("settings.language") }}
+      </h2>
       <div class="language-control">
         <VSelect v-model="language" :options="languageOptions" aria-labelledby="language-heading" />
       </div>
     </section>
-    <section class="page-section about" aria-labelledby="about-heading">
-      <h2 id="about-heading">{{ t("settings.about") }}</h2>
-      <dl class="about-list">
-        <div class="about-row">
-          <dt>{{ t("settings.application") }}</dt>
-          <dd>Liore</dd>
+    <section class="grid gap-4" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="text-base leading-[1.4] font-semibold text-foreground">
+        {{ t("settings.about") }}
+      </h2>
+      <dl class="overflow-hidden rounded-popover border border-border bg-surface">
+        <div class="flex justify-between gap-4 px-4 py-3.5 text-control">
+          <dt class="text-secondary-foreground">{{ t("settings.application") }}</dt>
+          <dd class="min-w-0 text-right wrap-anywhere">Liore</dd>
         </div>
-        <div class="about-row">
-          <dt>{{ t("settings.version") }}</dt>
-          <dd class="version-controls">
+        <div class="flex justify-between gap-4 border-t border-border px-4 py-3.5 text-control">
+          <dt class="text-secondary-foreground">{{ t("settings.version") }}</dt>
+          <dd
+            class="flex min-w-0 items-center justify-end gap-(--liore-space-2) text-right wrap-anywhere"
+          >
             <span>{{ applicationVersion }}</span>
             <VButton
               id="settings-check-update"
@@ -325,61 +343,10 @@ function onChange(event: Event, value: ThemePreference): void {
       @download-install="installUpdate"
       @retry="checkForUpdates"
     />
-  </div>
+  </PageContainer>
 </template>
 
 <style scoped>
-.about-list {
-  overflow: hidden;
-  border: 1px solid var(--liore-border);
-  border-radius: var(--liore-radius-popover);
-  background: var(--liore-surface);
-}
-.about-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
-  font-size: 13px;
-}
-.about-row + .about-row {
-  border-top: 1px solid var(--liore-border);
-}
-.about-row dt {
-  color: var(--liore-secondary-foreground);
-}
-.about-row dd {
-  min-width: 0;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-.version-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--liore-space-2);
-}
-.theme-options {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-.theme-card {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  min-height: 52px;
-  padding: 10px 12px;
-  border: 1px solid var(--liore-border);
-  border-radius: 10px;
-  background: var(--liore-surface);
-  cursor: pointer;
-  transition:
-    background var(--liore-motion-hover) ease,
-    border-color var(--liore-motion-hover) ease;
-}
 .theme-card:not(.is-selected):hover {
   border-color: color-mix(in srgb, var(--liore-border) 70%, var(--liore-muted-foreground));
   background: var(--liore-surface-hover);
@@ -394,46 +361,5 @@ function onChange(event: Event, value: ThemePreference): void {
 .theme-card:has(input:focus-visible) {
   outline: 2px solid var(--liore-focus-ring);
   outline-offset: 2px;
-}
-.theme-card input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  opacity: 0;
-  cursor: inherit;
-}
-.theme-icon {
-  flex: none;
-  color: var(--liore-secondary-foreground);
-}
-.theme-copy {
-  flex: 1;
-  min-width: 0;
-}
-.theme-title {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-}
-.theme-check {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--liore-border);
-  border-radius: 50%;
-  background: var(--liore-surface);
-  color: var(--liore-primary);
-  visibility: hidden;
-}
-.theme-check.is-visible {
-  visibility: visible;
-}
-@media (prefers-reduced-motion: reduce) {
-  .theme-card {
-    transition: none;
-  }
 }
 </style>
