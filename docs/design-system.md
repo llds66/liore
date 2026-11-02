@@ -76,7 +76,7 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 - `src/layouts/components/ContentArea.vue` 是主内容的独立滚动 `<main>`，保留 `.content-area` 标识；不要把页面包装器变成第二个 `<main>`。
 - `src/layouts/components/PageContainer.vue` 为普通页面提供居中、`max-w-210`（840px）和留白：水平 20px、`sm` 起 36px，顶部 36px、底部 64px。DefaultLayout 统一包装嵌套路由页面，页面内部 Flex / Grid / Gap 自行管理；MinimalLayout 不默认包装。
 - Sidebar 展开宽度与 flex-basis 为 248px，折叠均为 64px。常规视觉可用 Utility；宽度过渡、跨组件显隐和 Portal 状态保留 CSS。
-- Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回按钮位于标题左侧；Sidebar 折叠时仅保留图标和头像，Settings 从 ProfileMenu 进入。
+- Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回或 Sidebar 切换按钮位于标题左侧；Sidebar 折叠时保留居中的 Logo、导航图标和头像，Settings 从 ProfileMenu 进入。
 - Titlebar 和 Sidebar Header 的指定区域通过鼠标事件与 Desktop Window Service 拖拽和双击最大化／还原；当前不使用 `data-tauri-drag-region`。不要把平台调用移入 UI 基础组件。
 
 ## 7. 交互状态、动效与无障碍

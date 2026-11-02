@@ -22,7 +22,6 @@
   -webkit-user-select: none;
   user-select: none;
 }
-.sidebar-toggle:hover,
 .profile-trigger:hover,
 .sidebar-link:hover {
   background: var(--liore-surface-hover);
@@ -43,8 +42,13 @@
   transition: opacity var(--liore-motion-hover) ease;
   white-space: nowrap;
 }
-.sidebar.is-collapsed .sidebar-brand {
-  display: none;
+.sidebar-brand-name {
+  opacity: 1;
+  transition: opacity var(--liore-motion-hover) ease;
+}
+.sidebar.is-collapsed .sidebar-brand-name {
+  opacity: 0;
+  visibility: hidden;
 }
 .sidebar.is-collapsed .sidebar-label,
 .sidebar.is-collapsed .profile-name,
@@ -129,6 +133,7 @@
   .sidebar,
   .sidebar-link,
   .sidebar-label,
+  .sidebar-brand-name,
   .profile-name,
   .profile-trigger {
     transition: none;

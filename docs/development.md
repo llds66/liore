@@ -23,9 +23,9 @@ Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScri
 
 DefaultLayout 作为嵌套路由的父布局，保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`，其内的 PageContainer 统一包装页面。MinimalLayout 不默认包装 PageContainer，`/minimal` 提供可移除的布局预览。导航由路由元数据生成，Settings 通过 ProfileMenu 进入。
 
-Sidebar 展开显示品牌、图标和文字，折叠只显示图标与头像；切换按钮始终在 Sidebar 顶部。折叠偏好持久化，`Ctrl+B` 在普通上下文切换，输入控件、Dialog 和菜单等上下文除外。
+Sidebar 展开显示 Logo、品牌文字、图标和导航文字，折叠显示居中的 Logo、图标与头像；切换按钮位于 DefaultLayout 的 Titlebar。折叠偏好持久化，`Ctrl+B` 在普通上下文切换，输入控件、Dialog 和菜单等上下文除外。
 
-Titlebar 显示当前页面标题，并可通过 `showBack` 显示返回按钮；MinimalLayout 启用该按钮，DefaultLayout 默认不显示。返回优先使用有效的应用内路由历史，无可用记录时回到 Overview。窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
+Titlebar 显示当前页面标题，并可选择显示返回按钮或 Sidebar 切换按钮；MinimalLayout 显示返回按钮，DefaultLayout 显示 Sidebar 切换按钮。返回优先使用有效的应用内路由历史，无可用记录时回到 Overview。窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
 
 原生窗口默认 1100 × 720，最小 800 × 560；窗口状态插件保存尺寸、位置及最大化状态。关闭请求在托盘可用且隐藏成功时隐藏窗口；托盘恢复、退出和单实例行为由原生层管理。修改这些流程须在 Windows 实机复核，浏览器预览不能证明原生行为。
 
