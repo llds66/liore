@@ -1,9 +1,27 @@
 const sidebarKey = "liore.sidebar.collapsed";
+const sidebarAppearanceKey = "liore.sidebar.appearance";
 const themeKey = "liore.theme.preference";
 const languageKey = "liore.language.preference";
 
 export type ThemePreference = "light" | "dark" | "system";
 export type Language = "en" | "zh-CN";
+export type SidebarAppearance = "classic" | "floating";
+
+export function readSidebarAppearance(): SidebarAppearance {
+  try {
+    return localStorage.getItem(sidebarAppearanceKey) === "floating" ? "floating" : "classic";
+  } catch {
+    return "classic";
+  }
+}
+
+export function writeSidebarAppearance(appearance: SidebarAppearance): void {
+  try {
+    localStorage.setItem(sidebarAppearanceKey, appearance);
+  } catch {
+    // Keep the current session usable if storage is unavailable.
+  }
+}
 
 export function readLanguagePreference(): Language {
   try {

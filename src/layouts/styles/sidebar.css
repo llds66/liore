@@ -1,18 +1,11 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  flex: 0 0 248px;
+  flex: 1 1 auto;
   min-height: 0;
-  width: 248px;
-  border-right: 1px solid var(--liore-border);
+  min-width: 0;
+  width: 100%;
   background: var(--liore-sidebar);
-  transition:
-    width var(--liore-motion-sidebar) ease,
-    flex-basis var(--liore-motion-sidebar) ease;
-}
-.sidebar.is-collapsed {
-  width: 64px;
-  flex-basis: 64px;
 }
 .sidebar-header,
 .sidebar-nav,
