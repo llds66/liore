@@ -142,4 +142,4 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
   </aside>
 </template>
 
-<style src="./sidebar.css"></style>
+<style src="../styles/sidebar.css"></style>

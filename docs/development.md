@@ -6,8 +6,8 @@ Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScri
 
 ## 代码组织与依赖边界
 
-- `src/app` 声明路由和导航元数据；`src/shell` 组合 Sidebar、Titlebar、ContentArea 与拖拽交互。
-- `src/components/ui` 提供通用 Vue UI，**不得导入** Tauri API、Desktop Services、Router 或 Feature；`src/components/layout` 包含按需使用的页面布局组件。
+- `src/app` 声明路由和导航元数据；`src/layouts` 组合 Sidebar、Titlebar、ContentArea 与拖拽交互。
+- `src/components/ui` 提供通用 Vue UI，**不得导入** Tauri API、Desktop Services、Router 或 Feature；`src/layouts/components` 包含布局组件。
 - `src/features` 放置页面与功能。Feature 可使用公共 UI 和 Desktop Services，不导入其他 Feature 的内部实现。Overview 和 Components 为示例；移除时同时清理路由及相关导航链接，不能破坏 Shell 与公共 UI。
 - 操作系统交互通过 `src/services/desktop` 适配；浏览器适配器提供安全回退，不把桌面 API 散布到页面。
 - `src/services/settings.ts` 管理本地偏好，`src/i18n` 管理 English / 简体中文，`src/styles` 管理主题 Token 和必要全局样式。局部交互默认使用 Vue 本地状态；仅在确有跨模块共享需求时引入全局状态。
@@ -21,11 +21,11 @@ Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScri
 
 ## 桌面 Shell 与平台边界
 
-AppShell 保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`。普通页面可按需使用 PageContainer，全宽页面不强制包装；当前没有路由级 Layout。导航由路由元数据生成，Settings 通过 ProfileMenu 进入。
+DefaultLayout 作为嵌套路由的父布局，保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`，其内的 PageContainer 统一包装页面。MinimalLayout 不默认包装 PageContainer，`/minimal` 提供可移除的布局预览。导航由路由元数据生成，Settings 通过 ProfileMenu 进入。
 
 Sidebar 展开显示品牌、图标和文字，折叠只显示图标与头像；切换按钮始终在 Sidebar 顶部。折叠偏好持久化，`Ctrl+B` 在普通上下文切换，输入控件、Dialog 和菜单等上下文除外。
 
-Titlebar 仅显示当前页面标题，窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
+Titlebar 显示当前页面标题，并可通过 `showBack` 显示返回按钮；MinimalLayout 启用该按钮，DefaultLayout 默认不显示。返回优先使用有效的应用内路由历史，无可用记录时回到 Overview。窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
 
 原生窗口默认 1100 × 720，最小 800 × 560；窗口状态插件保存尺寸、位置及最大化状态。关闭请求在托盘可用且隐藏成功时隐藏窗口；托盘恢复、退出和单实例行为由原生层管理。修改这些流程须在 Windows 实机复核，浏览器预览不能证明原生行为。
 
