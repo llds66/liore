@@ -1,31 +1,54 @@
-# 开发结构与约定
+﻿# Liore 开发规范
 
-本文记录模板当前的代码边界。首次运行与构建命令见 [README](../README.md)，应用改名见[模板定制指南](customization.md)。
+Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScript、Vite、Tauri 2、Tailwind CSS v4、Reka UI、Vue Router、Vue I18n 和 Lucide。项目保持单一、易理解的结构；不为假设需求引入插件平台、Monorepo、依赖或状态框架。
 
-## 目录职责
+样式和 Graphite Token 以 [设计规范](design-system.md) 为准；应用身份、签名与更新源配置见 [模板定制指南](customization.md)。安装、开发与构建命令见 [README](../README.md)。
 
-| 目录                   | 职责                                                    |
-| ---------------------- | ------------------------------------------------------- |
-| `src/app`              | 路由定义及导航元数据。                                  |
-| `src/shell`            | Sidebar、Titlebar、内容区和窗口拖拽。                   |
-| `src/components/ui`    | 不依赖 Tauri 的通用界面组件。                           |
-| `src/features`         | 页面功能；Overview 与 Components 是可替换的示例页。     |
-| `src/services/desktop` | 浏览器与 Tauri 窗口能力的适配、托盘同步和应用版本读取。 |
-| `src/services`         | 主题与本地偏好。                                        |
-| `src/i18n`             | English 与简体中文文案。                                |
-| `src/styles`           | Graphite 语义颜色、全局样式与主题过渡。                 |
-| `src-tauri`            | 原生入口、托盘、权限、应用配置与图标。                  |
+## 代码组织与依赖边界
 
-## 依赖边界
+- `src/app` 声明路由和导航元数据；`src/shell` 组合 Sidebar、Titlebar、ContentArea 与拖拽交互。
+- `src/components/ui` 提供通用 Vue UI，**不得导入** Tauri API、Desktop Services、Router 或 Feature；`src/components/layout` 包含按需使用的页面布局组件。
+- `src/features` 放置页面与功能。Feature 可使用公共 UI 和 Desktop Services，不导入其他 Feature 的内部实现。Overview 和 Components 为示例；移除时同时清理路由及相关导航链接，不能破坏 Shell 与公共 UI。
+- 操作系统交互通过 `src/services/desktop` 适配；浏览器适配器提供安全回退，不把桌面 API 散布到页面。
+- `src/services/settings.ts` 管理本地偏好，`src/i18n` 管理 English / 简体中文，`src/styles` 管理主题 Token 和必要全局样式。局部交互默认使用 Vue 本地状态；仅在确有跨模块共享需求时引入全局状态。
+- Tauri 能力限定实际窗口与命令，不默认授予广泛文件系统或 Shell 权限。修改能力、窗口生命周期或发布配置时应单独审查并验证。
 
-- `src/components/ui` 不导入 Tauri API、桌面服务或 Feature。复杂交互复用 Reka UI；保留可见键盘焦点、禁用状态和减少动效支持。
-- 页面可以使用公共 UI 和桌面服务，但不导入其他页面的内部实现。窗口操作通过 `src/services/desktop`，不直接散布在页面中。
-- `src/app/router.ts` 定义页面和标题；`src/app/navigation.ts` 从路由元数据生成 Sidebar 项。删除 Overview 或 Components 示例页时，同时清理路由及 Overview 内的导航链接。
-- Settings 提供主题、语言及 About；ProfileMenu 仍是 Settings 的入口。浏览器预览使用桌面服务的浏览器适配器。
+## 组件与可访问性
 
-## 样式与配置
+优先使用原生语义元素和 Reka UI：复杂 Dialog、Select、Dropdown、Tooltip 的焦点、键盘与 Portal 行为由 Reka 管理，不自行重写焦点陷阱或菜单导航。组件以明确的 Props、Events 和 Slots 暴露当前需要的行为。
 
-- Graphite 的 Light / Dark 颜色和 Tailwind v4 映射在 `src/styles/tokens.css`。组件优先使用语义 Token，避免在页面中增加硬编码颜色。
-- 主题状态由 `src/services/theme.ts` 管理；System 偏好解析为实际 Light 或 Dark。语言由 `src/i18n` 管理。
-- 本地偏好键在 `src/services/settings.ts`；`index.html` 另有启动前主题读取，修改主题键时必须同步。
-- `src-tauri/tauri.conf.json` 管理产品名、Bundle Identifier、窗口和打包图标；`src-tauri/src/lib.rs` 与 `tray.rs` 管理原生生命周期。浏览器预览不能代替 Windows 原生验收。
+`VButton` 和 `VInput` 提供当前的 Size 与状态；表单调用方负责 label 和错误说明关联。`VDialog` 必须提供可访问标题；其内容事件可按现有实现转发并阻止默认关闭。Dropdown 使用 Root、Trigger、Content、Item 组合；Tooltip 的触发器是单个可聚焦元素，提示不承载交互内容。具体类型、默认值及属性透传以 `src/components/ui` 源码为准。新增组件应覆盖可见焦点、禁用、Escape 和减少动效等适用状态。
+
+## 桌面 Shell 与平台边界
+
+AppShell 保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`。普通页面可按需使用 PageContainer，全宽页面不强制包装；当前没有路由级 Layout。导航由路由元数据生成，Settings 通过 ProfileMenu 进入。
+
+Sidebar 展开显示品牌、图标和文字，折叠只显示图标与头像；切换按钮始终在 Sidebar 顶部。折叠偏好持久化，`Ctrl+B` 在普通上下文切换，输入控件、Dialog 和菜单等上下文除外。
+
+Titlebar 仅显示当前页面标题，窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
+
+原生窗口默认 1100 × 720，最小 800 × 560；窗口状态插件保存尺寸、位置及最大化状态。关闭请求在托盘可用且隐藏成功时隐藏窗口；托盘恢复、退出和单实例行为由原生层管理。修改这些流程须在 Windows 实机复核，浏览器预览不能证明原生行为。
+
+## 主题、语言与持久化
+
+主题偏好为 `light`、`dark` 或 `system`，默认 Dark；实际主题只为 Light 或 Dark，并设置在根元素 `data-theme` 上。System 通过 `prefers-color-scheme: light` 解析，系统变化时立即更新；无法读取或无效偏好时回退 Dark。
+
+`src/services/settings.ts` 保存侧栏、主题和语言偏好；`index.html` 在 Vue 首次渲染前也读取主题键，修改键名或启动语义时必须同步。语言状态由 Vue I18n 管理，支持 English 与简体中文，默认 English。
+
+用户手动切换实际主题且运行环境支持时，主题服务以所选卡片为中心执行 500ms View Transition。首次恢复、系统自动变化、减少动效、API 不可用或失败时立即应用主题；偏好写入和状态不依赖动画成功。避免引入互相竞争的主题状态源。
+
+## 开发、验证与发布
+
+使用 README 中的冻结锁文件安装、前端与 Windows 开发命令。日常静态检查：
+
+```sh
+pnpm lint
+pnpm format:check
+pnpm typecheck
+pnpm build
+git diff --check
+```
+
+`lint:fix` 和 `format` 会写入文件；`typecheck` 同时覆盖 Vue 应用与 Vite 配置。CI 使用 `.github/workflows/ci.yml` 执行前端检查；Windows NSIS 和更新签名发布流程以 `.github/workflows/release.yml` 与 [模板定制指南](customization.md) 为准。版本字段和发布 tag 必须一致，签名私钥与密码仅放在仓库外及对应 Secrets 中。
+
+静态检查和浏览器预览不等于 Windows GUI 验收。根据变更范围手动检查键盘与焦点、主题、Sidebar、窗口控制、最小窗口、DPI 和托盘；报告实际验证与未验证的范围。修改架构、权限或平台行为前先核对现有实现和对应规范，避免为尚无用例的能力提前设计。

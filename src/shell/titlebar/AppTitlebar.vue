@@ -11,7 +11,10 @@ const { t } = useI18n();
 <template>
   <header class="app-titlebar">
     <div class="app-titlebar-drag-region" @mousedown="onWindowDragMouseDown">
-      <span class="app-titlebar-title">{{ route.meta.title ? t(route.meta.title) : "" }}</span>
+      <span
+        class="app-titlebar-title min-w-0 truncate px-4 text-caption font-semibold text-secondary-foreground"
+        >{{ route.meta.title ? t(route.meta.title) : "" }}</span
+      >
     </div>
     <WindowControls />
   </header>

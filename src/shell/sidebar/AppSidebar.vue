@@ -64,10 +64,16 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
 <template>
   <aside class="sidebar" :class="{ 'is-collapsed': collapsed }">
     <TooltipProvider :delay-duration="300">
-      <div class="sidebar-header" @mousedown="onHeaderMouseDown">
-        <span class="sidebar-brand" :aria-hidden="collapsed">
+      <div
+        class="sidebar-header flex h-(--shell-header-height) flex-none items-center overflow-hidden px-3"
+        @mousedown="onHeaderMouseDown"
+      >
+        <span
+          class="sidebar-brand ml-3 flex min-w-0 flex-1 items-center gap-2 text-[16px] font-semibold whitespace-nowrap"
+          :aria-hidden="collapsed"
+        >
           <img
-            class="sidebar-brand-logo"
+            class="sidebar-brand-logo size-6 flex-none"
             :src="resolvedTheme === 'dark' ? '/liore-symbol-dark.svg' : '/liore-symbol-light.svg'"
             width="24"
             height="24"
@@ -79,7 +85,7 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
         <TooltipRoot>
           <TooltipTrigger as-child>
             <button
-              class="sidebar-toggle"
+              class="sidebar-toggle grid size-10 flex-none place-items-center rounded-control text-secondary-foreground"
               type="button"
               :aria-label="t(collapsed ? 'shell.expandSidebar' : 'shell.collapseSidebar')"
               :aria-expanded="!collapsed"
@@ -97,7 +103,11 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
           </TooltipPortal>
         </TooltipRoot>
       </div>
-      <nav id="sidebar-navigation" :aria-label="t('shell.mainNavigation')" class="sidebar-nav">
+      <nav
+        id="sidebar-navigation"
+        :aria-label="t('shell.mainNavigation')"
+        class="sidebar-nav flex min-h-0 flex-1 flex-col gap-1.5 overflow-auto px-3 pt-5 pb-2"
+      >
         <TooltipRoot
           v-for="item in sidebarItems"
           :key="item.path"
@@ -107,11 +117,16 @@ onUnmounted(() => window.removeEventListener("keydown", onShortcut));
           <TooltipTrigger as-child>
             <RouterLink
               :to="item.path"
-              class="sidebar-link"
+              class="sidebar-link flex h-10 w-full items-center overflow-hidden rounded-control text-secondary-foreground whitespace-nowrap"
               exact-active-class="is-active"
               :aria-label="t(item.title)"
             >
-              <component :is="item.icon" :size="18" aria-hidden="true" class="sidebar-icon" />
+              <component
+                :is="item.icon"
+                :size="18"
+                aria-hidden="true"
+                class="sidebar-icon flex-none"
+              />
               <span class="sidebar-label" :aria-hidden="collapsed">{{ t(item.title) }}</span>
             </RouterLink>
           </TooltipTrigger>

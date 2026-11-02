@@ -76,5 +76,18 @@
   --color-muted-foreground: var(--liore-muted-foreground);
   --color-inverse: var(--liore-inverse);
   --color-primary: var(--liore-primary);
+  --color-danger: var(--liore-danger);
+  --color-danger-foreground: var(--liore-danger-foreground);
+  --color-error-foreground: var(--liore-error-foreground);
+  --color-focus-ring: var(--liore-focus-ring);
+  --color-overlay: var(--liore-overlay);
+  --radius-control: var(--liore-radius-control);
+  --radius-popover: var(--liore-radius-popover);
+  --radius-dialog: var(--liore-radius-dialog);
+  --text-caption: var(--liore-font-size-caption);
+  --text-control: var(--liore-font-size-control);
+  --text-dialog: var(--liore-font-size-dialog);
+  --shadow-popover: var(--liore-shadow-popover);
+  --shadow-dialog: var(--liore-shadow-dialog);
   --font-sans: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
 }

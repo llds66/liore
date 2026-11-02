@@ -51,7 +51,7 @@ const TooltipDisabledSync = defineComponent({
       <TooltipPortal>
         <TooltipContent
           v-bind="$attrs"
-          class="v-tooltip"
+          class="v-tooltip z-(--liore-layer-popover) overflow-auto rounded-control border border-border bg-surface px-(--liore-space-2) py-(--liore-space-1) text-caption leading-normal text-foreground wrap-anywhere shadow-popover"
           :side="side"
           :side-offset="8"
           :collision-padding="8"
@@ -66,19 +66,8 @@ const TooltipDisabledSync = defineComponent({
 <!-- Portal content does not reliably inherit an ancestor SFC scope; target only this component's class. -->
 <style>
 .v-tooltip {
-  z-index: var(--liore-layer-popover);
   max-width: min(280px, var(--reka-tooltip-content-available-width));
   max-height: var(--reka-tooltip-content-available-height);
-  overflow: auto;
-  overflow-wrap: anywhere;
-  border: 1px solid var(--liore-border);
-  border-radius: var(--liore-radius-control);
-  padding: var(--liore-space-1) var(--liore-space-2);
-  background: var(--liore-surface);
-  color: var(--liore-foreground);
-  box-shadow: var(--liore-shadow-popover);
-  font-size: var(--liore-font-size-caption);
-  line-height: 1.5;
   transform-origin: var(--reka-tooltip-content-transform-origin);
   animation: v-tooltip-in var(--liore-motion-menu) ease-out;
 }
@@ -110,7 +99,8 @@ const TooltipDisabledSync = defineComponent({
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-tooltip {
+  .v-tooltip,
+  .v-tooltip[data-state="closed"] {
     animation: none;
   }
 }

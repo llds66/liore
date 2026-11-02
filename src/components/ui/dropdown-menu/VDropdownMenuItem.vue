@@ -16,46 +16,19 @@ defineSlots<{ default?: () => unknown }>();
 </script>
 
 <template>
-  <DropdownMenuItem :ref="forwardRef" v-bind="forwarded" class="v-dropdown-menu-item">
+  <DropdownMenuItem
+    :ref="forwardRef"
+    v-bind="forwarded"
+    class="v-dropdown-menu-item flex min-h-9 cursor-default items-center gap-(--liore-space-2) rounded-control px-(--liore-space-3) py-(--liore-space-2) text-control leading-normal text-foreground wrap-anywhere select-none transition-[background] duration-(--liore-motion-hover) ease-out [&[data-highlighted]:not([data-disabled])]:bg-surface-hover data-disabled:cursor-not-allowed data-disabled:text-muted-foreground data-disabled:opacity-55 motion-reduce:transition-none"
+  >
     <slot />
   </DropdownMenuItem>
 </template>
 
 <style scoped>
-.v-dropdown-menu-item {
-  display: flex;
-  align-items: center;
-  gap: var(--liore-space-2);
-  min-height: 36px;
-  padding: var(--liore-space-2) var(--liore-space-3);
-  border-radius: var(--liore-radius-control);
-  color: var(--liore-foreground);
-  font-size: var(--liore-font-size-control);
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-  cursor: default;
-  user-select: none;
-  transition: background var(--liore-motion-hover) ease-out;
-}
-
-.v-dropdown-menu-item[data-highlighted]:not([data-disabled]) {
-  background: var(--liore-surface-hover);
-}
-
+/* The global unlayered focus rule would otherwise override the inset outline. */
 .v-dropdown-menu-item:focus-visible {
   outline: 2px solid var(--liore-focus-ring);
   outline-offset: -2px;
-}
-
-.v-dropdown-menu-item[data-disabled] {
-  color: var(--liore-muted-foreground);
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .v-dropdown-menu-item {
-    transition: none;
-  }
 }
 </style>

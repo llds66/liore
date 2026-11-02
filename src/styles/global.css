@@ -1,6 +1,6 @@
 :root {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--liore-foreground);
   background: var(--liore-background);
@@ -10,6 +10,7 @@
 
 body {
   margin: 0;
+  font-size: 14px;
 }
 
 html,
@@ -22,25 +23,6 @@ body,
 :focus-visible {
   outline: 2px solid var(--liore-primary);
   outline-offset: 2px;
-}
-
-.page-sections {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.page-section {
-  display: grid;
-  gap: var(--liore-space-4);
-}
-
-.page-section > h2,
-.overview-heading {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--liore-foreground);
 }
 
 /* Limit native scrollbar styling to the shell's two scroll containers. */

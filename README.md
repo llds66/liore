@@ -57,4 +57,4 @@ pnpm build:windows:installer
 
 ## 自定义模板
 
-基于 Liore 开发自己的应用时，请参阅[模板定制指南](docs/customization.md)。
+基于 Liore 开发自己的应用时，请参阅[开发规范](docs/development.md)、[设计系统与样式规范](docs/design-system.md)和[模板定制指南](docs/customization.md)。
