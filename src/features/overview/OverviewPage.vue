@@ -6,9 +6,11 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="overview mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
+  <div class="overview mx-auto w-full max-w-210 px-[21px] py-[35px] sm:px-[35px]">
     <header>
-      <h1 class="text-3xl font-semibold tracking-tight">{{ t("overview.greeting") }}</h1>
+      <h1 class="text-[26.25px] leading-[1.2] font-semibold tracking-tight">
+        {{ t("overview.greeting") }}
+      </h1>
     </header>
 
     <section class="overview-section" aria-labelledby="explore-heading">

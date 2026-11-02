@@ -250,7 +250,9 @@ function onChange(event: Event, value: ThemePreference): void {
 </script>
 
 <template>
-  <div class="settings-page page-sections mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
+  <div
+    class="settings-page page-sections mx-auto w-full max-w-210 px-[21px] py-[35px] sm:px-[35px]"
+  >
     <h1 class="sr-only">{{ t("nav.settings") }}</h1>
     <section class="page-section appearance" aria-labelledby="appearance-heading">
       <h2 id="appearance-heading">{{ t("settings.appearance") }}</h2>

@@ -41,7 +41,9 @@ const sideKeys = {
 </script>
 
 <template>
-  <div class="components-page page-sections mx-auto w-full max-w-240 px-6 py-10 sm:px-10">
+  <div
+    class="components-page page-sections mx-auto w-full max-w-210 px-[21px] py-[35px] sm:px-[35px]"
+  >
     <h1 class="sr-only">{{ t("nav.components") }}</h1>
 
     <section class="page-section" aria-labelledby="button-heading">

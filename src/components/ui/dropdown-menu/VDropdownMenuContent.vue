@@ -27,7 +27,7 @@ defineSlots<{ default?: () => unknown }>();
     <DropdownMenuContent
       :ref="forwardRef"
       v-bind="{ ...forwarded, ...$attrs }"
-      class="v-dropdown-menu-content"
+      class="v-dropdown-menu-content z-(--liore-layer-popover) box-border overflow-auto rounded-popover border border-border bg-surface p-(--liore-space-1) text-control text-foreground shadow-popover"
     >
       <slot />
     </DropdownMenuContent>
@@ -37,19 +37,9 @@ defineSlots<{ default?: () => unknown }>();
 <!-- Portal content has no DOM root to inherit an SFC scope attribute. Keep every selector component-specific. -->
 <style>
 .v-dropdown-menu-content {
-  z-index: var(--liore-layer-popover);
-  box-sizing: border-box;
   min-width: min(180px, var(--reka-dropdown-menu-content-available-width));
   max-width: var(--reka-dropdown-menu-content-available-width);
   max-height: var(--reka-dropdown-menu-content-available-height);
-  overflow: auto;
-  padding: var(--liore-space-1);
-  border: 1px solid var(--liore-border);
-  border-radius: var(--liore-radius-popover);
-  background: var(--liore-surface);
-  color: var(--liore-foreground);
-  box-shadow: var(--liore-shadow-popover);
-  font-size: var(--liore-font-size-control);
   transform-origin: var(--reka-dropdown-menu-content-transform-origin);
 }
 

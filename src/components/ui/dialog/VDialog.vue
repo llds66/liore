@@ -47,21 +47,35 @@ const descriptionAttrs = computed(() =>
   <DialogRoot v-slot="{ close }" v-model:open="open">
     <DialogTrigger v-if="slots.trigger" as-child><slot name="trigger" /></DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="v-dialog-overlay" />
-      <DialogContent class="v-dialog" v-bind="{ ...descriptionAttrs, ...$attrs, ...contentEvents }">
-        <header class="v-dialog__header" :class="{ 'v-dialog__header--with-close': showClose }">
-          <DialogTitle class="v-dialog__title"
+      <DialogOverlay class="v-dialog-overlay fixed inset-0 z-(--liore-layer-modal) bg-overlay" />
+      <DialogContent
+        class="v-dialog fixed top-1/2 left-1/2 z-[calc(var(--liore-layer-modal)+1)] w-[min(480px,calc(100vw-32px))] max-h-[calc(100dvh-32px)] overflow-y-auto rounded-dialog border border-border bg-surface p-(--liore-space-6) text-control text-foreground wrap-anywhere shadow-dialog"
+        v-bind="{ ...descriptionAttrs, ...$attrs, ...contentEvents }"
+      >
+        <header :class="{ 'pr-(--liore-space-6)': showClose }">
+          <DialogTitle class="text-dialog leading-[1.4] font-semibold"
             ><slot name="title">{{ title }}</slot></DialogTitle
           >
-          <DialogDescription v-if="hasDescription" as="div" class="v-dialog__description">
+          <DialogDescription
+            v-if="hasDescription"
+            as="div"
+            class="mt-(--liore-space-2) leading-[1.6] text-secondary-foreground"
+          >
             <slot name="description">{{ description }}</slot>
           </DialogDescription>
         </header>
-        <div class="v-dialog__body"><slot :close="close" /></div>
-        <footer v-if="slots.footer" class="v-dialog__footer">
+        <div class="mt-(--liore-space-6) leading-[1.6]"><slot :close="close" /></div>
+        <footer
+          v-if="slots.footer"
+          class="mt-(--liore-space-6) flex flex-wrap justify-end gap-(--liore-space-2)"
+        >
           <slot name="footer" :close="close" />
         </footer>
-        <DialogClose v-if="showClose" class="v-dialog__close" :aria-label="t('common.closeDialog')">
+        <DialogClose
+          v-if="showClose"
+          class="v-dialog__close absolute top-(--liore-space-4) right-(--liore-space-4) grid size-7 cursor-pointer place-items-center rounded-control text-secondary-foreground transition-[background] duration-(--liore-motion-hover) ease-[ease] [&:hover]:bg-surface-hover [&:hover]:text-foreground motion-reduce:transition-none"
+          :aria-label="t('common.closeDialog')"
+        >
           <X :size="16" aria-hidden="true" />
         </DialogClose>
       </DialogContent>
@@ -70,70 +84,9 @@ const descriptionAttrs = computed(() =>
 </template>
 
 <style scoped>
-.v-dialog-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--liore-layer-modal);
-  background: var(--liore-overlay);
-}
 .v-dialog {
-  position: fixed;
-  z-index: calc(var(--liore-layer-modal) + 1);
-  top: 50%;
-  left: 50%;
+  /* Keep the transform together with the transform-based enter and exit animations. */
   transform: translate(-50%, -50%);
-  width: min(480px, calc(100vw - 32px));
-  max-height: calc(100dvh - 32px);
-  overflow-y: auto;
-  padding: var(--liore-space-6);
-  border: 1px solid var(--liore-border);
-  border-radius: var(--liore-radius-dialog);
-  background: var(--liore-surface);
-  color: var(--liore-foreground);
-  box-shadow: var(--liore-shadow-dialog);
-  font-size: var(--liore-font-size-control);
-  overflow-wrap: anywhere;
-}
-.v-dialog__header--with-close {
-  padding-right: var(--liore-space-6);
-}
-.v-dialog__title {
-  font-size: var(--liore-font-size-dialog);
-  font-weight: 600;
-  line-height: 1.4;
-}
-.v-dialog__description {
-  margin-top: var(--liore-space-2);
-  color: var(--liore-secondary-foreground);
-  line-height: 1.6;
-}
-.v-dialog__body {
-  margin-top: var(--liore-space-6);
-  line-height: 1.6;
-}
-.v-dialog__footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--liore-space-2);
-  margin-top: var(--liore-space-6);
-}
-.v-dialog__close {
-  position: absolute;
-  top: var(--liore-space-4);
-  right: var(--liore-space-4);
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--liore-radius-control);
-  color: var(--liore-secondary-foreground);
-  cursor: pointer;
-  transition: background var(--liore-motion-hover) ease;
-}
-.v-dialog__close:hover {
-  background: var(--liore-surface-hover);
-  color: var(--liore-foreground);
 }
 .v-dialog:focus-visible,
 .v-dialog__close:focus-visible {
@@ -192,9 +145,6 @@ const descriptionAttrs = computed(() =>
   .v-dialog,
   .v-dialog-overlay {
     animation: none;
-  }
-  .v-dialog__close {
-    transition: none;
   }
 }
 </style>

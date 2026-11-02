@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
+type InputSize = "sm" | "md" | "lg";
+
+const sizeClasses: Record<InputSize, string> = {
+  sm: "h-7 px-2.5 text-caption",
+  md: "h-9 px-3 text-control",
+  lg: "h-10 px-3.5 text-[14px]",
+};
+
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
-    size?: "sm" | "md" | "lg";
+    size?: InputSize;
     disabled?: boolean;
     invalid?: boolean;
   }>(),
@@ -20,55 +28,9 @@ const value = computed({
 <template>
   <input
     v-model="value"
-    class="v-input"
-    :class="`v-input--${size}`"
+    class="block w-full min-w-0 rounded-control border border-border bg-surface text-foreground transition-[border-color] duration-(--liore-motion-hover) ease-[ease] placeholder:text-muted-foreground [&:hover:not(:disabled)]:border-muted-foreground aria-invalid=true:border-danger disabled:cursor-not-allowed disabled:opacity-55 motion-reduce:transition-none"
+    :class="sizeClasses[size]"
     :disabled="disabled"
     :aria-invalid="invalid || undefined"
   />
 </template>
-
-<style scoped>
-.v-input {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  border: 1px solid var(--liore-border);
-  border-radius: 6px;
-  background: var(--liore-surface);
-  color: var(--liore-foreground);
-  transition: border-color var(--liore-motion-hover) ease;
-}
-.v-input--sm {
-  height: 28px;
-  padding: 0 10px;
-  font-size: 12px;
-}
-.v-input--md {
-  height: 36px;
-  padding: 0 12px;
-  font-size: 13px;
-}
-.v-input--lg {
-  height: 40px;
-  padding: 0 14px;
-  font-size: 14px;
-}
-.v-input::placeholder {
-  color: var(--liore-muted-foreground);
-}
-.v-input:hover:not(:disabled) {
-  border-color: var(--liore-muted-foreground);
-}
-.v-input[aria-invalid="true"] {
-  border-color: var(--liore-danger);
-}
-.v-input:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-@media (prefers-reduced-motion: reduce) {
-  .v-input {
-    transition: none;
-  }
-}
-</style>
