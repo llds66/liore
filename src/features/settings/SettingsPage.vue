@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Check, Languages, Monitor, Moon, Sun } from "@lucide/vue";
+import { Check, Languages, LayoutPanelLeft, Monitor, Moon, PanelLeft, Sun } from "@lucide/vue";
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import VButton from "../../components/ui/VButton.vue";
@@ -12,6 +12,7 @@ import {
   type DesktopUpdateProgress,
 } from "../../services/desktop";
 import { getApplicationVersion } from "../../services/desktop/appInfo";
+import { selectSidebarAppearance, sidebarAppearance } from "../../services/sidebarAppearance";
 import {
   isThemeTransitioning,
   selectTheme,
@@ -34,6 +35,18 @@ const options = [
     value: "system",
     titleKey: "settings.theme.system",
     icon: Monitor,
+  },
+] as const;
+const sidebarOptions = [
+  {
+    value: "classic",
+    titleKey: "settings.sidebar.classic",
+    icon: PanelLeft,
+  },
+  {
+    value: "floating",
+    titleKey: "settings.sidebar.floating",
+    icon: LayoutPanelLeft,
   },
 ] as const;
 
@@ -288,6 +301,51 @@ function onChange(event: Event, value: ThemePreference): void {
           <span
             class="grid size-6.5 flex-none place-items-center rounded-full border border-border bg-surface text-primary"
             :class="themePreference === option.value ? 'visible' : 'invisible'"
+            aria-hidden="true"
+          >
+            <Check :size="15" />
+          </span>
+        </label>
+      </div>
+    </section>
+    <section class="grid gap-4" aria-labelledby="sidebar-appearance-heading">
+      <h2
+        id="sidebar-appearance-heading"
+        class="text-base leading-[1.4] font-semibold text-foreground"
+      >
+        {{ t("settings.sidebar.title") }}
+      </h2>
+      <div
+        class="grid grid-cols-2 gap-2.5"
+        role="radiogroup"
+        aria-labelledby="sidebar-appearance-heading"
+      >
+        <label
+          v-for="option in sidebarOptions"
+          :key="option.value"
+          class="theme-card relative flex min-h-13 min-w-0 cursor-pointer items-center gap-2.5 rounded-popover border border-border bg-surface px-3 py-2.5 transition-[background,border-color] duration-(--liore-motion-hover) ease-[ease] motion-reduce:transition-none"
+          :class="{ 'is-selected': sidebarAppearance === option.value }"
+        >
+          <input
+            class="absolute inset-0 h-full w-full cursor-[inherit] opacity-0"
+            type="radio"
+            name="sidebar-appearance"
+            :value="option.value"
+            :checked="sidebarAppearance === option.value"
+            @change="selectSidebarAppearance(option.value)"
+          />
+          <component
+            :is="option.icon"
+            :size="20"
+            aria-hidden="true"
+            class="flex-none text-secondary-foreground"
+          />
+          <span class="min-w-0 flex-1">
+            <span class="block text-[14px] font-semibold">{{ t(option.titleKey) }}</span>
+          </span>
+          <span
+            class="grid size-6.5 flex-none place-items-center rounded-full border border-border bg-surface text-primary"
+            :class="sidebarAppearance === option.value ? 'visible' : 'invisible'"
             aria-hidden="true"
           >
             <Check :size="15" />

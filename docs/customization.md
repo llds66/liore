@@ -47,6 +47,6 @@ Sidebar 品牌图形与安装图标分开：分别替换 `public/liore-symbol-da
 
 ## 本地偏好与验证
 
-`src/services/settings.ts` 使用 `liore.sidebar.collapsed`、`liore.theme.preference`、`liore.language.preference`。如果改用新前缀，须同步修改 `index.html` 中启动前读取的主题键。浏览器预览共用相同本地地址时，保留旧键可能读到旧项目偏好；新键会从默认值重新开始。
+`src/services/settings.ts` 使用 `liore.sidebar.collapsed`、`liore.sidebar.appearance`、`liore.theme.preference`、`liore.language.preference`。如果改用新前缀，须同步修改 `index.html` 中启动前读取的主题键。浏览器预览共用相同本地地址时，保留旧键可能读到旧项目偏好；新键会从默认值重新开始。
 
 改名后在编辑器中全局搜索 `Liore`、`liore`、`com.lldsss.liore`、`llds` 和 `username`，逐项判断是否为待替换的品牌信息。运行 `pnpm lint`、`pnpm format:check`、`pnpm typecheck`、`pnpm build`，再执行 `pnpm build:windows:installer`。在 Windows 上核对安装包、窗口标题、Sidebar、About、托盘文案和图标，并分别切换 Light / Dark 与两种语言。
