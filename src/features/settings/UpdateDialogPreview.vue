@@ -121,9 +121,12 @@ function restoreFocus(event: Event): void {
 </script>
 
 <template>
-  <div v-if="isDevelopment" class="preview-row">
-    <dt>{{ copy.label }}</dt>
-    <dd>
+  <div
+    v-if="isDevelopment"
+    class="flex items-center justify-between gap-4 border-t border-border px-4 py-3.5 text-control"
+  >
+    <dt class="text-secondary-foreground">{{ copy.label }}</dt>
+    <dd class="min-w-0">
       <VDialog
         v-model:open="chooserOpen"
         :title="copy.title"
@@ -133,10 +136,15 @@ function restoreFocus(event: Event): void {
         <template #trigger>
           <VButton size="sm" variant="outline" @click="rememberTrigger">{{ copy.open }}</VButton>
         </template>
-        <div class="scenario-list" role="group" :aria-label="copy.group">
+        <div
+          class="grid max-h-[45vh] grid-cols-2 gap-2 overflow-y-auto [@media(max-width:480px)]:grid-cols-1"
+          role="group"
+          :aria-label="copy.group"
+        >
           <VButton
             v-for="item in scenarios"
             :key="item.id"
+            class="min-w-0 whitespace-normal! wrap-anywhere"
             size="sm"
             variant="outline"
             @click="selectScenario(item.id)"
@@ -163,33 +171,3 @@ function restoreFocus(event: Event): void {
     </dd>
   </div>
 </template>
-
-<style scoped>
-.preview-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--liore-space-4);
-  padding: 14px 16px;
-  border-top: 1px solid var(--liore-border);
-  font-size: 13px;
-}
-.preview-row dt {
-  color: var(--liore-secondary-foreground);
-}
-.preview-row dd {
-  min-width: 0;
-}
-.scenario-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--liore-space-2);
-  max-height: 45vh;
-  overflow-y: auto;
-}
-@media (max-width: 480px) {
-  .scenario-list {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

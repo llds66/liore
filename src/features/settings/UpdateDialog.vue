@@ -74,31 +74,45 @@ function preventDismiss(event: Event): void {
     @interact-outside="preventDismiss"
     @close-auto-focus="emit('closeAutoFocus', $event)"
   >
-    <div v-if="state === 'checking'" class="update-checking" role="status">
-      <span class="update-spinner" aria-hidden="true"></span>
+    <div v-if="state === 'checking'" class="flex items-center gap-(--liore-space-3)" role="status">
+      <span
+        class="update-spinner size-4 flex-none rounded-full border-2 border-border border-t-primary"
+        aria-hidden="true"
+      ></span>
       <p>{{ t("settings.update.checking") }}</p>
     </div>
-    <p v-else-if="state === 'up-to-date'" role="status" class="update-message">
+    <p
+      v-else-if="state === 'up-to-date'"
+      role="status"
+      class="leading-normal text-secondary-foreground"
+    >
       {{ t("settings.update.upToDate") }}
     </p>
-    <div v-else-if="state === 'available'" class="update-details">
-      <p class="update-version" role="status">
+    <div v-else-if="state === 'available'" class="grid gap-(--liore-space-2)">
+      <p class="font-semibold" role="status">
         {{ t("settings.update.availableVersion", { version }) }}
       </p>
-      <div v-if="visibleNotes" class="update-notes-section">
-        <p class="update-notes-label">{{ t("settings.update.notes") }}</p>
-        <p class="update-notes">{{ visibleNotes }}</p>
+      <div v-if="visibleNotes" class="grid min-w-0 gap-(--liore-space-2)">
+        <p class="font-medium text-foreground">{{ t("settings.update.notes") }}</p>
+        <p
+          class="max-h-[35vh] min-w-0 overflow-y-auto leading-normal whitespace-pre-wrap text-secondary-foreground wrap-anywhere"
+        >
+          {{ visibleNotes }}
+        </p>
       </div>
     </div>
-    <div v-else-if="state === 'downloading'" class="update-details">
-      <div class="update-progress-heading" role="status">
+    <div v-else-if="state === 'downloading'" class="grid gap-(--liore-space-2)">
+      <div
+        class="flex items-center justify-between gap-(--liore-space-2) leading-normal text-secondary-foreground"
+        role="status"
+      >
         <span>{{ t("settings.update.downloading") }}</span>
-        <span v-if="progressPercent !== null" class="update-progress-percent">
+        <span v-if="progressPercent !== null" class="min-w-[4ch] flex-none text-right tabular-nums">
           {{ progressPercent }}%
         </span>
       </div>
       <div
-        class="update-progress"
+        class="h-1.5 w-full overflow-hidden rounded-control bg-surface-active"
         role="progressbar"
         aria-valuemin="0"
         aria-valuemax="100"
@@ -106,20 +120,26 @@ function preventDismiss(event: Event): void {
         :aria-label="t('settings.update.progressLabel')"
       >
         <div
-          class="update-progress-fill"
+          class="update-progress-fill h-full rounded-[inherit] bg-primary transition-[width] duration-180 ease-[ease] motion-reduce:transition-none"
           :class="{ 'is-indeterminate': progressPercent === null }"
           :style="progressPercent !== null ? { width: `${progressPercent}%` } : undefined"
         ></div>
       </div>
     </div>
-    <div v-else-if="state === 'installing'" class="update-details" role="status">
+    <div v-else-if="state === 'installing'" class="grid gap-(--liore-space-2)" role="status">
       <p>{{ t("settings.update.installing") }}</p>
-      <p class="update-message">{{ t("settings.update.installingHint") }}</p>
+      <p class="leading-normal text-secondary-foreground">
+        {{ t("settings.update.installingHint") }}
+      </p>
     </div>
-    <p v-else-if="state === 'error'" role="alert" class="update-message">
+    <p v-else-if="state === 'error'" role="alert" class="leading-normal text-secondary-foreground">
       {{ t(errorMessageKey) }}
     </p>
-    <p v-else-if="state === 'unavailable'" role="status" class="update-message">
+    <p
+      v-else-if="state === 'unavailable'"
+      role="status"
+      class="leading-normal text-secondary-foreground"
+    >
       {{ t("settings.update.unavailable") }}
     </p>
     <template
@@ -153,74 +173,8 @@ function preventDismiss(event: Event): void {
 </template>
 
 <style scoped>
-.update-checking {
-  display: flex;
-  align-items: center;
-  gap: var(--liore-space-3);
-}
 .update-spinner {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--liore-border);
-  border-top-color: var(--liore-primary);
-  border-radius: 50%;
   animation: update-spin 0.8s linear infinite;
-}
-.update-details {
-  display: grid;
-  gap: var(--liore-space-2);
-}
-.update-message,
-.update-notes {
-  color: var(--liore-secondary-foreground);
-  line-height: 1.5;
-}
-.update-version {
-  font-weight: 600;
-}
-.update-notes-section {
-  display: grid;
-  gap: var(--liore-space-2);
-  min-width: 0;
-}
-.update-notes-label {
-  color: var(--liore-foreground);
-  font-weight: 500;
-}
-.update-notes {
-  min-width: 0;
-  max-height: 35vh;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.update-progress-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--liore-space-2);
-  color: var(--liore-secondary-foreground);
-  line-height: 1.5;
-}
-.update-progress-percent {
-  flex: none;
-  min-width: 4ch;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-.update-progress {
-  overflow: hidden;
-  width: 100%;
-  height: 6px;
-  border-radius: var(--liore-radius-control);
-  background: var(--liore-surface-active);
-}
-.update-progress-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--liore-primary);
-  transition: width 180ms ease;
 }
 .update-progress-fill.is-indeterminate {
   width: 35%;
@@ -243,9 +197,6 @@ function preventDismiss(event: Event): void {
   .update-spinner,
   .update-progress-fill.is-indeterminate {
     animation: none;
-  }
-  .update-progress-fill {
-    transition: none;
   }
 }
 </style>
