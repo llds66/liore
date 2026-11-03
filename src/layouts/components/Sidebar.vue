@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import {
   TooltipContent,
@@ -13,7 +15,203 @@ import { onWindowDragMouseDown } from "../windowDrag";
 import ProfileMenu from "./ProfileMenu.vue";
 
 const { t } = useI18n();
+const route = useRoute();
 defineProps<{ collapsed: boolean }>();
+
+const navigation = ref<HTMLElement | null>(null);
+const indicator = ref<HTMLElement | null>(null);
+const indicatorVisible = ref(false);
+const indicatorMoving = ref(false);
+const indicatorResetting = ref(false);
+const indicatorStyle = ref({
+  transform: "translateY(0px)",
+  left: "0px",
+  width: "0px",
+  height: "0px",
+});
+let displayedTarget: HTMLElement | null = null;
+let hoveredTarget: HTMLElement | null = null;
+let pendingMove: ReturnType<typeof setTimeout> | undefined;
+let resizeObserver: ResizeObserver | undefined;
+let disposed = false;
+let returningTarget: HTMLElement | null = null;
+let sequence = 0;
+let freshEntry = true;
+
+function cancelPendingMove() {
+  if (pendingMove !== undefined) clearTimeout(pendingMove);
+  pendingMove = undefined;
+}
+
+function positionIndicator(target: HTMLElement) {
+  const nav = navigation.value;
+  if (!nav) return;
+  const navRect = nav.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  indicatorStyle.value = {
+    transform: `translateY(${targetRect.top - navRect.top - nav.clientTop + nav.scrollTop}px)`,
+    left: `${targetRect.left - navRect.left - nav.clientLeft + nav.scrollLeft}px`,
+    width: `${targetRect.width}px`,
+    height: `${targetRect.height}px`,
+  };
+}
+
+function hideIndicator() {
+  returningTarget = null;
+  indicatorVisible.value = false;
+}
+
+function hideInPlace() {
+  cancelPendingMove();
+  sequence++;
+  returningTarget = null;
+  if (indicatorVisible.value && indicator.value) {
+    indicatorStyle.value = {
+      ...indicatorStyle.value,
+      transform: getComputedStyle(indicator.value).transform,
+    };
+  }
+  indicatorMoving.value = false;
+  indicatorResetting.value = false;
+  indicatorVisible.value = false;
+}
+
+function reducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function setTarget(target: HTMLElement) {
+  if (displayedTarget && displayedTarget !== target) resizeObserver?.unobserve(displayedTarget);
+  displayedTarget = target;
+  resizeObserver?.observe(target);
+  positionIndicator(target);
+}
+
+function moveIndicator(target: HTMLElement, returning = false) {
+  const movingEnabled = indicatorMoving.value;
+  const currentTransform = indicator.value ? getComputedStyle(indicator.value).transform : "none";
+  const currentY = currentTransform === "none" ? 0 : new DOMMatrixReadOnly(currentTransform).m42;
+  returningTarget = returning ? target : null;
+  indicatorMoving.value = true;
+  setTarget(target);
+  indicatorVisible.value = true;
+  const destinationY = Number.parseFloat(indicatorStyle.value.transform.slice(11));
+  if (returning && (reducedMotion() || !movingEnabled || Math.abs(currentY - destinationY) < 0.5)) {
+    hideIndicator();
+  }
+}
+
+function getActiveTarget(): HTMLElement | null {
+  return navigation.value?.querySelector<HTMLElement>(".sidebar-link.is-active") ?? null;
+}
+
+function returnToActive() {
+  cancelPendingMove();
+  sequence++;
+  const active = getActiveTarget();
+  if (!indicatorVisible.value || !active) {
+    hideIndicator();
+    return;
+  }
+  moveIndicator(active, true);
+}
+
+function onIndicatorTransitionEnd(event: TransitionEvent) {
+  if (event.target !== indicator.value || event.propertyName !== "transform" || !returningTarget)
+    return;
+  if (
+    displayedTarget === returningTarget &&
+    (!hoveredTarget || hoveredTarget === returningTarget)
+  ) {
+    hideIndicator();
+  }
+}
+
+function onItemEnter(event: MouseEvent) {
+  const target = event.currentTarget;
+  if (!(target instanceof HTMLElement)) return;
+  const enteringFromOutside = freshEntry;
+  freshEntry = false;
+  hoveredTarget = target;
+  cancelPendingMove();
+  const currentSequence = ++sequence;
+  const active = getActiveTarget();
+  if (target === active) {
+    if (enteringFromOutside) hideInPlace();
+    else returnToActive();
+    return;
+  }
+  returningTarget = null;
+  if (reducedMotion()) {
+    indicatorResetting.value = false;
+    indicatorMoving.value = false;
+    setTarget(target);
+    indicatorVisible.value = true;
+  } else if (enteringFromOutside || !indicatorVisible.value) {
+    const start = enteringFromOutside ? target : (active ?? target);
+    indicatorMoving.value = false;
+    indicatorResetting.value = true;
+    indicatorVisible.value = false;
+    setTarget(start);
+    void nextTick(() => {
+      if (disposed || sequence !== currentSequence || hoveredTarget !== target) return;
+      void indicator.value?.offsetHeight;
+      indicatorResetting.value = false;
+      indicatorVisible.value = true;
+      void nextTick(() => {
+        if (disposed || sequence !== currentSequence || hoveredTarget !== target) return;
+        void indicator.value?.offsetHeight;
+        if (start !== target) moveIndicator(target);
+        else indicatorMoving.value = true;
+      });
+    });
+  } else if (target !== displayedTarget) {
+    pendingMove = setTimeout(() => {
+      pendingMove = undefined;
+      if (hoveredTarget === target) moveIndicator(target);
+    }, 100);
+  }
+}
+
+function onItemLeave(event: MouseEvent) {
+  if (event.currentTarget !== hoveredTarget) return;
+  hoveredTarget = null;
+  cancelPendingMove();
+}
+
+function onNavigationLeave() {
+  hoveredTarget = null;
+  freshEntry = true;
+  hideInPlace();
+}
+
+watch(
+  () => route.fullPath,
+  async () => {
+    await nextTick();
+    if (disposed) return;
+    if (hoveredTarget && !hoveredTarget.matches(":hover")) hoveredTarget = null;
+    cancelPendingMove();
+    sequence++;
+    if (!hoveredTarget) hideInPlace();
+    else if (hoveredTarget === getActiveTarget()) returnToActive();
+    else moveIndicator(hoveredTarget);
+  },
+);
+
+onMounted(() => {
+  resizeObserver = new ResizeObserver(() => {
+    if (displayedTarget && indicatorVisible.value) positionIndicator(displayedTarget);
+  });
+  if (navigation.value) resizeObserver.observe(navigation.value);
+});
+
+onUnmounted(() => {
+  disposed = true;
+  sequence++;
+  cancelPendingMove();
+  resizeObserver?.disconnect();
+});
 
 function onHeaderMouseDown(event: MouseEvent) {
   const target = event.target;
@@ -49,9 +247,23 @@ function onHeaderMouseDown(event: MouseEvent) {
       </div>
       <nav
         id="sidebar-navigation"
+        ref="navigation"
         :aria-label="t('shell.mainNavigation')"
         class="sidebar-nav liore-scrollbar flex min-h-0 flex-1 flex-col gap-1.5 overflow-auto px-3 pt-5 pb-2"
+        @mouseleave="onNavigationLeave"
       >
+        <span
+          ref="indicator"
+          aria-hidden="true"
+          class="sidebar-hover-indicator"
+          :class="{
+            'is-visible': indicatorVisible,
+            'is-moving': indicatorMoving,
+            'is-resetting': indicatorResetting,
+          }"
+          :style="indicatorStyle"
+          @transitionend="onIndicatorTransitionEnd"
+        ></span>
         <TooltipRoot
           v-for="item in sidebarItems"
           :key="item.path"
@@ -64,6 +276,8 @@ function onHeaderMouseDown(event: MouseEvent) {
               class="sidebar-link flex h-10 w-full items-center overflow-hidden rounded-control text-secondary-foreground whitespace-nowrap"
               exact-active-class="is-active"
               :aria-label="t(item.title)"
+              @mouseenter="onItemEnter"
+              @mouseleave="onItemLeave"
             >
               <component
                 :is="item.icon"
