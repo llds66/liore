@@ -137,7 +137,7 @@ function restoreFocus(event: Event): void {
           <VButton size="sm" variant="outline" @click="rememberTrigger">{{ copy.open }}</VButton>
         </template>
         <div
-          class="grid max-h-[45vh] grid-cols-2 gap-2 overflow-y-auto [@media(max-width:480px)]:grid-cols-1"
+          class="liore-scrollbar grid max-h-[45vh] grid-cols-2 gap-2 overflow-y-auto [@media(max-width:480px)]:grid-cols-1"
           role="group"
           :aria-label="copy.group"
         >

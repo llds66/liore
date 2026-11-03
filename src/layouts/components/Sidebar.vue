@@ -50,7 +50,7 @@ function onHeaderMouseDown(event: MouseEvent) {
       <nav
         id="sidebar-navigation"
         :aria-label="t('shell.mainNavigation')"
-        class="sidebar-nav flex min-h-0 flex-1 flex-col gap-1.5 overflow-auto px-3 pt-5 pb-2"
+        class="sidebar-nav liore-scrollbar flex min-h-0 flex-1 flex-col gap-1.5 overflow-auto px-3 pt-5 pb-2"
       >
         <TooltipRoot
           v-for="item in sidebarItems"

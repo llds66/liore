@@ -27,7 +27,7 @@ defineSlots<{ default?: () => unknown }>();
     <DropdownMenuContent
       :ref="forwardRef"
       v-bind="{ ...forwarded, ...$attrs }"
-      class="v-dropdown-menu-content z-(--liore-layer-popover) box-border overflow-auto rounded-popover border border-border bg-surface p-(--liore-space-1) text-control text-foreground shadow-popover"
+      class="v-dropdown-menu-content liore-scrollbar z-(--liore-layer-popover) box-border overflow-auto rounded-popover border border-border bg-surface p-(--liore-space-1) text-control text-foreground shadow-popover"
     >
       <slot />
     </DropdownMenuContent>
