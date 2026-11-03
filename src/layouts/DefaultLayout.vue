@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { readSidebarCollapsed, writeSidebarCollapsed } from "../services/settings";
-import { sidebarAppearance } from "../services/sidebarAppearance";
+import { readSidebarCollapsed, writeSidebarCollapsed } from "@/services/settings";
+import { sidebarAppearance } from "@/services/sidebarAppearance";
 import Sidebar from "./components/Sidebar.vue";
 import Titlebar from "./components/Titlebar.vue";
 import ContentArea from "./components/ContentArea.vue";

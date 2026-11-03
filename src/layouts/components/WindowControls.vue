@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { Minus, Square, Copy, X } from "@lucide/vue";
 import { useI18n } from "vue-i18n";
-import { desktopWindow } from "../../services/desktop";
+import { desktopWindow } from "@/services/desktop";
 
 const { t } = useI18n();
 const maximized = ref<boolean | null>(null);

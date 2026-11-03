@@ -2,23 +2,19 @@
 import { Check, Languages, LayoutPanelLeft, Monitor, Moon, PanelLeft, Sun } from "@lucide/vue";
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import VButton from "../../components/ui/VButton.vue";
-import VSelect from "../../components/ui/VSelect.vue";
+import VButton from "@/components/ui/VButton.vue";
+import VSelect from "@/components/ui/VSelect.vue";
 import UpdateDialog, { type UpdateDialogState } from "./UpdateDialog.vue";
-import { selectLanguage, type Language } from "../../i18n";
-import {
-  desktopUpdate,
-  type DesktopUpdate,
-  type DesktopUpdateProgress,
-} from "../../services/desktop";
-import { getApplicationVersion } from "../../services/desktop/appInfo";
-import { selectSidebarAppearance, sidebarAppearance } from "../../services/sidebarAppearance";
+import { selectLanguage, type Language } from "@/i18n";
+import { desktopUpdate, type DesktopUpdate, type DesktopUpdateProgress } from "@/services/desktop";
+import { getApplicationVersion } from "@/services/desktop/appInfo";
+import { selectSidebarAppearance, sidebarAppearance } from "@/services/sidebarAppearance";
 import {
   isThemeTransitioning,
   selectTheme,
   themePreference,
   type ThemePreference,
-} from "../../services/theme";
+} from "@/services/theme";
 
 const options = [
   {

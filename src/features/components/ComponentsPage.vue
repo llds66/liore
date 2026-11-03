@@ -3,16 +3,16 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ChevronDown, Copy, Pencil } from "@lucide/vue";
 import { VisuallyHidden } from "reka-ui";
-import VButton from "../../components/ui/VButton.vue";
-import VInput from "../../components/ui/VInput.vue";
-import VDialog from "../../components/ui/dialog/VDialog.vue";
+import VButton from "@/components/ui/VButton.vue";
+import VInput from "@/components/ui/VInput.vue";
+import VDialog from "@/components/ui/dialog/VDialog.vue";
 import {
   VDropdownMenu,
   VDropdownMenuTrigger,
   VDropdownMenuContent,
   VDropdownMenuItem,
-} from "../../components/ui/dropdown-menu";
-import VTooltip from "../../components/ui/tooltip/VTooltip.vue";
+} from "@/components/ui/dropdown-menu";
+import VTooltip from "@/components/ui/tooltip/VTooltip.vue";
 
 const { t } = useI18n();
 const inputValue = ref("");

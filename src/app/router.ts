@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { LayoutDashboard, PanelTop, Shapes } from "@lucide/vue";
-import OverviewPage from "../features/overview/OverviewPage.vue";
-import SettingsPage from "../features/settings/SettingsPage.vue";
-import ComponentsPage from "../features/components/ComponentsPage.vue";
-import MinimalLayoutPreviewPage from "../features/minimal-layout/MinimalLayoutPreviewPage.vue";
+import OverviewPage from "@/features/overview/OverviewPage.vue";
+import SettingsPage from "@/features/settings/SettingsPage.vue";
+import ComponentsPage from "@/features/components/ComponentsPage.vue";
+import MinimalLayoutPreviewPage from "@/features/minimal-layout/MinimalLayoutPreviewPage.vue";
 
 export const router = createRouter({
   // Hash history works in both browser preview and the Tauri file protocol.
@@ -12,7 +12,7 @@ export const router = createRouter({
     {
       path: "/",
       // Defer loading the layout: its Sidebar reads navigation from this router.
-      component: () => import("../layouts/DefaultLayout.vue"),
+      component: () => import("@/layouts/DefaultLayout.vue"),
       children: [
         {
           path: "",
@@ -36,7 +36,7 @@ export const router = createRouter({
     },
     {
       path: "/minimal",
-      component: () => import("../layouts/MinimalLayout.vue"),
+      component: () => import("@/layouts/MinimalLayout.vue"),
       children: [
         {
           path: "",

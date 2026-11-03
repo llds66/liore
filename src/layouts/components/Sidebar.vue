@@ -7,8 +7,8 @@ import {
   TooltipRoot,
   TooltipTrigger,
 } from "reka-ui";
-import { resolvedTheme } from "../../services/theme";
-import { sidebarItems } from "../../app/navigation";
+import { resolvedTheme } from "@/services/theme";
+import { sidebarItems } from "@/app/navigation";
 import { onWindowDragMouseDown } from "../windowDrag";
 import ProfileMenu from "./ProfileMenu.vue";
 

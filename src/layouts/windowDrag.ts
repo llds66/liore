@@ -1,4 +1,4 @@
-import { desktopWindow } from "../services/desktop";
+import { desktopWindow } from "@/services/desktop";
 
 // Attach only to designated non-interactive regions.
 export function onWindowDragMouseDown(event: MouseEvent) {
