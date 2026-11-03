@@ -35,11 +35,10 @@ captures/
 *.sln
 *.sw?
 
-# Keep local notes and agent instructions out of the template
+# Keep local notes out of the template
 /docs/*
 !/docs/design-system.md
 !/docs/customization.md
 !/docs/development.md
-/AGENTS.md
 
 app-icon.png
