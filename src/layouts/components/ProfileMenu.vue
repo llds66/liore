@@ -39,6 +39,7 @@ const { t } = useI18n();
     <DropdownMenuPortal>
       <DropdownMenuContent
         class="profile-menu"
+        :class="{ 'is-collapsed': collapsed }"
         side="top"
         align="start"
         :side-offset="8"
