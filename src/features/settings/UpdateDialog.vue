@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import VButton from "../../components/ui/VButton.vue";
-import VDialog from "../../components/ui/dialog/VDialog.vue";
+import VButton from "@/components/ui/VButton.vue";
+import VDialog from "@/components/ui/dialog/VDialog.vue";
 
 export type UpdateDialogState =
   | "idle"

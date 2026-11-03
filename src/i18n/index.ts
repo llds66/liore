@@ -3,12 +3,12 @@ import {
   readLanguagePreference,
   writeLanguagePreference,
   type Language,
-} from "../services/settings";
-import { syncTrayLanguage } from "../services/desktop/tray";
+} from "@/services/settings";
+import { syncTrayLanguage } from "@/services/desktop/tray";
 import en from "./locales/en";
 import zhCN from "./locales/zh-CN";
 
-export type { Language } from "../services/settings";
+export type { Language } from "@/services/settings";
 
 export const i18n = createI18n({
   legacy: false,

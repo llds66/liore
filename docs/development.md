@@ -6,6 +6,8 @@ Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScri
 
 ## 代码组织与依赖边界
 
+`@/` 映射到 `src/`；跨模块导入推荐使用 `@/`，同目录导入推荐使用 `./`。
+
 - `src/app` 声明路由和导航元数据；`src/layouts` 组合 Sidebar、Titlebar、ContentArea 与拖拽交互。
 - `src/components/ui` 提供通用 Vue UI，**不得导入** Tauri API、Desktop Services、Router 或 Feature；`src/layouts/components` 包含布局组件。
 - `src/features` 放置页面与功能。Feature 可使用公共 UI 和 Desktop Services，不导入其他 Feature 的内部实现。Overview 和 Components 为示例；移除时同时清理路由及相关导航链接，不能破坏 Shell 与公共 UI。
