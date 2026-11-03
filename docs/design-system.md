@@ -78,6 +78,7 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 - Sidebar 面板展开宽度与 flex-basis 为 248px，折叠均为 64px。Classic 贴边并使用右侧分隔线；Floating 面板使用完整边框和 12px 圆角，四周各留 8px，水平留白额外占用 16px。宽度过渡、跨组件显隐和 Portal 状态保留 CSS。
 - Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回或 Sidebar 切换按钮位于标题左侧；Sidebar 折叠时保留居中的 Logo、导航图标和头像，Settings 从 ProfileMenu 进入。
 - Sidebar 导航保留固定的 Active 背景；Hover 背景首次进入时原地淡入，在导航项之间滑动，进入 Active 项后融合淡出，离开导航区时原地淡出。键盘焦点保持独立；减少动效时立即更新，强制颜色模式使用系统颜色。
+- ProfileMenu 展开时高亮 Trigger 并旋转 Chevron；菜单展开态跟随 Trigger 宽度，折叠态保留可读宽度，进出动画遵循减少动效偏好。
 - Titlebar 和 Sidebar Header 的指定区域通过鼠标事件与 Desktop Window Service 拖拽和双击最大化／还原；当前不使用 `data-tauri-drag-region`。不要把平台调用移入 UI 基础组件。
 
 ## 7. 交互状态、动效与无障碍
