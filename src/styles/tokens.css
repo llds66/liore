@@ -30,9 +30,8 @@
   --liore-surface-hover: #252528;
   --liore-surface-active: #303034;
   --liore-border: #2a2a2e;
-  --liore-scrollbar-thumb-idle: #29292d;
-  --liore-scrollbar-thumb: #444448;
-  --liore-scrollbar-thumb-hover: #68686f;
+  --liore-scrollbar-thumb: #28282c;
+  --liore-scrollbar-thumb-hover: #3c3c41;
   --liore-foreground: #f0f0f1;
   --liore-secondary-foreground: #c4c4c9;
   --liore-muted-foreground: #98989e;
@@ -51,9 +50,8 @@
   --liore-surface-hover: #e9e9ed;
   --liore-surface-active: #e2e2e7;
   --liore-border: #dadade;
-  --liore-scrollbar-thumb-idle: #d0d0d6;
-  --liore-scrollbar-thumb: #aaaab3;
-  --liore-scrollbar-thumb-hover: #85858e;
+  --liore-scrollbar-thumb: #d8d8de;
+  --liore-scrollbar-thumb-hover: #bcbcc5;
   --liore-foreground: #202024;
   --liore-secondary-foreground: #45454d;
   --liore-muted-foreground: #62626c;

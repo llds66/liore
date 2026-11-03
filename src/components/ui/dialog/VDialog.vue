@@ -49,7 +49,7 @@ const descriptionAttrs = computed(() =>
     <DialogPortal>
       <DialogOverlay class="v-dialog-overlay fixed inset-0 z-(--liore-layer-modal) bg-overlay" />
       <DialogContent
-        class="v-dialog fixed top-1/2 left-1/2 z-[calc(var(--liore-layer-modal)+1)] w-[min(480px,calc(100vw-32px))] max-h-[calc(100dvh-32px)] overflow-y-auto rounded-dialog border border-border bg-surface p-(--liore-space-6) text-control text-foreground wrap-anywhere shadow-dialog"
+        class="v-dialog liore-scrollbar fixed top-1/2 left-1/2 z-[calc(var(--liore-layer-modal)+1)] w-[min(480px,calc(100vw-32px))] max-h-[calc(100dvh-32px)] overflow-y-auto rounded-dialog border border-border bg-surface p-(--liore-space-6) text-control text-foreground wrap-anywhere shadow-dialog"
         v-bind="{ ...descriptionAttrs, ...$attrs, ...contentEvents }"
       >
         <header :class="{ 'pr-(--liore-space-6)': showClose }">

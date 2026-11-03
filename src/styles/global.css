@@ -25,42 +25,28 @@ body,
   outline-offset: 2px;
 }
 
-/* Limit native scrollbar styling to the shell's two scroll containers. */
+/* Apply scrollbar styling only to opted-in Liore scroll containers. */
 @media (forced-colors: none) {
-  .content-area,
-  .sidebar-nav {
+  .liore-scrollbar {
     scrollbar-width: auto;
     scrollbar-color: auto;
-    --liore-scrollbar-current: var(--liore-scrollbar-thumb-idle);
   }
-  .content-area:hover,
-  .content-area:focus-within,
-  .sidebar-nav:hover,
-  .sidebar-nav:focus-within {
-    --liore-scrollbar-current: var(--liore-scrollbar-thumb);
+  .liore-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
-  .content-area::-webkit-scrollbar,
-  .sidebar-nav::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  .content-area::-webkit-scrollbar-track,
-  .sidebar-nav::-webkit-scrollbar-track {
+  .liore-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
-  .content-area::-webkit-scrollbar-thumb,
-  .sidebar-nav::-webkit-scrollbar-thumb {
-    background: var(--liore-scrollbar-current);
+  .liore-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--liore-scrollbar-thumb);
     border-radius: 999px;
   }
-  .content-area::-webkit-scrollbar-thumb:hover,
-  .content-area::-webkit-scrollbar-thumb:active,
-  .sidebar-nav::-webkit-scrollbar-thumb:hover,
-  .sidebar-nav::-webkit-scrollbar-thumb:active {
+  .liore-scrollbar::-webkit-scrollbar-thumb:hover,
+  .liore-scrollbar::-webkit-scrollbar-thumb:active {
     background: var(--liore-scrollbar-thumb-hover);
   }
-  .content-area::-webkit-scrollbar-button,
-  .sidebar-nav::-webkit-scrollbar-button {
+  .liore-scrollbar::-webkit-scrollbar-button {
     display: none;
   }
 }

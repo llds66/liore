@@ -51,7 +51,7 @@ const TooltipDisabledSync = defineComponent({
       <TooltipPortal>
         <TooltipContent
           v-bind="$attrs"
-          class="v-tooltip z-(--liore-layer-popover) overflow-auto rounded-control border border-border bg-surface px-(--liore-space-2) py-(--liore-space-1) text-caption leading-normal text-foreground wrap-anywhere shadow-popover"
+          class="v-tooltip liore-scrollbar z-(--liore-layer-popover) overflow-auto rounded-control border border-border bg-surface px-(--liore-space-2) py-(--liore-space-1) text-caption leading-normal text-foreground wrap-anywhere shadow-popover"
           :side="side"
           :side-offset="8"
           :collision-padding="8"

@@ -95,7 +95,7 @@ function preventDismiss(event: Event): void {
       <div v-if="visibleNotes" class="grid min-w-0 gap-(--liore-space-2)">
         <p class="font-medium text-foreground">{{ t("settings.update.notes") }}</p>
         <p
-          class="max-h-[35vh] min-w-0 overflow-y-auto leading-normal whitespace-pre-wrap text-secondary-foreground wrap-anywhere"
+          class="liore-scrollbar max-h-[35vh] min-w-0 overflow-y-auto leading-normal whitespace-pre-wrap text-secondary-foreground wrap-anywhere"
         >
           {{ visibleNotes }}
         </p>

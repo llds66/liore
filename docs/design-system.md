@@ -91,7 +91,7 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 
 以下保留 CSS 是合理设计：Sidebar 折叠与跨组件联动；ProfileMenu、Tooltip Portal 的复杂状态与动画；Dialog 定位和状态关键帧；Titlebar 拖拽命中布局、窗口按钮状态及焦点偏移；View Transition 伪元素；WebView2 原生滚动条；reduced-motion 与 forced-colors。
 
-ContentArea 和 Sidebar 导航使用受限的原生滚动条规则：8px 宽、透明轨道、主题滑块和隐藏箭头；强制颜色模式交给系统。规则只作用于现有两个容器，不改变其他内容的滚动行为。
+Liore 自有滚动容器通过 `liore-scrollbar` 类使用统一的原生滚动条样式：4px 宽、透明轨道、主题滑块和隐藏箭头；滑块仅在自身 Hover 或 Active 时改变颜色，强制颜色模式交给系统。该类不创建滚动容器，也不改变滚动行为；第三方内部容器不自动应用。
 
 复杂 CSS 不是重构失败。不要为了减少 `<style>` 改动稳定的 Windows 行为；迁移时逐属性移除旧声明，检查分层与选择器，而不是依赖 class 顺序或常规使用 `!important`。
 
