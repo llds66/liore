@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { ArrowLeft, PanelLeft, PanelRight } from "@lucide/vue";
@@ -22,25 +23,29 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 
-function goBack() {
-  const previous = router.options.history.state.back;
-  if (
+function hasValidBackTarget(): boolean {
+  const state = router.options.history.state;
+  const previous = state.back;
+  return (
+    state.current === route.fullPath &&
     typeof previous === "string" &&
     previous.startsWith("/") &&
     !previous.startsWith("//") &&
     router.resolve(previous).matched.length > 0
-  ) {
-    router.back();
-  } else {
-    void router.push({ name: "overview" });
-  }
+  );
+}
+
+const canGoBack = computed(() => hasValidBackTarget());
+
+function goBack() {
+  if (hasValidBackTarget()) router.back();
 }
 </script>
 
 <template>
   <header class="app-titlebar">
     <button
-      v-if="showBack"
+      v-if="showBack && canGoBack"
       type="button"
       class="ml-2 grid size-10 flex-none place-items-center rounded-control text-secondary-foreground hover:bg-surface-hover active:bg-surface-active"
       :aria-label="t('shell.back')"
