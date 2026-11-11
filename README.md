@@ -1,22 +1,28 @@
 # Liore
 
-![Liore 项目横幅](https://imgbed.lldsss.com/file/Liore/1793365125454_1920×640.png)
+Liore 是基于 Vue 3 与 Tauri 2 构建的轻量级 Windows 桌面应用模板，采用 Graphite 设计风格，提供简洁、现代且易于扩展的桌面应用基础架构。
 
-Liore 是基于 Vue 3 与 Tauri 2 的轻量级 Windows 桌面应用模板，内置 Graphite 风格的桌面外壳与基础组件。
+## 截图
+
+<p align="center">
+  <img src="https://imgbed.lldsss.com/file/Liore/1794385163151_shots_1.png" alt="Liore Light / Dark 主题预览" width="100%" />
+</p>
 
 ## 技术栈
 
-Vue 3、TypeScript、Vite、Tauri 2（Rust）、Tailwind CSS v4、Reka UI、Vue Router、Vue I18n、Lucide。
+Vue 3 · TypeScript · Vite · Tauri 2（Rust）· Tailwind CSS v4 · Reka UI · Vue Router · Vue I18n · Lucide
 
 ## 主要功能
 
-- 自定义窗口标题栏、可折叠 Sidebar，以及路由驱动的动态导航。
-- Light / Dark / System 主题和 English / 简体中文切换。
-- 系统托盘、单实例运行，以及窗口位置、尺寸和最大化状态持久化。
+- **桌面外壳**：自定义窗口标题栏、Sidebar 和多布局支持。
+- **侧边栏交互**：拖拽调整宽度、自动折叠吸附、平滑过渡与状态持久化。
+- **主题与语言**：Light / Dark / System 主题，English / 简体中文切换。
+- **系统集成**：系统托盘、单实例运行、窗口状态持久化。
+- **基础能力**：路由驱动导航、UI 组件及桌面服务适配层。
 
 ## 快速开始
 
-在 Windows 11 上准备 Node.js、pnpm、Rust、Microsoft C++ Build Tools（安装“使用 C++ 的桌面开发”工作负载）和 WebView2 Runtime。
+开发环境：Windows 11、Node.js、pnpm、Rust、Microsoft C++ Build Tools（C++ 桌面开发工作负载）及 WebView2 Runtime。
 
 安装依赖：
 
@@ -30,13 +36,13 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Windows 桌面开发（与浏览器预览二选一）：
+Windows 桌面开发：
 
 ```sh
 pnpm windows:dev
 ```
 
-静态检查与前端构建：
+代码检查与构建：
 
 ```sh
 pnpm lint
@@ -45,16 +51,19 @@ pnpm typecheck
 pnpm build
 ```
 
-构建 NSIS 安装包：
+构建 Windows NSIS 安装包：
 
 ```sh
 pnpm build:windows:installer
 ```
 
+## 开发文档
+
+- [开发规范](docs/development.md)
+- [设计系统](docs/design-system.md)
+- [模板定制指南](docs/customization.md)
+- [Git 工作流](docs/git-workflow.md)
+
 ## 许可证
 
-本项目采用 [MIT License](LICENSE)。
-
-## 自定义模板
-
-基于 Liore 开发自己的应用时，请参阅[开发规范](docs/development.md)、[设计系统与样式规范](docs/design-system.md)和[模板定制指南](docs/customization.md)。
+本项目基于 [MIT License](LICENSE) 开源。
