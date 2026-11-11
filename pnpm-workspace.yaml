@@ -1,0 +1,3 @@
+# Allow esbuild to install and validate its platform-specific binary.
+allowBuilds:
+  esbuild: true
