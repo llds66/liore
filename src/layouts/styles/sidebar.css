@@ -1,4 +1,5 @@
 .sidebar {
+  --sidebar-label-progress: 1;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -7,17 +8,15 @@
   width: 100%;
   background: var(--liore-sidebar);
 }
+.sidebar.is-collapsed {
+  --sidebar-label-progress: 0;
+}
 .sidebar-header,
 .sidebar-nav,
-.profile-trigger,
-.profile-menu,
+.sidebar-footer,
 .shell-tooltip {
   -webkit-user-select: none;
   user-select: none;
-}
-.profile-trigger:hover,
-.profile-trigger[data-state="open"] {
-  background: var(--liore-surface-hover);
 }
 .sidebar-nav {
   position: relative;
@@ -56,65 +55,15 @@
   margin: 0 11px;
 }
 .sidebar-label,
-.profile-name {
-  opacity: 1;
-  transition: opacity var(--liore-motion-hover) ease;
+.sidebar-brand-name {
+  opacity: var(--sidebar-label-progress);
+  transform: translateX(calc((1 - var(--sidebar-label-progress)) * -6px));
   white-space: nowrap;
 }
-.sidebar-brand-name {
-  opacity: 1;
-  transition: opacity var(--liore-motion-hover) ease;
+.sidebar-footer-link:hover:not(.is-active) {
+  background: var(--liore-surface-hover);
 }
-.sidebar.is-collapsed .sidebar-brand-name {
-  opacity: 0;
-  visibility: hidden;
-}
-.sidebar.is-collapsed .sidebar-label,
-.sidebar.is-collapsed .profile-name,
-.sidebar.is-collapsed .profile-chevron {
-  opacity: 0;
-  visibility: hidden;
-}
-.profile-trigger {
-  display: flex;
-  align-items: center;
-  width: calc(100% - 24px);
-  height: 40px;
-  margin: 12px;
-  border-radius: 6px;
-  transition: background var(--liore-motion-hover) ease;
-}
-.profile-avatar {
-  margin-left: 4px;
-}
-.profile-name {
-  margin-left: 10px;
-}
-.profile-chevron {
-  margin-left: auto;
-  margin-right: 10px;
-  transition: transform 180ms ease-in-out;
-}
-.profile-trigger[data-state="open"] .profile-chevron {
-  transform: rotate(180deg);
-}
-.sidebar.is-collapsed .profile-trigger {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  margin: 12px auto;
-  border-radius: 8px;
-}
-.sidebar.is-collapsed .profile-avatar {
-  margin: 0;
-}
-.sidebar.is-collapsed .profile-name,
-.sidebar.is-collapsed .profile-chevron {
-  display: none;
-}
-.shell-tooltip,
-.profile-menu {
+.shell-tooltip {
   background: var(--liore-surface);
   color: var(--liore-foreground);
   border: 1px solid var(--liore-border);
@@ -125,97 +74,24 @@
   border-radius: 6px;
   font-size: 12px;
 }
-.profile-menu {
-  z-index: 30;
-  box-sizing: border-box;
-  width: min(
-    var(--reka-dropdown-menu-trigger-width),
-    var(--reka-dropdown-menu-content-available-width)
-  );
-  max-width: var(--reka-dropdown-menu-content-available-width);
-  padding: 4px;
-  border-radius: 10px;
-}
-.profile-menu.is-collapsed {
-  width: min(190px, var(--reka-dropdown-menu-content-available-width));
-}
-.profile-menu[data-state="open"] {
-  animation: profile-menu-in 180ms ease-out;
-}
-.profile-menu[data-state="closed"] {
-  animation: profile-menu-out 140ms ease-in;
-}
-.profile-menu-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
-  border-radius: 6px;
-  outline: none;
-  cursor: default;
-}
-.profile-menu-item[data-highlighted] {
-  background: var(--liore-surface-hover);
-}
-.profile-menu-item:focus-visible {
-  outline: 2px solid var(--liore-focus-ring);
-  outline-offset: -2px;
-}
-@keyframes profile-menu-in {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes profile-menu-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(3px);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .sidebar-hover-indicator,
   .sidebar-hover-indicator.is-moving,
   .sidebar,
-  .sidebar-link,
-  .sidebar-label,
-  .sidebar-brand-name,
-  .profile-name,
-  .profile-chevron,
-  .profile-trigger {
+  .sidebar-link {
     transition: none;
   }
-  .profile-menu[data-state] {
-    animation: none;
+  .sidebar-label,
+  .sidebar-brand-name {
+    opacity: 1;
+    transform: none;
+  }
+  .sidebar.is-collapsed .sidebar-label,
+  .sidebar.is-collapsed .sidebar-brand-name {
+    opacity: 0;
   }
 }
 @media (forced-colors: active) {
-  .profile-trigger[data-state="open"]:not(:focus-visible),
-  .profile-trigger:hover:not(:focus-visible) {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
-  }
-  .profile-menu {
-    border-color: CanvasText;
-  }
-  .profile-menu-item[data-highlighted] {
-    background: Highlight;
-    color: HighlightText;
-  }
-  .profile-menu-item:focus-visible {
-    outline-color: CanvasText;
-  }
-  .profile-menu-item[data-highlighted]:focus-visible {
-    outline-color: HighlightText;
-  }
   .sidebar-hover-indicator {
     display: none;
   }

@@ -23,9 +23,9 @@ Liore 是 Windows 11 优先的桌面应用模板。技术栈为 Vue 3、TypeScri
 
 ## 桌面 Shell 与平台边界
 
-DefaultLayout 作为嵌套路由的父布局，保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`，其内的 PageContainer 统一包装页面。MinimalLayout 不默认包装 PageContainer，`/minimal` 提供可移除的布局预览。导航由路由元数据生成，Settings 通过 ProfileMenu 进入。
+DefaultLayout 作为嵌套路由的父布局，保持单窗口和单主内容区；ContentArea 是独立滚动的 `<main>`，其内的 PageContainer 统一包装页面。MinimalLayout 不默认包装 PageContainer，`/minimal` 提供可移除的布局预览。中间导航由路由元数据生成，Settings 通过 Sidebar 底部固定的独立导航项进入。
 
-Sidebar 展开显示 Logo、品牌文字、图标和导航文字，折叠显示居中的 Logo、图标与头像；切换按钮位于 DefaultLayout 的 Titlebar。Classic 和 Floating 外观由 Settings 选择，外观与折叠偏好分别持久化；`Ctrl+B` 在普通上下文切换折叠状态，输入控件、Dialog 和菜单等上下文除外。
+Sidebar 展开显示 Logo、品牌文字、图标和导航文字，折叠显示居中的 Logo 与导航图标；切换按钮位于 DefaultLayout 的 Titlebar。右边缘手柄支持指针拖拽、方向键调整和双击恢复默认宽度；Home 折叠，End 调至最大宽度。Classic 和 Floating 外观由 Settings 选择，外观、折叠状态和最后一次有效展开宽度分别持久化；`Ctrl+B` 在普通上下文切换折叠状态，输入控件、Dialog 和菜单等上下文除外。拖拽取消或窗口失焦时恢复拖拽前状态。
 
 Titlebar 显示当前页面标题，并可选择显示返回按钮或 Sidebar 切换按钮；MinimalLayout 在存在有效应用内返回目标时显示返回按钮，DefaultLayout 显示 Sidebar 切换按钮。没有有效返回目标时隐藏返回按钮。窗口控制通过 Desktop Window Service。标题栏及 Sidebar Header 的指定非交互区域通过鼠标事件执行拖拽和双击最大化／还原，交互按钮不属于拖拽区。自定义最大化按钮不提供 Windows 11 原生 Snap Layout 悬停菜单；不要为外观绕过平台行为。
 
