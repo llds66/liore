@@ -16,8 +16,9 @@ import { onWindowDragMouseDown } from "../windowDrag";
 
 const { t } = useI18n();
 const route = useRoute();
-defineProps<{ collapsed: boolean }>();
+const props = defineProps<{ collapsed: boolean; isResizing: boolean }>();
 
+const sidebar = ref<HTMLElement | null>(null);
 const navigation = ref<HTMLElement | null>(null);
 const indicator = ref<HTMLElement | null>(null);
 const indicatorVisible = ref(false);
@@ -128,6 +129,7 @@ function onIndicatorTransitionEnd(event: TransitionEvent) {
 }
 
 function onItemEnter(event: MouseEvent) {
+  if (props.isResizing) return;
   const target = event.currentTarget;
   if (!(target instanceof HTMLElement)) return;
   const enteringFromOutside = freshEntry;
@@ -186,10 +188,18 @@ function onNavigationLeave() {
 }
 
 watch(
+  () => props.isResizing,
+  (resizing) => {
+    if (resizing) onNavigationLeave();
+  },
+  { flush: "sync" },
+);
+
+watch(
   () => route.fullPath,
   async () => {
     await nextTick();
-    if (disposed) return;
+    if (disposed || props.isResizing) return;
     if (hoveredTarget && !hoveredTarget.matches(":hover")) hoveredTarget = null;
     cancelPendingMove();
     sequence++;
@@ -200,9 +210,19 @@ watch(
 );
 
 onMounted(() => {
-  resizeObserver = new ResizeObserver(() => {
+  function updateLabelProgress(width: number) {
+    const progress = Math.min(1, Math.max(0, (width - 96) / 104));
+    sidebar.value?.style.setProperty("--sidebar-label-progress", String(progress));
+  }
+
+  if (sidebar.value) updateLabelProgress(sidebar.value.getBoundingClientRect().width);
+  resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.target === sidebar.value) updateLabelProgress(entry.contentRect.width);
+    }
     if (displayedTarget) positionIndicator(displayedTarget);
   });
+  if (sidebar.value) resizeObserver.observe(sidebar.value);
   if (navigation.value) resizeObserver.observe(navigation.value);
 });
 
@@ -225,7 +245,7 @@ function onHeaderMouseDown(event: MouseEvent) {
 </script>
 
 <template>
-  <aside class="sidebar" :class="{ 'is-collapsed': collapsed }">
+  <aside ref="sidebar" class="sidebar" :class="{ 'is-collapsed': collapsed }">
     <TooltipProvider :delay-duration="300">
       <div
         class="sidebar-header flex h-(--shell-header-height) flex-none items-center overflow-hidden px-3"
@@ -285,10 +305,10 @@ function onHeaderMouseDown(event: MouseEvent) {
                 aria-hidden="true"
                 class="sidebar-icon flex-none"
               />
-              <span class="sidebar-label" :aria-hidden="collapsed">{{ t(item.title) }}</span>
+              <span class="sidebar-label" aria-hidden="true">{{ t(item.title) }}</span>
             </RouterLink>
           </TooltipTrigger>
-          <TooltipPortal v-if="collapsed">
+          <TooltipPortal v-if="collapsed && !isResizing">
             <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
               t(item.title)
             }}</TooltipContent>
@@ -305,10 +325,10 @@ function onHeaderMouseDown(event: MouseEvent) {
               :aria-label="t('nav.settings')"
             >
               <Settings :size="18" aria-hidden="true" class="sidebar-icon flex-none" />
-              <span class="sidebar-label" :aria-hidden="collapsed">{{ t("nav.settings") }}</span>
+              <span class="sidebar-label" aria-hidden="true">{{ t("nav.settings") }}</span>
             </RouterLink>
           </TooltipTrigger>
-          <TooltipPortal v-if="collapsed">
+          <TooltipPortal v-if="collapsed && !isResizing">
             <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
               t("nav.settings")
             }}</TooltipContent>

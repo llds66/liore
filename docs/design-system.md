@@ -75,9 +75,11 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 - `src/layouts/DefaultLayout.vue` 组合 Sidebar、Titlebar 与内容区域，管理 Flex、最小尺寸和溢出约束。
 - `src/layouts/components/ContentArea.vue` 是主内容的独立滚动 `<main>`，保留 `.content-area` 标识；不要把页面包装器变成第二个 `<main>`。
 - `src/layouts/components/PageContainer.vue` 为普通页面提供居中、`max-w-210`（840px）和留白：水平 20px、`sm` 起 36px，顶部 36px、底部 64px。DefaultLayout 统一包装嵌套路由页面，页面内部 Flex / Grid / Gap 自行管理；MinimalLayout 不默认包装。
-- Sidebar 面板展开宽度与 flex-basis 为 248px，折叠均为 64px。Classic 贴边并使用右侧分隔线；Floating 面板使用完整边框和 12px 圆角，四周各留 8px，水平留白额外占用 16px。宽度过渡、跨组件显隐和 Portal 状态保留 CSS。
+- Sidebar 面板默认展开宽度为 248px，可在 200–360px 调整，折叠宽度为 64px；右边缘支持拖拽和键盘调整，双击恢复默认宽度。拖拽时实时跟随指针，松开时低于 136px 吸附折叠，否则至少吸附至 200px。Classic 贴边并使用右侧分隔线；Floating 面板使用完整边框和 12px 圆角，四周各留 8px，水平留白额外占用 16px。拖拽时关闭宽度过渡，吸附沿用 Sidebar 过渡与减少动效设置。
+- Sidebar 调整手柄保留独立命中区域；边缘渐变细线仅在悬停和拖拽时显现，高亮中心随指针纵向移动，拖拽状态稍亮并保持轻微光晕。强制颜色模式下使用系统颜色，减少动效时取消反馈过渡。
 - Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回或 Sidebar 切换按钮位于标题左侧；Sidebar 折叠时保留居中的 Logo 和导航图标，Settings 作为固定在底部的独立导航项。
-- Sidebar 导航保留固定的 Active 背景；Hover 背景首次进入时原地淡入，在导航项之间滑动，进入 Active 项后融合淡出，离开导航区时原地淡出。键盘焦点保持独立；减少动效时立即更新，强制颜色模式使用系统颜色。
+- 品牌和导航文字（包括 Settings）按 Sidebar 实际宽度渐隐并轻微左移：96px 及以下隐藏，200px 及以上完全显示；按钮切换、拖拽和吸附共享这一进度。图标沿用固定位置，在折叠宽度下居中；减少动效时文字按折叠状态立即显隐。
+- Sidebar 导航保留固定的 Active 背景；Hover 背景首次进入时原地淡入，在导航项之间滑动，进入 Active 项后融合淡出，离开导航区或开始调整宽度时原地淡出。键盘焦点保持独立；减少动效时立即更新，强制颜色模式使用系统颜色。
 - 底部 Settings 与普通导航项共用尺寸、Active 状态及折叠 Tooltip；Hover 使用独立背景，不跨容器移动 Indicator。
 - Titlebar 和 Sidebar Header 的指定区域通过鼠标事件与 Desktop Window Service 拖拽和双击最大化／还原；当前不使用 `data-tauri-drag-region`。不要把平台调用移入 UI 基础组件。
 

@@ -1,4 +1,5 @@
 .sidebar {
+  --sidebar-label-progress: 1;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -6,6 +7,9 @@
   min-width: 0;
   width: 100%;
   background: var(--liore-sidebar);
+}
+.sidebar.is-collapsed {
+  --sidebar-label-progress: 0;
 }
 .sidebar-header,
 .sidebar-nav,
@@ -50,22 +54,11 @@
 .sidebar-icon {
   margin: 0 11px;
 }
-.sidebar-label {
-  opacity: 1;
-  transition: opacity var(--liore-motion-hover) ease;
-  white-space: nowrap;
-}
+.sidebar-label,
 .sidebar-brand-name {
-  opacity: 1;
-  transition: opacity var(--liore-motion-hover) ease;
-}
-.sidebar.is-collapsed .sidebar-brand-name {
-  opacity: 0;
-  visibility: hidden;
-}
-.sidebar.is-collapsed .sidebar-label {
-  opacity: 0;
-  visibility: hidden;
+  opacity: var(--sidebar-label-progress);
+  transform: translateX(calc((1 - var(--sidebar-label-progress)) * -6px));
+  white-space: nowrap;
 }
 .sidebar-footer-link:hover:not(.is-active) {
   background: var(--liore-surface-hover);
@@ -85,10 +78,17 @@
   .sidebar-hover-indicator,
   .sidebar-hover-indicator.is-moving,
   .sidebar,
-  .sidebar-link,
+  .sidebar-link {
+    transition: none;
+  }
   .sidebar-label,
   .sidebar-brand-name {
-    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .sidebar.is-collapsed .sidebar-label,
+  .sidebar.is-collapsed .sidebar-brand-name {
+    opacity: 0;
   }
 }
 @media (forced-colors: active) {

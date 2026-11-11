@@ -8,6 +8,8 @@ export default {
   "minimalLayout.back": "Back to Overview",
   "shell.expandSidebar": "Expand sidebar",
   "shell.collapseSidebar": "Collapse sidebar",
+  "shell.resizeSidebar": "Resize sidebar",
+  "shell.sidebarCollapsed": "Collapsed",
   "shell.mainNavigation": "Main navigation",
   "shell.back": "Go back",
   "shell.windowControls": "Window controls",
