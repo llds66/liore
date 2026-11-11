@@ -76,9 +76,9 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 - `src/layouts/components/ContentArea.vue` 是主内容的独立滚动 `<main>`，保留 `.content-area` 标识；不要把页面包装器变成第二个 `<main>`。
 - `src/layouts/components/PageContainer.vue` 为普通页面提供居中、`max-w-210`（840px）和留白：水平 20px、`sm` 起 36px，顶部 36px、底部 64px。DefaultLayout 统一包装嵌套路由页面，页面内部 Flex / Grid / Gap 自行管理；MinimalLayout 不默认包装。
 - Sidebar 面板展开宽度与 flex-basis 为 248px，折叠均为 64px。Classic 贴边并使用右侧分隔线；Floating 面板使用完整边框和 12px 圆角，四周各留 8px，水平留白额外占用 16px。宽度过渡、跨组件显隐和 Portal 状态保留 CSS。
-- Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回或 Sidebar 切换按钮位于标题左侧；Sidebar 折叠时保留居中的 Logo、导航图标和头像，Settings 从 ProfileMenu 进入。
+- Sidebar Header 与 Titlebar 共用 `--shell-header-height: 48px`。标题栏显示当前页面标题，可选的返回或 Sidebar 切换按钮位于标题左侧；Sidebar 折叠时保留居中的 Logo 和导航图标，Settings 作为固定在底部的独立导航项。
 - Sidebar 导航保留固定的 Active 背景；Hover 背景首次进入时原地淡入，在导航项之间滑动，进入 Active 项后融合淡出，离开导航区时原地淡出。键盘焦点保持独立；减少动效时立即更新，强制颜色模式使用系统颜色。
-- ProfileMenu 展开时高亮 Trigger 并旋转 Chevron；菜单展开态跟随 Trigger 宽度，折叠态保留可读宽度，进出动画遵循减少动效偏好。
+- 底部 Settings 与普通导航项共用尺寸、Active 状态及折叠 Tooltip；Hover 使用独立背景，不跨容器移动 Indicator。
 - Titlebar 和 Sidebar Header 的指定区域通过鼠标事件与 Desktop Window Service 拖拽和双击最大化／还原；当前不使用 `data-tauri-drag-region`。不要把平台调用移入 UI 基础组件。
 
 ## 7. 交互状态、动效与无障碍
@@ -91,7 +91,7 @@ VInput 使用 `aria-invalid:border-danger`；实际原生输入框必须具有�
 
 ## 8. 必要 CSS 的边界
 
-以下保留 CSS 是合理设计：Sidebar 折叠与跨组件联动；ProfileMenu、Tooltip Portal 的复杂状态与动画；Dialog 定位和状态关键帧；Titlebar 拖拽命中布局、窗口按钮状态及焦点偏移；View Transition 伪元素；WebView2 原生滚动条；reduced-motion 与 forced-colors。
+以下保留 CSS 是合理设计：Sidebar 折叠与跨组件联动；Tooltip Portal 的复杂状态与动画；Dialog 定位和状态关键帧；Titlebar 拖拽命中布局、窗口按钮状态及焦点偏移；View Transition 伪元素；WebView2 原生滚动条；reduced-motion 与 forced-colors。
 
 Liore 自有滚动容器通过 `liore-scrollbar` 类使用统一的原生滚动条样式：4px 宽、透明轨道、主题滑块和隐藏箭头；滑块仅在自身 Hover 或 Active 时改变颜色，强制颜色模式交给系统。该类不创建滚动容器，也不改变滚动行为；第三方内部容器不自动应用。
 

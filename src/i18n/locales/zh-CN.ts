@@ -10,7 +10,6 @@ const zhCN: { [Key in keyof typeof en]: string } = {
   "shell.expandSidebar": "展开侧边栏",
   "shell.collapseSidebar": "折叠侧边栏",
   "shell.mainNavigation": "主导航",
-  "shell.profileMenu": "个人菜单",
   "shell.back": "返回",
   "shell.windowControls": "窗口控制",
   "shell.minimize": "最小化",

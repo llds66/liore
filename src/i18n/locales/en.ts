@@ -9,7 +9,6 @@ export default {
   "shell.expandSidebar": "Expand sidebar",
   "shell.collapseSidebar": "Collapse sidebar",
   "shell.mainNavigation": "Main navigation",
-  "shell.profileMenu": "Profile menu",
   "shell.back": "Go back",
   "shell.windowControls": "Window controls",
   "shell.minimize": "Minimize",

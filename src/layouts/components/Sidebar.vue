@@ -2,6 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { Settings } from "@lucide/vue";
 import {
   TooltipContent,
   TooltipPortal,
@@ -12,7 +13,6 @@ import {
 import { resolvedTheme } from "@/services/theme";
 import { sidebarItems } from "@/app/navigation";
 import { onWindowDragMouseDown } from "../windowDrag";
-import ProfileMenu from "./ProfileMenu.vue";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -45,7 +45,7 @@ function cancelPendingMove() {
 
 function positionIndicator(target: HTMLElement) {
   const nav = navigation.value;
-  if (!nav) return;
+  if (!nav || !nav.contains(target)) return;
   const navRect = nav.getBoundingClientRect();
   const targetRect = target.getBoundingClientRect();
   indicatorStyle.value = {
@@ -201,7 +201,7 @@ watch(
 
 onMounted(() => {
   resizeObserver = new ResizeObserver(() => {
-    if (displayedTarget && indicatorVisible.value) positionIndicator(displayedTarget);
+    if (displayedTarget) positionIndicator(displayedTarget);
   });
   if (navigation.value) resizeObserver.observe(navigation.value);
 });
@@ -295,7 +295,26 @@ function onHeaderMouseDown(event: MouseEvent) {
           </TooltipPortal>
         </TooltipRoot>
       </nav>
-      <ProfileMenu :collapsed="collapsed" />
+      <div class="sidebar-footer flex-none px-3 py-3">
+        <TooltipRoot :delay-duration="300" :disable-hoverable-content="true">
+          <TooltipTrigger as-child>
+            <RouterLink
+              to="/settings"
+              class="sidebar-link sidebar-footer-link flex h-10 w-full items-center overflow-hidden rounded-control text-secondary-foreground whitespace-nowrap"
+              exact-active-class="is-active"
+              :aria-label="t('nav.settings')"
+            >
+              <Settings :size="18" aria-hidden="true" class="sidebar-icon flex-none" />
+              <span class="sidebar-label" :aria-hidden="collapsed">{{ t("nav.settings") }}</span>
+            </RouterLink>
+          </TooltipTrigger>
+          <TooltipPortal v-if="collapsed">
+            <TooltipContent side="right" :side-offset="8" class="shell-tooltip">{{
+              t("nav.settings")
+            }}</TooltipContent>
+          </TooltipPortal>
+        </TooltipRoot>
+      </div>
     </TooltipProvider>
   </aside>
 </template>
