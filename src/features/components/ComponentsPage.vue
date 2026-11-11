@@ -225,9 +225,7 @@ const sideKeys = {
               :title="t('components.dialogTitle')"
               :description="t('components.dialogDescription')"
             >
-              <template #trigger
-                ><VButton>{{ t("components.openDialog") }}</VButton></template
-              >
+              <template #trigger><VButton>{{ t("components.openDialog") }}</VButton></template>
               <p>{{ t("components.dialogBody") }}</p>
               <template #footer="{ close }"
                 ><VButton variant="outline" @click="close">{{

@@ -13,6 +13,7 @@ Liore 是 Windows 11 优先的桌面应用开发模板，不是特定业务产�
 - `docs/development.md`：项目架构、模块边界和桌面行为。
 - `docs/design-system.md`：设计 Token、组件外观、布局和交互。
 - `docs/customization.md`：应用定制、身份信息和发布配置。
+- `docs/git-workflow.md`：Git 工作流。
 
 正式文档与实现不一致时，先确认预期行为；有意改变既有规范时同步更新相关文档。
 
@@ -67,82 +68,11 @@ git diff --check
 
 ## Git 工作流
 
-### 基本原则
+Git 分支、Commit、合并、Pull Request 和 Release
+遵循 [Git 工作流规范](docs/git-workflow.md)。
 
-- 修改前检查当前分支和工作区状态；不得覆盖、清理或擅自带入用户已有的未提交修改。
-- 较大的 Feature、Fix、Refactor 优先使用独立分支；简单文档修正等小改动可按用户指示直接在当前分支处理。
-- 未经用户明确授权，不创建、切换、合并或删除分支，不创建 Commit、Push、Pull Request、Tag 或 Release。
-- 不修改全局 Git 配置，不擅自执行可能改写历史的操作。
-
-### 分支命名
-
-分支统一使用小写英文 kebab-case，格式为 `<type>/<short-description>`：
-
-| Type | 用途 | 示例 |
-| --- | --- | --- |
-| `feat` | 新功能或能力 | `feat/theme-settings` |
-| `fix` | Bug 修复 | `fix/sidebar-collapse` |
-| `refactor` | 不改变外部行为的重构 | `refactor/desktop-services` |
-| `docs` | 文档变更 | `docs/git-workflow` |
-| `style` | 样式与视觉调整 | `style/titlebar-spacing` |
-| `chore` | 工程维护、依赖或配置调整 | `chore/update-dependencies` |
-
-- 分支名称应简短、描述具体，不包含空格、中文或无意义编号。
-- 除明确的维护需求外，功能分支和修复分支均以 `main` 为目标基线；不要创建长期开发分支。
-- 不为每个 Commit 创建分支；一个分支应对应一个可独立审查和合并的工作单元。
-
-### Commit Message
-
-使用 Conventional Commits：
-
-```text
-<type>(<scope>): <description>
-```
-
-常用 type：`feat`、`fix`、`refactor`、`style`、`docs`、`test`、`chore`、`build`、`ci`、`perf`。
-
-- scope 可选，优先使用功能或模块名称，例如 `feat(settings): add language selector`。
-- description 使用英文祈使表达，首字母小写，不加句号；保持简洁并说明变更目的。
-- 破坏性变更按 Conventional Commits 规范使用 `!` 或 `BREAKING CHANGE:` trailer。
-- 提交前检查暂存内容，排除无关文件、生成文件和敏感信息；执行 `git diff --cached` 与 `git diff --cached --check`。
-- Codex 实际参与代码修改且用户要求提交时，在 Commit subject 和 trailer 之间留一个空行，添加：
-  `Co-authored-by: Codex <noreply@openai.com>`
-- Codex 未参与的提交不得添加该 trailer。
-
-### Pull Request
-
-- Pull Request 默认以 `main` 为目标分支。
-- PR 标题遵循 Conventional Commits，例如 `feat(settings): add language selector`；标题应概括整个 PR，而不是复述某个 Commit。
-- PR 描述至少包含：变更目的与内容、验证方式及结果、尚未验证或需要注意的事项。涉及 UI 时附上适当截图；涉及行为变化时说明影响范围。
-- 一个 PR 聚焦一个可独立审查的目的。无关改动应拆分，不把格式化、重构和功能修改无理由混在一起。
-- 合并前确认改动范围和目标分支正确，CI 检查通过，冲突已解决，必要的审查意见已处理；不得把未通过或未执行的检查描述为通过。
-- 默认使用 **Squash and merge**，将一个 PR 收敛为一个清晰的 Conventional Commit，保持 `main` 历史简洁。仅当确实需要保留 PR 内部提交历史时，才考虑 Rebase and merge；除非有明确理由，不使用 Merge commit。
-- 合并后删除已合并的短期分支；删除分支仍须获得用户授权。
-- 未经用户明确要求，不自动创建 PR、不批准 PR、不启用自动合并，也不执行合并。
-
-### Release
-
-Liore 使用 Semantic Versioning（`MAJOR.MINOR.PATCH`），Git tag 格式为 `vX.Y.Z`。当前发布工作流由 `.github/workflows/release.yml` 管理：
-
-1. 发布前确认变更已合并到 `main`，工作区干净，CI 通过；确认本次版本号及发布内容。
-2. 将以下三个版本字段更新为完全一致的版本号：
-   - `package.json` 的 `version`
-   - `src-tauri/tauri.conf.json` 的 `version`
-   - `src-tauri/Cargo.toml` 的 package `version`
-3. 运行 lint、format check、typecheck 和 build；Windows 发布还应验证 NSIS 安装包及相关桌面行为。
-4. 版本更新提交合并到 `main` 后，在对应提交上创建 `vX.Y.Z` tag 并推送。推送 `v*` tag 会触发 Release workflow；不得在未合并的功能分支上发布正式版本。
-5. 工作流会校验 tag 与三个版本字段一致，检查更新签名 Secrets，并构建 Windows x64 NSIS 安装包及 Tauri updater 签名文件，创建 Draft Release 并生成 Release Notes。
-6. 发布者检查 Draft Release 中的安装包、`latest.json`、签名文件、版本号和下载地址；确认无误后再手动发布 Release。
-7. 发布后确认 GitHub Release、安装包下载和更新元数据可用。若构建或签名失败，先定位原因，不通过跳过校验或暴露密钥来绕过。
-
-安全要求：
-
-- `TAURI_SIGNING_PRIVATE_KEY` 与 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` 只能存放在仓库外或 GitHub Actions Secrets 中。
-- 私钥、密码、Token 不得提交到仓库、写入前端代码或放入 Release 资产。
-- Tauri updater 签名与 Windows 代码签名是不同机制，不得混为一谈。
-- 不覆盖已经公开的 Release；修复已发布版本时应按版本策略发布新的补丁版本。
-
-未经用户明确授权，不更新版本号、不创建或推送 Tag、不创建或发布 Release。
+未经用户明确授权，不执行分支、Commit、Push、
+Pull Request、Tag 或 Release 操作。
 
 ## 交付报告
 

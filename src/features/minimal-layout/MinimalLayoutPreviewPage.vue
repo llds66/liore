@@ -5,7 +5,7 @@ const { t } = useI18n();
 
 <template>
   <div class="px-5 pt-9 pb-16 sm:px-9">
-    <h1 class="text-[26.25px] leading-[1.2] font-semibold tracking-tight">
+    <h1 class="text-2xl leading-[1.2] font-semibold tracking-tight">
       {{ t("nav.minimalLayout") }}
     </h1>
     <p class="mt-4 text-secondary-foreground">{{ t("minimalLayout.description") }}</p>

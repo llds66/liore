@@ -8,10 +8,16 @@ const { t } = useI18n();
 <template>
   <div>
     <header>
-      <h1 class="text-[26.25px] leading-[1.2] font-semibold tracking-tight">
+      <h1 class="text-2xl leading-6 font-semibold tracking-tight">
         {{ t("overview.greeting") }}
       </h1>
     </header>
+
+    <img
+      src="https://imgbed.lldsss.com/file/Liore/1793365125454_1920%C3%97640.png"
+      alt="Liore"
+      class="mt-6 block max-w-full w-auto h-auto rounded-popover"
+    />
 
     <section class="mt-10" aria-labelledby="explore-heading">
       <h2 id="explore-heading" class="mb-4 text-base leading-[1.4] font-semibold text-foreground">
