@@ -5,7 +5,7 @@ Liore 是基于 Vue 3 与 Tauri 2 构建的轻量级 Windows 桌面应用模板�
 ## 截图
 
 <p align="center">
-  <img src="https://imgbed.lldsss.com/file/Liore/1794386222169_shots_1.png" alt="Liore Light / Dark 主题预览" width="100%" />
+  <img src="https://imgbed.lldsss.com/file/Liore/1794399553593_theme-merge-20261111.png" alt="Liore Light / Dark 主题预览" width="100%" />
 </p>
 
 ## 技术栈
