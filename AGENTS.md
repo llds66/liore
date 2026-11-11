@@ -13,6 +13,7 @@ Liore 是 Windows 11 优先的桌面应用开发模板，不是特定业务产�
 - `docs/development.md`：项目架构、模块边界和桌面行为。
 - `docs/design-system.md`：设计 Token、组件外观、布局和交互。
 - `docs/customization.md`：应用定制、身份信息和发布配置。
+- `docs/git-workflow.md`：Git 工作流。
 
 正式文档与实现不一致时，先确认预期行为；有意改变既有规范时同步更新相关文档。
 
@@ -67,15 +68,11 @@ git diff --check
 
 ## Git 工作流
 
-- 修改前检查当前分支和工作区状态；较大的 Feature、Fix、Refactor 优先使用独立分支。
-- 未经用户授权，不创建、切换、合并或删除分支，不创建 Commit、Push、Tag 或 Release。
-- 不覆盖或清理用户的未提交修改；不修改全局 Git 配置。
-- Commit 使用 Conventional Commits；提交前检查暂存内容，排除无关文件、生成文件和敏感信息。
-- 涉及暂存或提交时，执行 `git diff --cached` 和 `git diff --cached --check`，确认暂存内容正确且无空白字符错误。
-- Codex 实际参与代码修改且用户要求提交时，在 Commit subject 和 trailer 之间留一个空行，添加：
-  `Co-authored-by: Codex <noreply@openai.com>`
+Git 分支、Commit、合并、Pull Request 和 Release
+遵循 [Git 工作流规范](docs/git-workflow.md)。
 
-- Codex 未参与的提交不得添加该 trailer。
+未经用户明确授权，不执行分支、Commit、Push、
+Pull Request、Tag 或 Release 操作。
 
 ## 交付报告
 

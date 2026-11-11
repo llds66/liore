@@ -40,5 +40,6 @@ captures/
 !/docs/design-system.md
 !/docs/customization.md
 !/docs/development.md
+!/docs/git-workflow.md
 
 app-icon.png
